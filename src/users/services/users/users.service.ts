@@ -14,8 +14,25 @@ export class UsersService {
 
     }
 
-    async getUserById(id): Promise<User> {
-        return await this.user.findOne(id);
+    async findAll(): Promise<User[]> {
+        return this.user.find();
+      }
+    
+      async findOne(id): Promise<User> {
+        return this.user.findOne( { where: { id } })
+      }
+    
+      async create(user: User): Promise<User> {
+        return this.user.save(user);
+      }
+    
+      async update(id, user: User): Promise<User> {
+        await this.user.update(id, user);
+        return this.user.findOne({ where: { id } });
+      }
+    
+      async remove(id): Promise<void> {
+        await this.user.delete(id);
       }
 
 }
