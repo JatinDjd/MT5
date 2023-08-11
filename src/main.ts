@@ -11,9 +11,13 @@ import { join } from 'path';
 
 async function bootstrap() {
   // const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const app = await NestFactory.create(AppModule);
+  //const app = await NestFactory.create(AppModule);
 
+  //const configService: ConfigService = app.get(ConfigService);
+
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService: ConfigService = app.get(ConfigService);
+
 
   app.enable({
     origin: '*',
