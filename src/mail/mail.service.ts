@@ -22,8 +22,8 @@ export class MailService {
     this.mailerService.sendMail({
       to: user.email,
       // from: process.env.MAIL_FROM,
-      from: "jatin@masterinfotech.com",
-      subject: 'Welcome to MIT Travel App! Confirm your Email',
+      from: "abad@masterinfotech.com",
+      subject: 'Welcome to MIT Trading App! Confirm your Email',
       template: './emailVerification', // `.hbs` extension is appended automatically
       context: {
         // ✏️ filling curly brackets with content

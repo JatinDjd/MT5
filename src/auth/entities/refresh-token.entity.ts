@@ -14,7 +14,7 @@ export class RefreshToken {
   refreshToken:string;
 
   @Column({name:'refresh_token_expires'})
-  refreshTokenExpires:Date;  
+  refreshTokenExpires: Date;  
 
   @CreateDateColumn({ name: 'created_at' }) 'created_at': Date;
   

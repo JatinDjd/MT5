@@ -10,13 +10,16 @@ import { RefreshToken } from './entities/refresh-token.entity';
 import { JwtStrategy } from './jwt.strategy';
 import { LocalStrategy } from './local.strategy';
 import { AuthService } from './services/auth/auth.service';
+import { Group } from '../manager/entities/groups.entity';
+import { GroupUser } from '../manager/entities/groups_users.entity';
+import { Manager } from '../manager/entities/manager.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forFeature([User, RefreshToken]),
+    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager]),
    
     JwtModule.register({
       secret: process.env.JWT_SECRET,

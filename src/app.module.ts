@@ -9,6 +9,12 @@ import { PassportModule } from '@nestjs/passport';
 import { MailModule } from './mail/mail.module';
 import { RefreshToken } from './auth/entities/refresh-token.entity';
 import { ManagerModule } from './manager/manager.module';
+import { Group } from './manager/entities/groups.entity';
+import { GroupUser } from './manager/entities/groups_users.entity';
+import { Manager } from './manager/entities/manager.entity';
+import { FeedsModule } from './feeds/feeds.module';
+import { OrdersModule } from './orders/orders.module';
+import { Order } from './orders/entities/order.entity';
 
 
 @Module({
@@ -23,8 +29,8 @@ import { ManagerModule } from './manager/manager.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken],
-        synchronize: true,
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order],
+        synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
     }),
@@ -32,7 +38,9 @@ import { ManagerModule } from './manager/manager.module';
     UsersModule,
     AuthModule,
     MailModule,
-    ManagerModule
+    ManagerModule,
+    FeedsModule,
+    OrdersModule
   ],
   controllers: [],
   providers: [],
