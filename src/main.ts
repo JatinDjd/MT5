@@ -15,7 +15,8 @@ async function bootstrap() {
 
   //const configService: ConfigService = app.get(ConfigService);
 
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService: ConfigService = app.get(ConfigService);
 
 
