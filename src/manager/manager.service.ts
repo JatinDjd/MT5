@@ -1,26 +1,75 @@
-import { Injectable } from '@nestjs/common';
-import { CreateManagerDto } from './dto/create-manager.dto';
+import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Group } from './entities/groups.entity';
+import { Repository } from 'typeorm';
+import { GroupUser } from './entities/groups_users.entity';
 
 @Injectable()
 export class ManagerService {
-  create(createManagerDto: CreateManagerDto) {
-    return 'This action adds a new manager';
+
+  constructor(
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
+    @InjectRepository(GroupUser)
+    private readonly groupUserRepository: Repository<GroupUser>,
+
+  ) { }
+
+
+  async createGroup(data: any, userId: any) {
+    try {
+      const group = await this.groupRepository.save(
+        {
+          title: data.title,
+          user: userId,
+          margin: data.margin
+        },
+        { transaction: true },
+      );
+
+      for (const memberId of data.memberIds) {
+        await this.groupUserRepository.save(
+          {
+            userId: memberId,
+            groupId: group.id
+          },
+          { transaction: true },
+        );
+      }
+
+      if (group) {
+        return group;
+      }
+    } catch (error) {
+      const err = error.message;
+      console.log(error);
+      throw new UnprocessableEntityException('Unable to create group!');
+    }
   }
 
-  findAll() {
-    return `This action returns all manager`;
+  async findAllGroups() {
+    return await this.groupRepository.find({
+      select: {
+        id: true,
+        title: true,
+        margin: true
+      },
+    });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} manager`;
   }
 
-  update(id: number, updateManagerDto: UpdateManagerDto) {
+  updateGroup(id: number, updateManagerDto: UpdateManagerDto) {
     return `This action updates a #${id} manager`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} manager`;
+  async removeGroup(id: string) {
+    const delete_group = await this.groupRepository.delete(id);
+    if (delete_group) return await this.groupUserRepository.delete({ groupId: id });
+    throw new NotFoundException('No data found!');
   }
 }
