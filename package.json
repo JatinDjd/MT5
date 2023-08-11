@@ -41,6 +41,7 @@
     "exceljs": "^4.3.0",
     "flatted": "^3.2.7",
     "nestjs-real-ip": "^2.2.0",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.8.0",
