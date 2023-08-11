@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Group } from '../../manager/entities/groups.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity({ name: 'users' })
 
@@ -21,6 +22,13 @@ export class User {
     
     @Column({nullable: true})
     token: string;
+
+
+    @OneToMany(() => Group, (group) => group.user)
+    groups: Group[]
+
+
+
 
     @Column({ default: true })
     isActive: boolean;

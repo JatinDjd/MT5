@@ -10,10 +10,12 @@ import * as dotenv from 'dotenv'
 import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create(AppModule);
+
   const configService: ConfigService = app.get(ConfigService);
 
-  app.enableCors({
+  app.enable({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
