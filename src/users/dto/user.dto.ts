@@ -15,8 +15,26 @@ export class UserDto {
   @MinLength(6)
   password: string;
 
-//   @IsNotEmpty()
-//   token: string;
+  @IsNotEmpty()
+  company: string;
+
+  @IsNotEmpty()
+  phone: string;
+
+  @IsNotEmpty()
+  country: string;
+
+  @IsNotEmpty()
+  zipCode: number;
+
+  @IsNotEmpty()
+  state: string;
+
+  @IsNotEmpty()
+  city: string;
+
+  @IsNotEmpty()
+  address: string;
 
 
 }

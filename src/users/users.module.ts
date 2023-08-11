@@ -4,6 +4,7 @@ import { UsersService } from './services/users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.entity';
+import { UserProfile } from './entities/user_profile.entity';
 
 
 @Module({
@@ -12,7 +13,7 @@ import { User } from './entities/user.entity';
       isGlobal: true,
     }),
     TypeOrmModule.forFeature([
-     User
+     User,UserProfile
     ])
   ],
   controllers: [UsersController],
