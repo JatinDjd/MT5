@@ -15,6 +15,7 @@ import { Manager } from './manager/entities/manager.entity';
 import { FeedsModule } from './feeds/feeds.module';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
+import { UserProfile } from './users/entities/user_profile.entity';
 
 
 @Module({
@@ -29,7 +30,7 @@ import { Order } from './orders/entities/order.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],

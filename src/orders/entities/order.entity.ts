@@ -1,5 +1,5 @@
 // trade.entity.ts
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity('orders')
@@ -7,7 +7,7 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.groups)   //customer reference using userId
+  @ManyToOne(() => User, (user) => user.orders)   //customer reference using userId
   user: User
 
 

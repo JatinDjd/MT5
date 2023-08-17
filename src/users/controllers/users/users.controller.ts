@@ -3,10 +3,11 @@ import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards, Request } f
 import { UserDto } from '../../dto/user.dto';
 import { User } from '../../entities/user.entity';
 import { UsersService } from '../../services/users/users.service';
-import { UserIdDto } from '../../dto/userId.dto';
 import { UserEditDto } from '../../dto/userEdit.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { UserProfile } from '../../entities/user_profile.entity';
+
 
 @ApiTags('User')
 @Controller('users')
@@ -31,13 +32,14 @@ export class UsersController {
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth('access-token')
     @Post()
-    async create(@Body() userDto: UserDto): Promise<User> {
-        const user: Partial<User> = {
+    async create(@Body() userDto: UserDto) {
+        const user = {
             ...userDto,
             isActive: true,
             isVerified: false,
         };
-        return this.userService.create(user as User);
+        const createdUser = this.userService.create(user);
+        return createdUser;
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -59,8 +61,4 @@ export class UsersController {
     async remove(@Param('id') id: string): Promise<void> {
         return this.userService.remove(id);
     }
-
-
-
-
 }
