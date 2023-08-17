@@ -1,5 +1,5 @@
 // trade.entity.ts
-import { User } from 'src/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('user_profiles')

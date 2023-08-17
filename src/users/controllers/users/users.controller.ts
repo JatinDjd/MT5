@@ -6,7 +6,8 @@ import { UsersService } from '../../services/users/users.service';
 import { UserEditDto } from '../../dto/userEdit.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { UserProfile } from 'src/users/entities/user_profile.entity';
+import { UserProfile } from '../../entities/user_profile.entity';
+
 
 @ApiTags('User')
 @Controller('users')
