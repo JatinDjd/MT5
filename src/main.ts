@@ -15,10 +15,9 @@ async function bootstrap() {
 
   //const configService: ConfigService = app.get(ConfigService);
 
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
 
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService: ConfigService = app.get(ConfigService);
-
 
   app.enable({
     origin: '*',
