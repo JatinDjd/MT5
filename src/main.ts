@@ -16,7 +16,7 @@ async function bootstrap() {
   const configService: ConfigService = app.get(ConfigService);
 
   app.enable({
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
