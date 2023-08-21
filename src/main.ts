@@ -10,8 +10,6 @@ import * as dotenv from 'dotenv'
 import { join } from 'path';
 
 async function bootstrap() {
-  // const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  //const app = await NestFactory.create(AppModule);
 
   //const configService: ConfigService = app.get(ConfigService);
 
@@ -44,7 +42,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-  app.enableCors({
+    app.enableCors({
     allowedHeaders: ['content-type'],
     origin: 'http://localhost:3000',
     credentials: true,
