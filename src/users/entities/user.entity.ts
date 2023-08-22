@@ -21,8 +21,11 @@ export class User {
 
     @Column()
     password: string;
-    
-    @Column({nullable: true})
+
+    @Column({ enum: ['admin', 'customer', 'manager'], default: 'customer' })
+    role: string;
+
+    @Column({ nullable: true })
     token: string;
 
 

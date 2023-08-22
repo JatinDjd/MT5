@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // const app = await NestFactory.create(AppModule);
 
-  const configService: ConfigService = app.get(ConfigService);
+  // const configService: ConfigService = app.get(ConfigService);
 
   app.enable({
     origin: 'http://localhost:3000',
