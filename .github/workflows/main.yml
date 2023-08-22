@@ -22,6 +22,8 @@ jobs:
         # port: ${{ secrets.SERVER_PORT }}  # Uncomment if needed
         script: |
           cd /var/www/MT5
+          sudo rm -r dist
           sudo git pull origin main
           npm install
           npm run build
+          pm2 restart 3
