@@ -8,7 +8,7 @@ import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 
-@ApiTags('Authentication')
+@ApiTags('Authentication-test')
 @Controller('auth')
 export class AuthController {
   constructor(

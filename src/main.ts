@@ -10,13 +10,13 @@ import * as dotenv from 'dotenv'
 import { join } from 'path';
 
 async function bootstrap() {
-  // const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // const app = await NestFactory.create(AppModule);
 
   const configService: ConfigService = app.get(ConfigService);
 
   app.enable({
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
@@ -40,6 +40,11 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
+    app.enableCors({
+    allowedHeaders: ['Authorization','content-type'],
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
   await app.listen(3000);
   console.log('App Running on port : 3000');
 }

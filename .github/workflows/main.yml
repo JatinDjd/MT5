@@ -1,0 +1,27 @@
+name: Deploy NestJS App
+
+on:
+  push:
+    branches:
+      - main # Change this to the appropriate branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: SSH into server and run git pull
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_HOST }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        # port: ${{ secrets.SERVER_PORT }}  # Uncomment if needed
+        script: |
+          cd /var/www/MT5_TRADING_BACKEND
+          sudo git pull origin main
+          npm install
+          npm run build
