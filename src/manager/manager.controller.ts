@@ -13,8 +13,8 @@ export class ManagerController {
   constructor(private readonly managerService: ManagerService) { }
 
 
-  @Roles('customer')
-  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  // @Roles('customer')
+  // @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post('create-group')
   createGroup(@Body() createManagerDto: CreateGroupDto, @Request() req) {
