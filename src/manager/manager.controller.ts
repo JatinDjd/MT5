@@ -4,6 +4,8 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import { RoleGuard } from 'src/auth/role/role.guard';
 
 @ApiTags('Manager')
 @Controller('manager')
@@ -11,7 +13,8 @@ export class ManagerController {
   constructor(private readonly managerService: ManagerService) { }
 
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles('admin')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post('create-group')
   createGroup(@Body() createManagerDto: CreateGroupDto, @Request() req) {
@@ -26,10 +29,6 @@ export class ManagerController {
     return this.managerService.findAllGroups();
   }
 
-  // @Get('groups/:id')
-  // findOne(@Param('id') id: string) {
-  //   return this.managerService.findOne(+id);
-  // }
 
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
