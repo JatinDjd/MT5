@@ -16,6 +16,7 @@ import { FeedsModule } from './feeds/feeds.module';
 import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { UserProfile } from './users/entities/user_profile.entity';
+import { PaymentModule } from './payment/payment.module';
 
 
 @Module({
@@ -41,7 +42,8 @@ import { UserProfile } from './users/entities/user_profile.entity';
     MailModule,
     ManagerModule,
     FeedsModule,
-    OrdersModule
+    OrdersModule,
+    PaymentModule
   ],
   controllers: [],
   providers: [],
