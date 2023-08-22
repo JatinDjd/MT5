@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode } from '@nestjs/common';
+
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
 import { LoginDto } from '../../dto/login.dto';
@@ -8,7 +9,7 @@ import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 
-@ApiTags('Authentication-test')
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -19,6 +20,7 @@ export class AuthController {
 
 
   @Post('register')
+  @HttpCode(201)
   async register(@Body() createUserDto: CreateUserDto) {
     try {
       const token = Math.floor(1000 + Math.random() * 9000).toString();
@@ -28,12 +30,19 @@ export class AuthController {
       });
       // const token = user.id;
       await this.mailService.sendUserConfirmation(user, token);
-      return {
+      
+      if (user?.firstName != null) {
+        Redirect('/api/auth/signup-success');
+      }
+
+    
+      console.log( {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-      };
+      });
+      
     } catch (error) {
       switch (error.response.statusCode) {
         case '422':
@@ -52,6 +61,21 @@ export class AuthController {
       }
     }
   }
+
+
+  @Get('signup-view')
+  @Render('signUp') // Specify the template name (without .hbs extension)
+  getSignUp() {
+    return {} ; // Pass data to the template
+  }
+
+
+  @Get('signup-success')
+  @Render('signUpSuccess') // Specify the success template name (without .hbs extension)
+  getSignUpSuccess() {
+    return {}; // No data needs to be passed to the template
+  }
+
 
   @Post('login')
   @UseGuards(AuthGuard('local'))
