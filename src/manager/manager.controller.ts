@@ -29,7 +29,6 @@ export class ManagerController {
     return this.managerService.findAllGroups();
   }
 
-
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Patch('groups/:id')
