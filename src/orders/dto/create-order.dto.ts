@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsDecimal, IsString } from 'class-validator';
 
 export class CreateOrderDto {
     @IsInt()
@@ -7,20 +7,20 @@ export class CreateOrderDto {
     @IsString()
     Symbol: string;
 
-    @IsNumber()
+    @IsDecimal()
     Price: number;
 
-    @IsNumber()
+    @IsDecimal()
     StopLimitPrice: number;
 
-    @IsNumber()
-    @IsPositive()
+    @IsDecimal()
     LotSize: number;
 
-    @IsNumber()
+    @IsDecimal()
     SL: number;
 
-    @IsNumber()
+    
+    @IsDecimal()
     TP: number;
 
     @IsInt()
@@ -29,6 +29,6 @@ export class CreateOrderDto {
     @IsString()
     Remarks: string;
 
-    @IsInt()
+    @IsDecimal()
     oBuy_Sell: number;
 }

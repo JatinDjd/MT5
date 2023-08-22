@@ -1,15 +1,19 @@
 // trade.entity.ts
 import { User } from '../../users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.orders)   //customer reference using userId
-  user: User
 
+  @ManyToOne(() => User, (user) => user)
+  @JoinColumn({ name: 'UserId' })
+  user: User;
+
+  @Column({ name: 'UserId', type: 'uuid' }) //user ID is User ID of order creator/owner
+  UserId: string;
 
   @Column()
   MsgCode: number;
@@ -17,27 +21,27 @@ export class Order {
   @Column()
   Symbol: string;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   Price: number;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   StopLimitPrice: number;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   LotSize: number;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   SL: number;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   TakeProfit: number;
 
-  @Column()
+  @Column({ nullable: true })
   OrderCategories: string;
 
-  @Column()
+  @Column({ nullable: true })
   Remarks: string;
 
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   oBuySell: number;
 }

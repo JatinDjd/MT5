@@ -30,7 +30,7 @@ import { UserProfile } from './users/entities/user_profile.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
