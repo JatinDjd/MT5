@@ -48,5 +48,6 @@ async function bootstrap() {
   await app.listen(3000);
   console.log('App Running on port : 3000');
 }
+
 bootstrap();
 dotenv.config();
