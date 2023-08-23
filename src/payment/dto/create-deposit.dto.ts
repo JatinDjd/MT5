@@ -1,4 +1,4 @@
-import { IsArray, IsInt, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsInt, IsNotEmpty, IsObject, IsString, Matches, MaxLength, MinLength, ValidateNested } from 'class-validator';
 
 
 export class CreateDepositDto {
@@ -9,8 +9,10 @@ export class CreateDepositDto {
 
     @IsNotEmpty()
     @IsString()
-    @MinLength(1)
-    @MaxLength(32)
     provider: string;
 
+    @IsNotEmpty()
+    @IsObject()
+    @ValidateNested()
+    payload: string;
 }

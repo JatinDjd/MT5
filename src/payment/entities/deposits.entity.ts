@@ -13,8 +13,11 @@ export class Deposit {
 
     @Column({ name: 'amount' })
     amount: number;                
+              
+    @Column('json')
+    payload: Record<string, any>;
 
-    @ManyToOne(() => User, (user) => user.groups)   //manager reference using userId
+    @ManyToOne(() => User, (user) => user.groups)   //customer reference using userId
     user: User
 
 

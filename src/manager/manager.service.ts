@@ -1,6 +1,4 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { CreateGroupDto } from './dto/create-group.dto';
-import { UpdateManagerDto } from './dto/update-manager.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/groups.entity';
 import { Repository } from 'typeorm';
