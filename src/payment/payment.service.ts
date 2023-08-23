@@ -66,16 +66,17 @@ export class PaymentService {
 
   };
 
-  async createDeposit(data, id) {
+  async createDeposit(data) {
     const deposit = await this.depositRepository.save(
       {
         amount: data.title,
-        user: id,
-        provider: data.provider
+        user: data.userId,
+        provider: data.provider,
+        transactionId: data.transactionId
       },
       { transaction: true },
     );
-
+    return deposit;
   }
 
 

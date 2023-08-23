@@ -4,9 +4,17 @@ import { IsArray, IsInt, IsNotEmpty, IsObject, IsString, Matches, MaxLength, Min
 export class CreateDepositDto {
 
     @IsNotEmpty()
+    userId: string
+
+    @IsNotEmpty()
     @IsInt()
     amount: number
 
+    @IsNotEmpty()
+    @IsString()
+    transactionId: string;
+
+    
     @IsNotEmpty()
     @IsString()
     provider: string;
