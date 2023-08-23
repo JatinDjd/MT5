@@ -11,9 +11,12 @@ export class Deposit {
     @Column({ name: 'provider' })
     provider: string;
 
+    @Column({ name: 'transaction_id' })
+    transactionId: string;
+
     @Column({ name: 'amount' })
-    amount: number;                
-              
+    amount: number;
+
     @Column('json')
     payload: Record<string, any>;
 
