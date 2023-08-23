@@ -25,27 +25,42 @@ export class PaymentService {
         })
 
 
-        await razorpay.paymentLink.create({
-            upi_link: false,
-            amount: upiData.amount,
-            currency: "INR",
-            accept_partial: false,
-            first_min_partial_amount: 100,
-            description: "For XYZ purpose",
-            customer: {
-              name: "Gaurav Kumar",
-              email: "gaurav.kumar@example.com",
-              contact: "+919000090000"
-            },
-            notify: {
-              sms: true,
-              email: true
-            },
-            reminder_enable: true,
-            // notes: {
-            //   policy_name: "Jeevan Bima"
-            // }
-          });
+        try {
+
+            const res=await razorpay.paymentLink.create({
+                amount: upiData.amount,
+                currency: "INR",
+                description: "For XYZ purpose",
+                customer: {
+                  name: "Gaurav Kumar",
+                  email: "gaurav.kumar@example.com",
+                  contact: "+919000090000"
+                },
+                notify: {
+                  sms: true,
+                  email: true
+                },
+                reminder_enable: true,
+                options: {
+                  checkout: {
+                    method: {
+                      netbanking: 0,
+                      card: 0,
+                      upi: 1,
+                      wallet: 0
+                    }
+                  }
+                }
+              })
+    
+              return res;
+            
+        } catch (error) {
+
+            throw error;
+            
+        }
+
 
     };
 

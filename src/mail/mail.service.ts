@@ -11,7 +11,7 @@ export class MailService {
     private readonly configService: ConfigService,
     private mailerService: MailerService,
   ) {
-    // SendGrid.setApiKey(process.env.sendGrid_Key);
+    // SendGrid.setApiKey(process.env.sendGrid_Key);   //causing issue after turning esModuleInterop flag true in tsconfig (for razorpay)
     
   }
 
