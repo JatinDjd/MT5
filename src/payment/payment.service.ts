@@ -1,28 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRazorpay } from 'nestjs-razorpay';
-import  Razorpay from 'razorpay';
+import Razorpay from 'razorpay';
+import { Deposit } from './entities/deposits.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PaymentService {
 
-    // private readonly razorpay: Razorpay;
 
-    constructor() 
-    {
+  constructor(@InjectRepository(Deposit)
+  private readonly depositRepository: Repository<Deposit>,) {
     //   this.razorpay = new Razorpay({
     //     key_id: process.env.KEY_ID,
     //     key_secret: process.env.KEY_SECRET,
     //   });
-    }
+
+  }
 
 
 
-    async createPaymentOrder(upiData) {
+  async createPaymentOrder(upiData) {
 
-        var razorpay=new Razorpay({
-            key_id: process.env.KEY_ID,
-            key_secret: process.env.KEY_SECRET
-        })
+    var razorpay = new Razorpay({
+      key_id: process.env.KEY_ID,
+      key_secret: process.env.KEY_SECRET
+    })
 
 
         try {
@@ -62,9 +64,19 @@ export class PaymentService {
         }
 
 
-    };
+  };
 
+  async createDeposit(data, id) {
+    const deposit = await this.depositRepository.save(
+      {
+        amount: data.title,
+        user: id,
+        provider: data.provider
+      },
+      { transaction: true },
+    );
 
+  }
 
 
 }

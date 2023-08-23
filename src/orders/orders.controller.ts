@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, UnprocessableEntityException } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -15,7 +15,12 @@ export class OrderController {
     @Post('new-order')
     createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
         const userId = req.user.id;
-        return this.orderService.create(createOrderDto, userId);
+        //check amount based on margin based trade amt 
+        const isValidAmount = this.checkMarginValue(userId, createOrderDto.Price);
+        if (isValidAmount) return this.orderService.create(createOrderDto, userId);
+        throw new UnprocessableEntityException(
+            'Order amount should less then available trade amount!',
+        );
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -24,6 +29,14 @@ export class OrderController {
     findAllOrders(@Request() req) {
         const userId = req.user.id;
         return this.orderService.findAll(userId);
+    }
+
+    checkMarginValue(userId, orderAmt) {
+        //check in groups based on user ID
+        const marginVal = this.orderService.checkMarginValue(userId);
+        //return the margin value and calculate trade amount based on that.
+        // orderAmt<= marginVal*orderAmt;
+        return true;
     }
 
 }

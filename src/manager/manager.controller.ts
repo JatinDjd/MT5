@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Req } from '@nestjs/common';
 import { ManagerService } from './manager.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
@@ -6,6 +6,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
+import { UpdateGroupDto } from './dto/update-group.dto';
+import { GroupIdDto } from './dto/group-id.dto';
 
 @ApiTags('Manager')
 @Controller('manager')
@@ -28,13 +30,28 @@ export class ManagerController {
   @Get('groups')
   findAllGroups() {
     return this.managerService.findAllGroups();
-  } 
+  }
+
+
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('groups/:groupId')
+  findOneGroup(@Param() param: GroupIdDto) {
+    return this.managerService.findOne(param.groupId);
+  }
+
 
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
-  @Patch('groups/:id')
-  updateGroup(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto) {
-    return this.managerService.updateGroup(+id, updateManagerDto);
+  @Patch('groups/:groupId')
+  updateGroup(@Param() param: GroupIdDto, @Body() data: UpdateGroupDto, @Request() req) {
+    console.log('group_id', param.groupId)
+    return this.managerService.updateGroup({
+      ...data,
+      groupId: param.groupId,
+      userId: req.user.id
+    });
   }
 
   @UseGuards(AuthGuard('jwt'))

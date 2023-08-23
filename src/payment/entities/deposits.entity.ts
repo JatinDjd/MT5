@@ -2,24 +2,24 @@
 import { User } from '../../users/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, ManyToMany } from 'typeorm';
 
-@Entity({ name: 'groups' })
+@Entity({ name: 'deposits' })
 
-export class Group {
+export class Deposit {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ name: 'title' })
-    title: string;
+    @Column({ name: 'provider' })
+    provider: string;
 
-    @Column({ name: 'margin', nullable: true })
-    margin: number;                 //it will be calculated as %
+    @Column({ name: 'amount' })
+    amount: number;                
+              
+    @Column('json')
+    payload: Record<string, any>;
 
-    @ManyToOne(() => User, (user) => user.groups)   //manager reference using userId
+    @ManyToOne(() => User, (user) => user.groups)   //customer reference using userId
     user: User
 
-
-    @Column({ default: true })
-    isActive: boolean;
 
     @CreateDateColumn({ name: 'created_at' }) 'created_at': Date;
 

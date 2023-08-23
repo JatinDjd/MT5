@@ -1,6 +1,4 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
-import { CreateGroupDto } from './dto/create-group.dto';
-import { UpdateManagerDto } from './dto/update-manager.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/groups.entity';
 import { Repository } from 'typeorm';
@@ -59,12 +57,39 @@ export class ManagerService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} manager`;
+  async findOne(id: string) {
+    return await this.groupRepository.findOne({ where: { id: id } });
   }
 
-  updateGroup(id: number, updateManagerDto: UpdateManagerDto) {
-    return `This action updates a #${id} manager`;
+  async updateGroup(data: any) {
+    try {
+      const group = await this.groupRepository.update({ id: data.groupId, user: data.userId },
+        {
+          title: data.title,
+          margin: data.margin
+        }
+      );
+
+      await this.groupUserRepository.delete({ groupId: data.groupId });
+
+      for (const memberId of data.memberIds) {
+        await this.groupUserRepository.save(
+          {
+            userId: memberId,
+            groupId: data.groupId
+          },
+          { transaction: true },
+        );
+      }
+
+      if (group) {
+        return group;
+      }
+    } catch (error) {
+      const err = error.message;
+      console.log(error);
+      throw new UnprocessableEntityException('Unable to update group!');
+    }
   }
 
   async removeGroup(id: string) {
