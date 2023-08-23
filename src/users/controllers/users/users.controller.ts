@@ -6,8 +6,7 @@ import { UsersService } from '../../services/users/users.service';
 import { UserEditDto } from '../../dto/userEdit.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { UserProfile } from '../../entities/user_profile.entity';
-
+import { AssignRoleDto } from '../../../users/dto/assign-role.dto';
 
 @ApiTags('User')
 @Controller('users')
@@ -61,4 +60,15 @@ export class UsersController {
     async remove(@Param('id') id: string): Promise<void> {
         return this.userService.remove(id);
     }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth('access-token')
+    @Post('assign-role')
+    async assignRole(@Body() assignRoleDto: AssignRoleDto) {
+        const createdUser = this.userService.assignRole(assignRoleDto);
+        return createdUser;
+    }
+
 }
+
+

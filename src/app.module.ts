@@ -17,6 +17,7 @@ import { OrdersModule } from './orders/orders.module';
 import { Order } from './orders/entities/order.entity';
 import { UserProfile } from './users/entities/user_profile.entity';
 import { PaymentModule } from './payment/payment.module';
+import { Deposit } from './payment/entities/deposits.entity';
 
 
 @Module({
@@ -31,7 +32,7 @@ import { PaymentModule } from './payment/payment.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],

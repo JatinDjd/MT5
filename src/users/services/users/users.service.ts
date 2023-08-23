@@ -66,4 +66,8 @@ export class UsersService {
     await this.userRepository.delete(id);
   }
 
+  async assignRole(data) {
+    return await this.userRepository.update({ id: data.user_id }, { role: data.role });
+  }
+
 }

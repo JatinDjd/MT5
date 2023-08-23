@@ -4,13 +4,19 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
+import { Group } from '../manager/entities/groups.entity';
+import { GroupUser } from '../manager/entities/groups_users.entity';
 
 @Injectable()
 export class OrdersService {
 
   constructor(
     @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>
+    private readonly orderRepository: Repository<Order>,
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
+    @InjectRepository(GroupUser)
+    private readonly groupUserRepository: Repository<GroupUser>,
 
   ) { }
 
@@ -39,4 +45,9 @@ export class OrdersService {
     return orders;
   }
 
+  async checkMarginValue(id: string) {
+    const group = await this.groupUserRepository.findOne({ where: { userId: id } });
+    const marginValue = await this.groupRepository.findOne({ select: ['margin'], where: { id: group.id } });
+    return marginValue;
+  }
 }

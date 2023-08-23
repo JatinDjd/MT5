@@ -5,6 +5,8 @@ import { Order } from './entities/order.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { OrderController } from './orders.controller';
+import { Group } from '../manager/entities/groups.entity';
+import { GroupUser } from '../manager/entities/groups_users.entity';
 
 @Module({
   providers: [OrdersGateway, OrdersService],
@@ -14,7 +16,7 @@ import { OrderController } from './orders.controller';
       isGlobal: true,
     }),
     TypeOrmModule.forFeature([
-      Order,
+      Order,Group,GroupUser
     ])
   ]
 })
