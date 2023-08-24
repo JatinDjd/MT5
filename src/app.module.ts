@@ -18,10 +18,17 @@ import { Order } from './orders/entities/order.entity';
 import { UserProfile } from './users/entities/user_profile.entity';
 import { PaymentModule } from './payment/payment.module';
 import { Deposit } from './payment/entities/deposits.entity';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+import { join } from 'path';
 
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'views'),
+      
+      }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

@@ -1,11 +1,517 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>UPI Payment</title>
-</head>
+    <title>MT5</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+	  <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.0.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+
+
+  </head>
+
 <body>
-  <h1>Make UPI Payment</h1>
-  <p>Amount: {{ paymentOrder.amount }}</p>
-  <!-- Add Razorpay UPI payment form and components -->
-</body>
-</html>
+
+  <header class="header">
+    <nav>
+      <div class="logo"><img src="/images/animated_logo.gif"></a>
+      </div>
+      <input type="checkbox" id="menu-toggle">
+      <label for="menu-toggle" class="menu-icon">&#9776;</label>
+      <ul class="menu">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Trading</a></li>
+        <li><a href="#">Platforms</a></li>
+        <li><a href="#">Tools</a></li>
+        <li><a href="#" class="black-btn white-br-btn">Sign In</a></li>
+      </ul>
+    </nav>
+  </header>
+    
+  <main >
+    <section id="dashboard">
+      <div class="content">
+        <input type="radio" name="slider" checked id="my-accounts">
+        <input type="radio" name="slider" id="deposit">
+        <input type="radio" name="slider" id="withdrawl">
+        <input type="radio" name="slider" id="history">
+        <input type="radio" name="slider" id="settings">
+
+        <div class="list">
+            <label for="my-accounts" class="my-accounts">
+                <span><svg class="IconContainer_icon__XfQWv" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M13,15 L13,15 C13,14.448 12.553,14 12,14 L8,14 L8,16 L12,16 C12.553,16 13,15.552 13,15 L13,15 Z M16,12 L16,12 C16,11.448 15.553,11 15,11 L8,11 L8,13 L15,13 C15.553,13 16,12.552 16,12 L16,12 Z M14,9 L14,9 C14,8.448 13.553,8 13,8 L8,8 L8,10 L13,10 C13.553,10 14,9.552 14,9 L14,9 Z M2,14 L4,14 L4,10 L2,10 L2,14 Z M6,9 L6,15 C6,15.552 5.553,16 5,16 L1,16 C0.447,16 0,15.552 0,15 L0,9 C0,8.448 0.447,8 1,8 L5,8 C5.553,8 6,8.448 6,9 L6,9 Z M2,4 L4,4 L4,2 L2,2 L2,4 Z M6,1 L6,5 C6,5.552 5.553,6 5,6 L1,6 C0.447,6 0,5.552 0,5 L0,1 C0,0.448 0.447,0 1,0 L5,0 C5.553,0 6,0.448 6,1 L6,1 Z M10,4 L14,4 L14,2 L10,2 L10,4 Z M16,1 L16,5 C16,5.552 15.553,6 15,6 L9,6 C8.447,6 8,5.552 8,5 L8,1 C8,0.448 8.447,0 9,0 L15,0 C15.553,0 16,0.448 16,1 L16,1 Z"></path></svg>My Accounts</span>
+            </label>
+            <label for="deposit" class="deposit">
+                <span><svg class="IconContainer_icon__XfQWv" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M2,11.0004 L2,13.0004 C2.00092857,13.5129714 2.38641837,13.9350071 2.8834457,13.9934835 L3,14.0004 L13,14.0004 C13.5125714,13.9994714 13.9346071,13.6139816 13.9930835,13.1169543 L14,13.0004 L14,11.0004 L16,11.0004 L16,13.0004 C15.9990357,14.5982214 14.7511467,15.9031411 13.1762836,15.9952082 L13,16.0004 L3,16.0004 C1.40217857,15.9994357 0.0972589286,14.7515467 0.00519178207,13.1766836 L0,13.0004 L0,11.0004 L2,11.0004 Z M8.9996,-4.97379915e-14 L8.9996,7.55 L10.2776,6.262 C10.6666,5.871 11.3006,5.87 11.6916,6.259 C12.0525231,6.619 12.0819905,7.18605325 11.7784293,7.57869413 L11.6956,7.673 L7.9766,11.413 L4.2776,7.692 C3.8876,7.3 3.8896,6.667 4.2816,6.277 C4.6416,5.91792308 5.20950533,5.89200592 5.60149076,6.19767547 L5.6956,6.281 L6.9996,7.597 L6.9996,-4.97379915e-14 L8.9996,-4.97379915e-14 Z"></path></svg>Deposit</span>
+            </label>
+            <label for="withdrawl" class="withdrawl">
+                <span><svg class="IconContainer_icon__XfQWv" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M2,11.0024 L2,13.0024 C2.001,13.5544 2.448,14.0014 3,14.0024 L3,14.0024 L13,14.0024 C13.552,14.0014 13.999,13.5544 14,13.0024 L14,13.0024 L14,11.0024 L16,11.0024 L16,13.0024 C15.999,14.6594 14.657,16.0014 13,16.0024 L13,16.0024 L3,16.0024 C1.343,16.0014 0.001,14.6594 4.08562073e-14,13.0024 L4.08562073e-14,13.0024 L4.08562073e-14,11.0024 L2,11.0024 Z M11.246,1.2945 C11.636,0.9035 12.27,0.9015 12.66,1.2915 L12.66,1.2915 L16.4,5.0095 L12.68,8.7085 C12.289,9.0985 11.655,9.0975 11.266,8.7055 C10.876,8.3135 10.878,7.6815 11.27,7.2915 L11.27,7.2915 L12.568,6.0025 L10.789,6.0025 C9.802,6.0045 9.002,6.8035 9,7.7915 L9,7.7915 L9,12.0025 L7,12.0025 L7,7.7915 C7.001,5.6985 8.696,4.0025 10.789,4.0025 L10.789,4.0025 L12.555,4.0025 L11.25,2.7085 C10.858,2.3195 10.856,1.6865 11.246,1.2945 Z"></path></svg>Withdrawl</span>
+            </label>
+            <label for="history" class="history">
+                <span><svg class="IconContainer_icon__XfQWv" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M11.5 15H4.5C3.94772 15 3.49148 14.5462 3.5655 13.9989C4.33623 8.29973 11.6638 7.70027 12.4345 2.00107C12.5085 1.45377 12.0523 1 11.5 1H4.5C3.94772 1 3.49148 1.45377 3.5655 2.00107C4.33623 7.70027 11.6638 8.29973 12.4345 13.9989C12.5085 14.5462 12.0523 15 11.5 15Z" stroke-width="2" stroke-linejoin="round" data-stroke=""></path><path d="M8 11C7.42857 11.4 6 13 5.5 14H10.5C10 13 8.57143 11.4 8 11Z" data-fill=""></path></svg>History</span>
+            </label>
+            <label for="settings" class="settings">
+                <span><svg class="IconContainer_icon__XfQWv" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path d="M9,0 L9.55181183,2.2026104 C10.0659889,2.33989304 10.5529746,2.5437604 11.0029675,2.8044109 L12.9497475,1.63603897 L14.363961,3.05025253 L13.1961695,4.99803468 C13.4567123,5.44804214 13.6604749,5.93502854 13.7976583,6.44919495 L16,7 L16,9 L13.7973896,9.55181183 C13.660107,10.0659889 13.4562396,10.5529746 13.1955891,11.0029675 L14.363961,12.9497475 L12.9497475,14.363961 L11.0029675,13.1955891 C10.5529746,13.4562396 10.0659889,13.660107 9.55181183,13.7973896 L9,16 L7,16 L6.44919495,13.7976583 C5.93464684,13.6603731 5.4473191,13.4564097 4.99703251,13.1955891 L3.05025253,14.363961 L1.63603897,12.9497475 L2.8044109,11.0029675 C2.5437604,10.5529746 2.33989304,10.0659889 2.2026104,9.55181183 L2.6039219e-16,9 L-1.0700185e-16,7 L2.20234168,6.44919495 C2.33962695,5.93464684 2.54359028,5.4473191 2.8044109,4.99703251 L1.63603897,3.05025253 L3.05025253,1.63603897 L4.99803468,2.80383054 C5.44804214,2.54328771 5.93502854,2.33952511 6.44919495,2.20234168 L7,0 L9,0 Z M8,6 C6.8954305,6 6,6.8954305 6,8 C6,9.1045695 6.8954305,10 8,10 C9.1045695,10 10,9.1045695 10,8 C10,6.8954305 9.1045695,6 8,6 Z"></path></svg>Settings</span>
+            </label>
+            <div class="slider"></div>
+        </div>
+
+        <div class="text-content">
+            <div class="my-accounts text">
+                <div class="title"><h3>My Accounts</h3> <a href="" class="black-btn">Open account</a></div>
+                <div class="">
+                    <button class="type-btn" onclick="openType('Real')">Real</button>
+                    <button class="type-btn" onclick="openType('Demo')">Demo</button>
+                </div>
+                  
+                  <div id="Real" class="type">
+                    <div class="blue-line"></div>
+                    <div class="sort">
+                        <label>Sort:</label>
+                        <select>
+                            <option>Newest</option>
+                            <option>Oldest</option>
+                        </select>
+                    </div>
+                    <div class="type-box">
+                        <div class="real-data">
+                         
+                                <ul>
+                                    <li>Real</li>
+                                    <li>MT5</li>
+                                    <li>Standard</li>
+                                    <li>124263763</li>
+                                </ul>
+                                <h3>0.00 USD</h3>
+                            
+                        </div>
+                        <div class="real-btns">
+                            <ul>
+                                <li><a href="" class="black-btn"><i class="fa fa-solid fa-arrow-down"></i>Deposit</a></li>
+                                <li><a href="" class="black-btn"><i class="fa fa-solid fa-arrow-up"></i>Withdraw</a></li>
+                                <li><a href="" class="black-btn">Trade</a></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <div id="Demo" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                    <div class="sort">
+                        <label>Sort:</label>
+                        <select>
+                            <option>Newest</option>
+                            <option>Oldest</option>
+                        </select>
+                    </div>
+                    <div class="type-box">
+                        <div class="real-data">
+                                <ul>
+                                    <li>Demo</li>
+                                    <li>MT5</li>
+                                    <li>Standard</li>
+                                    <li>124263763</li>
+                                </ul>
+                                <h3>10,000 USD</h3>
+                            
+                        </div>
+                        <div class="real-btns">
+                            <ul>
+                                <li><a href="" class="black-btn"><i class="fa fa-solid fa-arrow-down"></i>Set balance</a></li>
+                                <li><a href="" class="black-btn">Trade</a></li>
+                            </ul>
+
+                        </div>
+                    </div> 
+                  </div>
+                  
+                  
+            </div>
+            <div class="deposit text">
+                <div class="title"><h3>Deposit</h3><p>Verification Required</p></div>
+                <div class="deposit-sec">
+                    <div class="deposit-cont">
+                    <div class="deposit-card" id="depositCard">
+                      <a href="#">
+                        <div class="deposit-hd">
+                            <img src="/images/binance-deposit.svg">
+                            <h4>UPI/CARD/NETBANKING</h4>
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+
+                            <form >
+                            <label for="amount">Amount:</label>
+                            <input type="text" id="amount" name="amount" required class="amount-add-feild" style="display: block;">
+                            <button type="submit" id="ammount-form">Add Money</button>
+                            </form>
+
+                        </div>
+                          <i class="fa fa-solid fa-lock"></i>
+                      </a>
+                
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/binance-deposit.svg">
+                            <h4>BinancePay</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/tether-deposit.svg">
+                            <h4>Tether (USDT ERC20)</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/astropay-deposit.svg">
+                            <h4>Astropay Wallet</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="withdrawl text">
+                <div class="title"><h3>Withdrawl</h3></div>
+                <div class="deposit-sec">
+                    <h4>All payment methods</h4>
+                    <div class="deposit-cont">
+                        
+                    
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/binancepay.svg">
+                            <h4>BinancePay</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                    
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/binancepay.svg">
+                            <h4>BinancePay</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                    
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/neteller-pay.svg">
+                            <h4>Neteller</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                      
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/perfect-pay.svg">
+                            <h4>Perfect Money</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                    
+                    </div>
+                    </div>
+                </div>
+                <div class="deposit-sec">
+                    <h4>Transfer</h4>
+                    <div class="deposit-cont">
+                        
+                    
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/between-acoounts.svg">
+                            <h4>Between your accounts</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                </div>    
+                <div class="deposit-sec">
+                    <h4>Verification Required</h4>
+                    <div class="deposit-cont">
+                        
+                    
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/binance-deposit.svg">
+                            <h4>BinancePay</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>1 day</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/tether-deposit.svg">
+                            <h4>Tether (USDT ERC20)</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/astropay-deposit.svg">
+                            <h4>Astropay Wallet</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    <div class="deposit-card">
+
+                        <div class="deposit-hd">
+                            <img src="/images/astropay-deposit.svg">
+                            <h4>Astropay Wallet</h4>
+
+                        </div>
+                        <div>
+                            <ul>
+                            <li>Average time <span>Instant</span></li>
+                            <li>Up to <span>30 minutes</span></li>
+                            <li>Fee <span>0%</span></li>
+                            <li>Limits <span>20-30000 USD</span></li>
+                            </ul>
+                        </div>
+                   
+                            <i class="fa fa-solid fa-lock"></i>
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="history text">
+                <div class="title">Transaction history</div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore ullam, voluptatem, mollitia amet iure sequi sapiente reprehenderit consectetur a saepe error molestiae vitae pariatur delectus repudiandae ipsa aspernatur eveniet quo maiores dignissimos. Officiis, molestias velit accusamus ipsa consectetur exercitationem voluptatem natus quisquam soluta facilis. Quas, autem harum? Consequuntur blanditiis quasi consequatur, omnis debitis odio ratione excepturi nulla fugit mollitia itaque esse fuga, soluta eos aspernatur? Modi delectus quasi dicta veritatis. Vero, expedita mollitia veritatis magni aperiam maxime ipsum. Ut, debitis.</p>
+            </div>
+            <div class="analytics text">
+                <div class="title">Analytics</div>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore ullam, voluptatem, mollitia amet iure sequi sapiente reprehenderit consectetur a saepe error molestiae vitae pariatur delectus repudiandae ipsa aspernatur eveniet quo maiores dignissimos. Officiis, molestias velit accusamus ipsa consectetur exercitationem voluptatem natus quisquam soluta facilis. Quas, autem harum? Consequuntur blanditiis quasi consequatur, omnis debitis odio ratione excepturi nulla fugit mollitia itaque esse fuga, soluta eos aspernatur? Modi delectus quasi dicta veritatis. Vero, expedita mollitia veritatis magni aperiam maxime ipsum. Ut, debitis.</p>
+            </div>
+            <div class="social text">
+                <div class="title">Social</div>
+                <p>Lorem ipsum dolor sit, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
+            </div>
+            <div class="performance text">
+                <div class="title">Performance</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
+            </div>
+            <div class="settings text">
+                <div class="title">Settings</div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
+            </div>
+        </div>
+    </div>
+    </section>
+    <section id="details-web">
+        <div class="details-web-cont">
+        <p>Master Capital complies with rigorous security standards, including the Payment Card Industry Data Security Standard (PCI DSS), safeguarding your financial privacy.
+
+        </p> 
+        <p> The provided information does not constitute investment advice or solicitation, and services are not available to residents of specific jurisdictions, including Europe, the United Kingdom, the USA, and others.
+        </p>
+          
+        <p> The content on this website is copyrighted and may not be copied without the express written permission of Master Capital.
+            </p>
+        <p>Master Capital's commitment extends to adhering to regulatory standards set by governing bodies, ensuring transparency and your financial security.
+        </p>
+       
+        </div>
+        <div class="details-web-privacy">
+          <div>
+            <p>©2023. MT5</p>
+          </div>
+          <div>
+            <ul>
+              <li></li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+	
+
+		 
+  </main>
+   <script>
+        function openType(typeform) {
+          var i;
+          var x = document.getElementsByClassName("type");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";  
+          }
+          document.getElementById(typeform).style.display = "block";  
+        }
+    </script>
+
+    <script>
+    const depositCard = document.getElementById('ammount-form');
+
+
+    depositCard.addEventListener('click', async (e) => {
+      e.preventDefault();
+       const amount = document.getElementById('amount').value;
+      console.log(amount)
+        try {
+            const response = await fetch('http://localhost:3000/api/payment/payment-link', {
+                method: 'POST', // or 'POST' or any other HTTP method
+                headers: {
+                  'authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkwODJlN2MxLWM2MTMtNGI4OS1hYjNiLTg0YWU5MWE2NjBmZSIsImZpcnN0TmFtZSI6IkphdGluIiwibGFzdE5hbWUiOiJEZXN3YWwiLCJlbWFpbCI6ImphdGluLjEzZGVzd2FsQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY5Mjg3MzcwNiwiZXhwIjoxNjkyODc3MzA2fQ.6LA3_w2h2_LfR077HWgOIPKX0k83d6pHTitwGhUfFrA",
+                    'Content-Type': 'application/json',
+                    // Add any headers you might need
+                },
+                     body: {amount:`${amount}`},
+
+            });
+            console.log(response)
+
+            if (response.ok == true) {
+                const data = await response.json();
+                window.open(data)
+                console.log(data);
+                return data;
+                // Do something with the response data if needed
+            } else {
+                console.error('API request failed');
+                
+
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+</script>
+
+
+
+  </body>
+  </html>
+      
