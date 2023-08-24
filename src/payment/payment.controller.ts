@@ -26,6 +26,13 @@ export class PaymentController {
   }
 
 
-
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('total-deposits')
+  totalDeposits(@Request() req) {
+    const userId = req.user.id;
+    return this.paymentService.totalDeposits(userId);
+  }
 
 }

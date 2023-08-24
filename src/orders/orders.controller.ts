@@ -13,14 +13,16 @@ export class OrderController {
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth('access-token')
     @Post('new-order')
-    createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
+    async createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
         const userId = req.user.id;
         //check amount based on margin based trade amt 
-        const isValidAmount = this.checkMarginValue(userId, createOrderDto.Price);
-        if (isValidAmount) return this.orderService.create(createOrderDto, userId);
-        throw new UnprocessableEntityException(
-            'Order amount should less then available trade amount!',
-        );
+        // const isValidToOrder = this.orderService.checkValidations(userId, createOrderDto);
+        try {
+            const order = await this.orderService.create(createOrderDto, userId);
+            if (order) return { message: 'Order created successfully', order };
+        } catch (error) {
+            return { error: error.message };
+        }
     }
 
     @UseGuards(AuthGuard('jwt'))
@@ -29,14 +31,6 @@ export class OrderController {
     findAllOrders(@Request() req) {
         const userId = req.user.id;
         return this.orderService.findAll(userId);
-    }
-
-    checkMarginValue(userId, orderAmt) {
-        //check in groups based on user ID
-        const marginVal = this.orderService.checkMarginValue(userId);
-        //return the margin value and calculate trade amount based on that.
-        // orderAmt<= marginVal*orderAmt;
-        return true;
     }
 
 }
