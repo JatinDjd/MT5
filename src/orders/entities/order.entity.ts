@@ -36,7 +36,7 @@ export class Order {
   @Column('decimal', { precision: 10, scale: 2 })
   TakeProfit: number;
 
-  @Column({ nullable: true })
+  @Column({ enum: ['Instant Execution', 'Buy Limit', 'Sell Limit', 'Buy Stop', 'Sell Stop', 'Buy Stop Limit', 'Sell Stop Limit'], default: 'Instant Execution' })
   OrderCategories: string;
 
   @Column({ nullable: true })

@@ -19,9 +19,9 @@ export class ManagerController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post('create-group')
-  createGroup(@Body() createManagerDto: CreateGroupDto, @Request() req) {
+  async createGroup(@Body() createManagerDto: CreateGroupDto, @Request() req) {
     const userId = req.user.id;
-    return this.managerService.createGroup(createManagerDto, userId);
+    return await this.managerService.createGroup(createManagerDto, userId);
   }
 
   @Roles('customer')

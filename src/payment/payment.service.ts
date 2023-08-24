@@ -34,70 +34,54 @@ export class PaymentService {
   }
 
 
+  async totalDeposits(userId: string) {
+    const sumResult = await this.depositRepository
+      .createQueryBuilder('deposits')
+      .select('SUM(deposits.amount)', 'sum')
+      .where('deposits.status = :status', { status: 'completed', userId: userId })
+      .getRawOne();
+
+    return sumResult.sum || 0;
+  }
 
   async createPaymentOrder(upiData, user) {
-
-    var razorpay = new Razorpay({
+    const razorpay = new Razorpay({
       key_id: process.env.KEY_ID,
-      key_secret: process.env.KEY_SECRET
-    })
-
-
-        try {
-          
-            const res= await razorpay.paymentLink.create({
-                amount: upiData.amount,
-                currency: "INR",
-                description: "For XYZ purpose",
-                customer: {
-                  name: "Gaurav Kumar",
-                  email: "gaurav.kumar@example.com",
-                  contact: "+919000090000"
-                },
-                notify: {
-                  sms: true,
-                  email: true
-                },
-                reminder_enable: true,
-                options: {
-                  checkout: {
-                    method: {
-                      netbanking: 1,
-                      card: 1,
-                      upi: 1,
-                      wallet: 0
-                    }
-                  }
-                }
-              });
-              console.log('res',res);
-              const data={
-                amount:res.amount,
-                user:user.userId,
-                provider:"UPI",
-                transactionId:res.id,
-                status:"pending",
-              
-              }
-
-              const savedData=await this.createDeposit(data);
-              console.log('saved-data-------------------', savedData)
-              if (savedData) {
-                return res;
-              }
-              else {
-                return "can't save to db"
-              }
-
-              
-            
-        } catch (error) {
-              console.log(error)
-            throw error;
-            
-        }
-  };
-
+      key_secret: process.env.KEY_SECRET,
+    });
+  
+    try {
+      const { amount } = upiData;
+      const res = await razorpay.paymentLink.create({
+        amount,
+        currency: 'INR',
+        description: 'For XYZ purpose',
+        customer: {
+          name: 'Gaurav Kumar',
+          email: 'gaurav.kumar@example.com',
+          contact: '+919000090000',
+        },
+        notify: { sms: true, email: true },
+        reminder_enable: true,
+        options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
+      });
+  
+      const data = {
+        amount: res.amount,
+        user: user.userId,
+        provider: 'UPI',
+        transactionId: res.id,
+        status: 'pending',
+      };
+  
+      const savedData = await this.createDeposit(data);
+      return savedData ? res.short_url : "can't save to db";
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  
 
   async paymentConfirmation(webhookData) {
 

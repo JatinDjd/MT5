@@ -28,13 +28,13 @@ export class ManagerService {
       );
 
       for (const memberId of data.memberIds) {
-        await this.groupUserRepository.save(
-          {
-            userId: memberId,
-            groupId: group.id
-          },
-          { transaction: true },
-        );
+          await this.groupUserRepository.save(
+            {
+              userId: memberId,
+              groupId: group.id
+            },
+            { transaction: true },
+          );
       }
 
       if (group) {

@@ -7,16 +7,18 @@ import { ConfigModule } from '@nestjs/config';
 import { OrderController } from './orders.controller';
 import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
+import { PaymentService } from '../payment/payment.service';
+import { Deposit } from '../payment/entities/deposits.entity';
 
 @Module({
-  providers: [OrdersGateway, OrdersService],
+  providers: [OrdersGateway, OrdersService, PaymentService],
   controllers: [OrderController],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     TypeOrmModule.forFeature([
-      Order,Group,GroupUser
+      Order,Group,GroupUser,Deposit
     ])
   ]
 })

@@ -1,4 +1,15 @@
-import { IsInt, IsDecimal, IsString } from 'class-validator';
+import { IsInt, IsDecimal, IsString, IsEnum } from 'class-validator';
+
+
+enum OrderCategory {
+    InstantExecution = 'Instant Execution',
+    BuyLimit = 'Buy Limit',
+    SellLimit = 'Sell Limit',
+    BuyStop = 'Buy Stop',
+    SellStop = 'Sell Stop',
+    BuyStopLimit = 'Buy Stop Limit',
+    SellStopLimit = 'Sell Stop Limit',
+}
 
 export class CreateOrderDto {
     @IsInt()
@@ -19,12 +30,13 @@ export class CreateOrderDto {
     @IsDecimal()
     SL: number;
 
-    
+
     @IsDecimal()
     TP: number;
 
-    @IsInt()
-    OrderCategories: number;
+
+    @IsEnum(OrderCategory)
+    OrderCategories: OrderCategory;
 
     @IsString()
     Remarks: string;
