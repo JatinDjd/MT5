@@ -31,12 +31,12 @@ export class AuthController {
       // const token = user.id;
       await this.mailService.sendUserConfirmation(user, token);
       
-      if (user?.firstName != null) {
-        Redirect('/api/auth/signup-success');
-      }
+      // if (user?.firstName != null) {
+      //   Redirect('/api/auth/signup-success');
+      // }
 
     
-      console.log( {
+      return( {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -73,6 +73,12 @@ export class AuthController {
   @Get('signup-success')
   @Render('signUpSuccess') // Specify the success template name (without .hbs extension)
   getSignUpSuccess() {
+    return {}; // No data needs to be passed to the template
+  }
+
+  @Get('login-page')
+  @Render('login') // Specify the success template name (without .hbs extension)
+  loginPage() {
     return {}; // No data needs to be passed to the template
   }
 

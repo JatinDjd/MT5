@@ -138,29 +138,26 @@
                 <div class="deposit-sec">
                     <div class="deposit-cont">
                     <div class="deposit-card" id="depositCard">
-                      <a href="#">
-                        <div class="deposit-hd">
-                            <img src="/images/binance-deposit.svg">
-                            <h4>UPI/CARD/NETBANKING</h4>
-                        </div>
-                        <div>
-                            <ul>
-                            <li>Average time <span>Instant</span></li>
-                            <li>Up to <span>1 day</span></li>
-                            <li>Fee <span>0%</span></li>
-                            <li>Limits <span>20-30000 USD</span></li>
-                            </ul>
+                        {{!-- <a href="javascript:void(0)"> --}}
+                            <div class="deposit-hd">
+                                <img src="/images/binance-deposit.svg">
+                                <h4>UPI/CARD/NETBANKING</h4>
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>Average time <span>Instant</span></li>
+                                    <li>Up to <span>1 day</span></li>
+                                    <li>Fee <span>0%</span></li>
+                                    <li>Limits <span>20-30000 USD</span></li>
+                                </ul>
 
-                            <form >
-                            <label for="amount">Amount:</label>
-                            <input type="text" id="amount" name="amount" required class="amount-add-feild" style="display: block;">
-                            <button type="submit" id="ammount-form">Add Money</button>
-                            </form>
-
-                        </div>
-                          <i class="fa fa-solid fa-lock"></i>
-                      </a>
-                
+                                <form id="amountForm">
+                                    <label for="amount">Amount:</label>
+                                    <input type="text" id="amount" name="amount" required class="amount-add-feild" style="display: block;">
+                                    <button type="submit" id="addMoneyButton">Add Money</button>
+                                </form>
+                            </div>
+                        {{!-- </a> --}}
                     </div>
                     <div class="deposit-card">
 
@@ -472,45 +469,40 @@
         }
     </script>
 
-    <script>
-    const depositCard = document.getElementById('ammount-form');
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const amountForm = document.getElementById('amountForm');
 
+        amountForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent form submission
 
-    depositCard.addEventListener('click', async (e) => {
-      e.preventDefault();
-       const amount = document.getElementById('amount').value;
-      console.log(amount)
-        try {
-            const response = await fetch('http://localhost:3000/api/payment/payment-link', {
-                method: 'POST', // or 'POST' or any other HTTP method
-                headers: {
-                  'authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkwODJlN2MxLWM2MTMtNGI4OS1hYjNiLTg0YWU5MWE2NjBmZSIsImZpcnN0TmFtZSI6IkphdGluIiwibGFzdE5hbWUiOiJEZXN3YWwiLCJlbWFpbCI6ImphdGluLjEzZGVzd2FsQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY5Mjg3MzcwNiwiZXhwIjoxNjkyODc3MzA2fQ.6LA3_w2h2_LfR077HWgOIPKX0k83d6pHTitwGhUfFrA",
-                    'Content-Type': 'application/json',
-                    // Add any headers you might need
-                },
-                     body: {amount:`${amount}`},
+            const amount = parseInt(document.getElementById('amount').value, 10); // Convert to integer
 
-            });
-            console.log(response)
+            
 
-            if (response.ok == true) {
-                const data = await response.json();
-                window.open(data)
-                console.log(data);
-                return data;
-                // Do something with the response data if needed
-            } else {
-                console.error('API request failed');
-                
+            try {
+                const response = await fetch('http://localhost:3000/api/payment/payment-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization':"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkwODJlN2MxLWM2MTMtNGI4OS1hYjNiLTg0YWU5MWE2NjBmZSIsImZpcnN0TmFtZSI6IkphdGluIiwibGFzdE5hbWUiOiJEZXN3YWwiLCJlbWFpbCI6ImphdGluLjEzZGVzd2FsQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY5Mjg4NDYxNywiZXhwIjoxNjkyODg4MjE3fQ.9BDNRBOr09bI9bkNJ7Il2crDW0E6aMuUKTcce908a2A"
+                    },
+                    body: JSON.stringify({ "amount": amount}), // Send amount as JSON in the request body
+                });
 
+                if (response.ok) {
+                    const responseData = await response.json();
+                    window.open(responseData.short_url);
+                    // Handle the response data (e.g., show the link or perform any required action)
+                } else {
+                    console.error('API request failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        });
     });
 </script>
-
-
 
   </body>
   </html>
