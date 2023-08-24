@@ -1,0 +1,1061 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+* {
+    font-family: 'Poppins';
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+body{
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+:root {
+    --main-pad: 0rem 15rem;
+    --black: #303030;
+}
+
+ a{text-decoration:none}
+
+ .title {
+    display: block;
+    text-align: center;
+    padding: 2rem 0px;
+} 
+ .title h2 {
+    font-family: 'Poppins';
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 72px;
+} 
+ .title h2 span ,h1 span{
+    color: #1971e9f2;
+    font-weight: 600;
+}
+.title p{font-size:18px;line-height:1.3;padding:0.5rem 0rem;}
+#web-page h1 {
+    font-size: 68px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.left-side .button {
+    margin-top: 40px;
+}
+/*------------------banner----------------*/
+.ban-file {
+    padding: var(--main-pad);
+    display: flex;
+    align-items: center;
+}
+#banner-head {
+    height: 100vh;
+    padding:8rem  0px 0px;
+}
+#banner-head .left-side {
+    width: 60%;
+    
+}
+
+
+#banner-head{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.left-side p {
+    font-size: 30px;
+    color:  #fff;
+    line-height: 1.8;
+    padding: 3rem 0px;
+    width:80%;
+}
+
+.numbers-ex h2{font-size:40px;line-height:1.6;padding:1rem 0rem;font-weight:500;}
+.numbers-ex p{font-size:20px;line-height:1.6;color:#303030;margin-bottom:3rem;}
+.black-btn{
+    text-decoration: none;
+    
+    padding: 8px 30px;
+    font-weight: 500;
+    font-size: 14px;
+
+    transition:0.3s ease-in-out;
+    display: inline-block;
+    text-align: center;
+    background-color:#1971e9f2;
+    color:#fff;
+    border:1px solid #1971e9f2;
+}
+.black-btn:hover{
+    color: #1971e9f2;
+    background-color:transparent;
+   }
+
+.btn-header a {
+    text-decoration: none;
+    border: 1px solid #303030;
+    padding: 5px 10px;
+    color: #303030;
+}
+.btn-header {
+    margin-top: 100px;
+}
+
+/*------------------anroid-app----------------*/
+
+#business-serv {
+    padding: var(--main-pad);
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    background-image:  linear-gradient(45deg,rgb(52 128 206), rgb(0 3 6)),url(assets/images/banner-back.png);
+}
+
+.business-serv {
+
+    display: flex;
+    flex-wrap: wrap;
+   justify-content: space-between;
+  
+    
+}
+.instant-sec{width:50%;}
+.instant-sec h2{font-size:30px;color:#fff;padding:1rem 0rem;}
+.instant-sec p{font-size:20px;color:#fff;padding:1rem 0rem;}
+.with-sec{display:flex;justify-content: center;column-gap: 2rem;width:40%;}
+
+
+#build {
+    padding: var(--main-pad);
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+    position: relative;
+
+    
+}
+.build-comp {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+    column-gap: 1rem;
+    padding: var(--main-pad);
+}
+.build-cont img{width:50%;}
+.build-comp .build-cont{width:32%;padding-bottom:10px;text-align:center;}
+.build-cont{padding:1rem;} 
+.img_elements {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+.build-comp p {
+    color: #303030;
+    padding: 1rem 0rem 2rem;
+    line-height: 1.6;
+    font-size: 18px;
+}
+.build-comp h4 {font-size:30px;line-height:1.3;padding:1rem 0rem;}
+.build-comp h2 {
+    font-weight: 500;
+    font-size: 48px;
+    color: #fff;
+}
+
+.light-btn {
+    background: #fff;
+    border: solid 1px #fff !important;
+    color: #f05123 !important;
+}
+.white-br-btn {
+    background: #fff;
+    color: #303030 !important;
+	border: solid 1px #fff !important;
+}
+.white-br-btn:hover {
+    background: none;
+    color: #fff !important;
+	border: solid 1px #fff !important;
+}
+
+#execution{
+    padding:var(--main-pad);
+    padding-top:7rem;padding-bottom:7rem;
+  
+}
+#execution.execution{padding-top:0rem;padding-bottom:0rem;}
+ .exec{
+    display:flex;
+    justify-content:center;
+    column-gap:3rem;
+    background-image:  linear-gradient(45deg,rgb(52 128 206), rgb(0 3 6)),url(assets/images/banner-back.png);padding:5rem 0rem;border-radius:10px;}
+.exec .instant{text-align:center;width:35%;}
+.exec .instant h2,.exec .instant h4,.exec .instant p{color:#fff;}
+
+.instant h2{font-size:24px;padding:1rem 0rem;}
+.instant h4{font-size:20px;padding:1rem 0rem;}
+.instant p{font-size:16px;padding:0.5rem 0rem 1rem;margin-bottom:2rem;}
+.instant-line{background-color:#ffffff;width:2px;}
+.accounts{
+    padding:5rem;
+    display:flex;
+    justify-content:space-between;
+    background-color:#f5f5f5;border-radius:10px;overflow:hidden;}
+.accounts .instant{width:45%;overflow:hidden}
+.accounts .instant img{width:100%;transform: scale(1.1);height: 100%;object-fit: cover;}
+.std-list{display:flex;column-gap:2rem;}
+.std-list>div{width:30%;}
+/* call section */
+
+#call {
+   
+    padding: var(--main-pad);
+    padding-top: 6rem;
+    padding-bottom: 5rem;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    margin-top:7rem;
+}
+
+#call div{
+    position: sticky;
+}
+#call h2 {
+    font-weight: 600;
+    font-size: 48px;
+    color: #fff;
+    padding-bottom: 2rem;
+}
+#call p {
+    font-size: 20px;
+    color: #fff;
+    padding-bottom: 2rem;
+}
+
+#web-design{
+    padding:var(--main-pad);
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+.web-cont{
+    display:flex;
+    justify-content:space-between;
+    padding: 0rem 0rem;
+    align-items: center;
+}
+.web-cont>div:first-child{
+    width:50%;
+}
+.web-cont h3{
+    padding-bottom:2rem;
+}
+.web-cont ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0px;
+}
+.web-cont ul li{
+    padding:0.5rem 0rem;
+    font-size:18px;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    padding-left: 2rem;
+}
+.web-cont ul li:before{
+    content: "";
+    /* color: #F05123; */
+    /* display: inline-block; */
+    width: 18px;
+    height: 18px;
+    background: #f05123;
+    border-radius: 30px;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    border: solid 3px #f7a790;
+}
+.web-cont img{
+    width:40%;
+}
+
+
+
+
+
+#development{
+    padding:var(--main-pad);
+    padding-top:3rem;
+    padding-bottom:6rem;
+}
+.dev-cont{
+    padding-top:5rem;
+    display:flex;
+    justify-content:space-between;
+}
+.dev-cont>div:first-child{width:40%;}
+.dev-cont>div:last-child{
+    width:55%;
+    display:flex;
+    justify-content: space-between;
+    flex-wrap:wrap;
+}
+.dev-cont>div img{
+    width:100%;
+    margin-bottom:2rem;
+}
+.dev-card{
+    background: #f3f3f3;
+    box-shadow: 5px 6px 15px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    margin-bottom:3rem;
+    width:45%;
+}
+.dev-card>div:last-child{
+    padding: 2rem;
+}
+.dev-card h4{font-size:20px;font-weight:500;}
+.dev-no{
+    background-color:#303030;
+    width: 60%;
+    display: flex;
+    padding: 1rem;
+    justify-content:center;
+    transition:all 0.3s ease;
+}
+.dev-card:hover .dev-no{
+    background: #1971e9f2;
+}
+.dev-no p{
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke:1px #fff;
+    font-size:24px;
+    padding:5px 0;
+    letter-spacing:3px;}
+/* signup form */
+.form-main{padding-top:2rem;}
+.signup{
+    padding: 4rem;
+    width:600px;
+    
+    margin:0 auto;
+    background-color: #fff;
+    border-radius:10px;
+    box-shadow: 0 2px 8px rgba(54,61,66,.12), 0 2px 2px rgba(54,61,66,.04), 0 0 1px rgba(54,61,66,.15);
+   
+}
+.form-page{position:relative;}
+
+#details-web p{padding:0.5rem 0rem;font-size:14px;color:#6d6c6c;}
+#details-web .details-web-cont p:first-child,#details-web .details-web-cont p:nth-child(2){color:#0f0f0f;font-size:15px;}
+#details-web{    
+   padding:var(--main-pad);padding-top:4rem;padding-bottom:4rem;}
+.details-web-cont{padding-bottom:4rem;border-bottom:2px solid #cac8c8;}
+.details-web-privacy{display:flex;justify-content: space-between;}
+.details-web-privacy ul{list-style-type:none;}
+.form-tab-btn{
+    border:none;
+    font-size:18px;
+    text-transform:capitalize;
+    background: none;
+    padding:10px 20px;
+}
+.form-tab{display:flex;column-gap:3rem;border-bottom:1px solid #f5f5f5;}
+
+.signup form{padding:2rem 0rem;position:relative;}
+.signup form label,.signup form input{width:100%;}
+.signup form input{margin:10px 0;padding:10px;border-radius:5px;}
+
+.signup form input[type="submit"]{
+   font-size:14px;
+    border-radius:0;
+    background:transparent;
+    transition:0.2s ease-in-out;
+}
+.signup form>div{padding:0.5rem 0rem;}
+.signup form input[type="submit"]:hover{
+    background-color:#1971e9f2; ;
+    color:#fff;
+    border:2px solid #1971e9f2;
+}
+
+.signup form>div a{
+    color:#1971e9f2;
+}
+.signup form>div a:hover{
+    text-decoration:underline;
+}
+.signup form>div ul li{
+    font-size:14px;
+    color:#c9c8c8;
+    margin-left:1rem;
+}
+ .blue-line{
+    height: 2px;
+    width: 50%;
+    background-color: #1971e9f2;
+    position:absolute;
+}
+
+.check-input{display:flex;font-size:14px;column-gap:1rem;}
+.check-input input[type="checkbox"]{
+    width:10%;
+}
+
+/* dashboard page */
+
+  
+
+  #dashboard{padding:var(--main-pad);padding-top:2rem;padding-bottom:7rem;}
+  .content input{
+    display: none;
+  }
+  
+  .content{
+    /* display: flex; */
+    justify-content: space-between;
+    /* border: solid 1px  #d8e8ff; */
+    padding: 2rem;
+    border-radius: 5px;
+  }
+  
+  .content .list{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    width: 100%;
+    justify-content: flex-start;
+    column-gap: 3rem;
+    /* border-bottom: solid 1px  #e1e1e1; */
+    margin-bottom: 2rem;
+  }
+  
+  .content .list label{
+    cursor: pointer;
+    /* height:80px; */
+    line-height: 1.2;
+    font-size: 16px;
+    font-weight: 500;
+    color: #303030;
+    transition: all 0.5s ease;
+    z-index: 10;
+    padding-left: 15px;
+    padding-bottom: 1rem;
+  }
+  
+  #my-accounts:checked ~ .list label.my-accounts,
+  #deposit:checked ~ .list label.deposit,
+  #withdrawl:checked ~ .list label.withdrawl,
+  #history:checked ~ .list label.history,
+  #settings:checked ~ .list label.settings{
+    color: #22272C;
+  }
+  
+  .content .slider{
+    position: absolute;
+    left: 0;
+    top: -20px;
+    height: 60px;
+    width: 180px;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+    background-color: #fff;
+  }
+  
+  #my-accounts:checked ~ .list .slider{
+    left: 0px;
+  }
+  
+  #deposit:checked ~ .list .slider{
+    left: 190px;
+  }
+  
+  #withdrawl:checked ~ .list .slider{
+    left: 350px;
+  }
+  
+  #history:checked ~ .list .slider{
+    left: 510px;
+  }
+  
+  
+  #settings:checked ~ .list .slider{
+    left: 660px;
+  }
+  
+  .content .text-content{
+    width: 100%;
+    height: 100%;
+    color: #303030;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+    background-color: #fff;
+    border-radius:5px;
+    padding: 2rem;
+  }
+  
+  .content .text{
+    display: none;
+  }
+  
+  .content .text .title{
+    font-size: 25px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    text-align:left;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0rem 0rem 1rem;
+  }
+  .title h3{font-size:24px;}
+  .content .text-content .my-accounts{
+    display: block;
+  }
+  
+  #my-accounts:checked ~ .text-content .my-accounts,
+  #deposit:checked ~ .text-content .deposit,
+  #withdrawl:checked ~ .text-content .withdrawl,
+  #history:checked ~ .text-content .history,
+  #settings:checked ~ .text-content .settings{
+    display: block;
+  }
+  
+  #deposit:checked ~ .text-content .my-accounts,
+  #withdrawl:checked ~ .text-content .my-accounts,
+  #history:checked ~ .text-content .my-accounts,
+  #analytics:checked ~ .text-content .my-accounts,
+  #social:checked ~ .text-content .my-accounts,
+  #performance:checked ~ .text-content .my-accounts,
+  #settings:checked ~ .text-content .my-accounts{
+    display: none;
+  }
+  
+  .content .list label:hover{
+    color: #1971e9f2;
+  }
+  .content .list label img{width: 30px;}
+  .content .list label span{
+   display:flex;align-items:center;column-gap: 1rem;
+  }
+
+
+.type-btn{font-size: 17px;background-color:#fff;border:none;padding: .6rem 2rem;text-align: center;border-radius: 5px 5px 0px 0px;}
+.type{border-top:2px solid #f5f5f5;}
+.sort{text-align:right;font-size:14px;padding:1rem 0rem;}
+.sort select{width:150px;padding:5px;}
+.type-box{border:2px solid  #f5f5f5;display:flex;justify-content:space-between;align-items:end;padding:1rem;}
+.real-data h3{font-size:30px;padding:1rem 0rem 0rem;}
+.real-data ul{list-style-type: none;display:flex;column-gap:1rem;flex-wrap: wrap;}
+.real-data ul li{padding:2px 8px;color:#303030;background-color:#d3d1d1;font-size:14px;}
+.real-data ul li:last-child{background-color:#fff;}
+.real-btns ul{list-style-type:none;column-gap:3rem;display:flex;    flex-wrap: wrap;}
+.real-btns ul i{padding-right:10px;}
+.real-btns li{margin-bottom:1rem;}
+#Demo .blue-line { margin-left: 6%;}
+.type .blue-line{width:5.5%;}
+.deposit-cont{display:flex;justify-content: space-between;padding-bottom:3rem;flex-wrap:wrap;}
+.deposit-card{width:22%;padding:1rem;border:2px solid #f5f5f5;transition:0.2s ease-in-out;background: #fff;border-radius: 10px;margin-bottom:1rem;}
+.deposit-card:hover{box-shadow: 0 5px 6px 0 rgba(0,0,0,.1);}
+.deposit-card h4{font-size:22px;}
+.deposit-card ul{list-style-type: none;padding:1rem 0rem 0rem;}
+.deposit-card ul li{font-size:14px;color:#5c5a5a;padding:2px 0;}
+.deposit-card ul li span{color:#111111;font-weight:500;}
+.deposit-hd{border-bottom:2px solid #f5f5f5;}
+.deposit-card i{float:right;color:#1971e9f2;padding:8px;background-color:#f5f5f5;border-radius:50%;}
+.deposit-sec h4{font-size:18px;padding-bottom:1rem;}
+ /* RESPONSIVE CSS */
+ @media only screen and (max-width: 767px){
+    :root {
+        --main-pad: 0rem 1rem;
+    }
+    h1{
+        font-size:40px;}
+    h2{
+       font-size: 26px;}
+    h3{
+        font-size:18px; }
+    h4{
+        font-size:16px;}
+    p{
+       font-size: 14px;  }
+    .title p {
+        font-size: 16px;
+    }
+  
+    .title {  width: 96%;   margin: 0 auto;}
+    .logo img {
+        width: 30px;
+    }
+    #web-page h1 {font-size: 28px;line-height: 1.4;}
+    #build ,#web-design,#development,#call { padding-top: 2rem; padding-bottom: 2rem;}
+    .title h2,.build-comp h2 ,#call h2{ font-size:28px;line-height:1.2;  }
+    .ban-file {padding-top: 03rem !important;flex-direction: column !important;}
+    #banner-head .left-side, .web-cont{padding: 0rem; }
+    .build-comp div p { font-size: 14px; }
+    #call{margin-top:2rem;}
+    .dev-card>div:last-child{ padding: 1rem;}
+    #business-serv,.build-comp{padding-bottom: 0rem;}
+   .dev-card h4,#call p{font-size: 14px;}
+   .dev-no p{font-size: 12px;}
+    .dev-no{padding:10px;}
+    .left-side p{width:100%;}
+    .title h2, #banner-head .left-side , .build-comp .build-cont ,.dev-cont>div:first-child ,.dev-cont>div:last-child,.dev-no {
+        width: 100%;}
+    #execution{padding-top:2rem;padding-bottom:2rem;}
+    .business-serv { row-gap: 1rem;padding:0rem 0rem 3rem;}
+ .dev-cont ,#business-serv {padding-top: 0rem;}
+    .left-side p ,.card-box h4{ font-size:18px;  }
+    .left-side p { padding:1rem 0rem;}
+    .iner-box .line,.web-cont img,  .dev-cont>div img {display:none;}
+   
+    .build-comp ,.ban-file,.web-cont,.web-elements,.dev-cont{display: block;}
+    .card-box {margin-bottom:2rem;}
+
+    .dev-card { margin-bottom: 1rem; }
+
+    #banner-head {
+        height: auto;padding: 0rem 0px 3rem;}
+    .build-comp h4 {
+        font-size: 18px;
+        padding:  1rem 0rem 0rem;}    
+    .numbers-ex p {
+        font-size: 14px;
+        margin-bottom: 1rem;
+    }
+    .numbers-ex h2 {
+        font-size: 24px;
+        line-height: 1.3;
+        padding: 1rem 0rem;
+    }
+    .dev-cont>div:last-child {
+        padding-top:2rem;
+    }
+    .instant p{font-size:14px;margin-bottom:0rem;}
+    .instant h2{font-size:20px;padding:1rem 0rem 0rem;}
+    .exec p{margin-bottom:1rem;font-size:14px;padding:5px 0px;}
+    .exec{padding:1rem 1rem 2rem ;flex-wrap:wrap;}
+    .exec .instant{width:100%;}
+    .accounts .instant,.instant-sec ,.with-sec{width:100%;}
+    .with-sec{flex-wrap:wrap;}
+    .accounts .instant img {
+        display:none;}
+    .accounts{padding:1rem;flex-wrap:wrap;}
+    .instant-sec p{font-size:14px;}    
+    .instant-sec h2 {
+        font-size: 20px;
+        padding: 1rem 0rem;
+    }
+    .build-comp .build-cont {
+       margin-bottom:1rem;}
+    .black-btn{font-size:12px;}   
+    /* signup-form */
+    
+    #signup-section{padding:var(--main-pad);}
+    .form-main {
+        padding-top: 0rem;
+    }
+  
+    #details-web {
+        width: auto;
+        margin: 0;
+        padding:var(--main-pad);
+        padding-top:4rem;
+        padding-bottom:4rem;
+    }
+
+    .signup{padding:1rem;width:auto;margin:0;}
+         /* dashboard */
+         .type-box{flex-wrap:wrap;}
+         .content .text-content{padding:1rem;}
+         .real-btns ul{column-gap:1rem;}
+         .content .text .title {
+            margin:0;}
+            .real-btns li {
+                margin-bottom: 0rem;
+            }
+            .real-data h3 {
+                padding: 1rem 0rem 01rem;
+            }
+            .content .list {
+                flex-wrap: wrap;
+                justify-content: start;
+                column-gap: 1rem;
+                margin-bottom: 1rem;
+            }
+         .content .list label {
+            font-size: 12px;padding-left:0rem;width:30%;}
+            .content .list label span{column-gap:5px;}
+           .content{padding:0rem;}
+           .type-btn{padding:0.4rem 1rem 0.4rem 0rem;}
+           .content .slider{width:110px;top: -10px;
+            height: 40px;}
+           .deposit-card{width:100%;}
+           .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+           .real-data ul li {        font-size: 12px;    }
+           #deposit:checked ~ .list .slider{
+            left: 110px;
+          }
+          
+          #withdrawl:checked ~ .list .slider{
+            left: 230px;
+          }
+          
+          #history:checked ~ .list .slider{
+            top:25px;
+            left:0;
+          }
+          
+          
+          #settings:checked ~ .list .slider{
+            top:25px;
+            left: 110px;
+          }
+          #Demo .blue-line { margin-left: 15%;}
+         .type .blue-line{width:12%;}
+         .deposit-card i {
+            margin-top: -2rem;
+        }
+    
+ }
+ @media only screen and (min-width: 768px) and (max-width: 1023px){
+	  :root { --main-pad: 0rem 2rem;
+	}
+    h1{
+        font-size:60px;
+    }
+    h2{
+       font-size: 26px;
+    }
+    h3{
+        font-size: 18px;
+    }
+    h4{
+        font-size:16px;
+    }
+    p{
+      font-size: 14px;
+    }
+    
+    /* -----ppc-page ---- */
+    .title p{font-size:16px;}
+    #banner-head {
+        padding: 0rem 0px 0px;
+    }
+	#banner-head .left-side {padding: 0px ;}
+	#web-page h1 {font-size: 40px;line-height: 1.4;}
+	.left-side p {font-size: 18px;line-height: 1.4;padding: 1rem 0px 2rem;}	
+	.left-side a, .build-comp div a, #call a{	font-size: 14px;width: 150px;  padding: 6px 3px;}	
+	.title h2 {	width: 100%;	font-size: 32px;	line-height: 1.3;}
+	.business-serv {padding: 1rem 0rem 3rem;row-gap: 2rem;column-gap: 1.6rem;}
+	#business-serv {padding-top: 4rem;	padding-bottom: 3rem;}
+	.build-comp h2 ,#call h2 { font-size: 42px;}
+	.build-comp p { padding: 1rem 0rem 2rem; font-size: 16px;}
+
+	#call { padding-top: 5rem;  padding-bottom: 5rem;}
+	#development {  padding-top: 4rem;  padding-bottom: 04rem;}
+	.dev-card h4 {font-size: 20px;     margin: 0px;}
+	.dev-cont>div {  width: 31%;}
+	.dev-cont { padding-top: 2rem;}
+    .build-comp .build-gif {
+        width: 48%;}
+   .dev-card>div:last-child { padding: 1rem;}
+    #banner-head {      height: auto;}
+    .build-comp {
+        padding: 0rem;
+    }
+    .build-comp h4 {
+        font-size: 24px;}
+    .with-sec {
+        width: 40%;
+        flex-wrap: wrap;
+    }
+    .build-comp .build-cont {
+        width: 30%;}
+    #banner-head .left-side {
+        padding: 0rem 0rem 4rem;
+    }
+    .accounts .instant{width:100%;}
+    .accounts .instant img {
+        display:none;}
+    .dev-card h4 {font-size: 16px;     margin: 0px;}
+    .numbers-ex p ,.dev-no p{
+        font-size: 16px;}
+    .numbers-ex h2 {
+        font-size: 30px;padding:0rem 0rem 1rem;}
+    .exec .instant {
+        width: 40%;
+    }  
+    .exec  {
+        padding:2rem 0rem;
+    }    
+    .accounts .instant p {margin-bottom:0rem;}
+    #build,#execution{padding-top:3rem;}
+    .accounts {
+        padding: 2rem;display:block;}
+    .dev-no{width:95%;padding:5px 10px ;}  
+
+     /* signup-form */
+    #details-web {
+        width: auto;
+        margin: 0;
+        padding:var(--main-pad);
+        padding-top:4rem;
+        padding-bottom:4rem;
+    }
+    .signup{padding:2rem;width:600px;}
+       /* dashboard */
+       .content .list label {
+        font-size: 14px;}
+        .content .list label span{column-gap:5px;}
+       .content{padding:0rem;}
+       .type-btn{padding:0.4rem 1rem 0.4rem 0rem;}
+       .content .slider{width:150px;}
+       .deposit-card{width:32%;}
+       .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+       .real-data ul li {        font-size: 12px;    }
+       #deposit:checked ~ .list .slider{
+        left: 160px;
+      }
+      
+      #withdrawl:checked ~ .list .slider{
+        left: 310px;
+      }
+      
+      #history:checked ~ .list .slider{
+        left: 470px;
+      }
+      
+      
+      #settings:checked ~ .list .slider{
+        left: 600px;
+      }
+
+ 
+} 
+ @media only screen and (min-width: 1024px) and (max-width: 1200px){
+	 :root {
+    --main-pad: 0rem 6rem;
+	}
+    h1{
+        font-size:60px;
+     }
+    h2{
+       font-size: 32px;
+    }
+    h3{
+        font-size:18px;
+    }
+    h4{
+        font-size:16px;
+    }
+    p{
+      font-size: 14px;
+    }
+    /* -----ppc-page ---- */
+    .title p{font-size:16px;}
+    .build-comp>div{ width:50%; }
+    #banner-head {
+        padding: 0rem 0px 0px;
+    }
+	.ban-file {  display:flex;}
+	#web-page h1 {font-size: 38px;line-height: 1.4;}
+	.left-side p {font-size: 18px;padding: 1rem 0px 2rem;}
+    .dev-card>div:last-child { padding: 1rem;  }
+	.left-side a, .build-comp div a, #call a{	font-size: 16px;width: 150px;     padding: 6px 3px;}	
+	.title h2 {font-size: 34px;	line-height: 1.3;}
+	.business-serv {padding: 1rem 0rem 3rem;row-gap: 2rem;column-gap: 1.6rem;}
+	#business-serv {padding-top: 4rem;	padding-bottom: 3rem;}
+	.build-comp h2 ,#call h2 { font-size: 42px;}
+	.build-comp p { padding: 1rem 0rem 1rem; font-size: 14px;}
+	#call { padding-top: 5rem;  padding-bottom: 5rem;}
+	#development {  padding-top: 4rem;  padding-bottom: 4rem;}	
+	.dev-cont>div {  width: 31%;}
+	.dev-cont { padding-top: 2rem;}
+	
+    .build-comp {
+        padding: 0rem;
+    }
+    .build-comp h4 {
+        font-size: 24px;}
+    .with-sec {
+        width: 40%;
+        flex-wrap: wrap;
+    }
+    #banner-head .left-side {
+        padding: 02rem 0rem 0rem;
+    }
+    .accounts .instant{width:100%;}
+    .accounts .instant img {
+        display:none;}
+    .dev-card h4 {font-size: 16px;     margin: 0px;}
+    .numbers-ex p ,.dev-no p{
+        font-size: 16px;}
+    .numbers-ex h2 {
+        font-size: 30px;}
+    .exec .instant {
+        width: 45%;
+    }  
+    .exec  {
+        padding:2rem 0rem;
+    }    
+    .accounts .instant p {margin-bottom:0rem;}
+    #build,#execution{padding-top:3rem;}
+    .accounts {
+        padding: 2rem;display:block;}
+    .dev-no{width:90%;}  
+    /* signup-form */
+    #details-web {
+        width: auto;
+        margin: 0;
+        padding:var(--main-pad);
+        padding-top:4rem;
+        padding-bottom:4rem;
+    }
+    .signup{padding:2rem;width:600px;}
+     /* dashboard */
+     .content .list label {
+        font-size: 14px;}
+        .content .list label span{column-gap:5px;}
+       .content{padding:0rem;}
+       .type-btn{padding:0.4rem 1rem;}
+       .content .slider{width:150px;}
+       .deposit-card{width:32%;}
+       .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+       .real-data ul li {        font-size: 12px;    }
+       #deposit:checked ~ .list .slider{
+        left: 160px;
+      }
+      
+      #withdrawl:checked ~ .list .slider{
+        left: 310px;
+      }
+      
+      #history:checked ~ .list .slider{
+        left: 470px;
+      }
+      
+      
+      #settings:checked ~ .list .slider{
+        left: 600px;
+      }
+ }
+ 
+ @media only screen and (min-width: 1201px) and (max-width: 1366px){
+	 :root {
+    --main-pad: 0rem 8rem;
+	}
+    h1{
+        font-size:70px;
+    }
+    h2{
+        font-size: 36px;
+    }
+    h3{
+        font-size:20px;
+     }
+    h4{
+        font-size:18px;
+    }
+    p{
+       font-size: 14px;
+    }
+     .title p {
+        font-size: 18px;
+    }
+
+	#web-page h1 {font-size: 48px;line-height: 1.4;}
+	.left-side p {font-size: 18px;line-height: 1.4;padding: 1rem 0px 2rem;}	
+	.left-side a, .build-comp div a, #call a{	font-size: 16px;width: 150px;     padding: 6px 3px;}	
+	.title h2 {		font-size: 40px;	line-height: 1.3;}
+	.business-serv {padding: 1rem 0rem 3rem;row-gap: 2rem;column-gap: 1.6rem;}
+	#business-serv {padding-top: 4rem;	padding-bottom: 3rem;}
+	.build-comp h2 ,#call h2{ font-size: 42px;}
+	.build-comp p { padding: 1rem 0rem 2rem; font-size: 16px;}
+	#call { padding-top: 5rem;  padding-bottom: 5rem;}
+	#development {  padding-top: 4rem;  padding-bottom: 04rem;}
+	.dev-card h4 {font-size: 20px;     margin: 0px;}
+	.dev-cont>div {  width: 31%;}
+	.dev-cont { padding-top: 2rem;}
+    .dev-card>div:last-child {padding: 1rem; }   
+    .with-sec {
+        width: 35%;
+        flex-wrap: wrap;
+    }
+    .accounts {
+        padding: 4rem 2rem;}
+    .dev-no{width:90%;}  
+    .dev-no p{font-size:20px;}  
+                /* signup-form */
+    #details-web {
+        width: auto;
+        margin: 0;
+        padding:var(--main-pad);
+        padding-top:4rem;
+        padding-bottom:4rem;
+    }
+    .signup{padding:2rem;width:600px;}
+
+     /* dashboard */
+   .type-btn{padding:0.4rem 1rem;}
+   .content .slider{width:180px;}
+  
+ }
+ @media only screen and (min-width: 1367px) and (max-width: 1600px){
+	:root {
+    --main-pad: 0rem 8rem;
+	}
+    h1{font-size:80px;}
+    h2{font-size: 38px;}
+    h3{ font-size:22px;}
+    h4{font-size:18px;}
+    p{ font-size: 15px;}
+    .title p{font-size:18px;}
+    #banner-head{margin-bottom:0 !important;}
+	#web-page h1 {font-size: 48px;line-height: 1.4;}
+	.left-side p {font-size: 18px;line-height: 1.4;padding: 1rem 0px 2rem;}	
+	.left-side a, .build-comp div a, #call a{	font-size: 16px;width: 150px;     padding: 6px 3px;}	
+	.title h2 {	font-size: 40px;	line-height: 1.3;}
+	.business-serv {padding: 1rem 0rem 3rem;row-gap: 2rem;column-gap: 1.6rem;}
+
+	#business-serv {padding-top: 4rem;	padding-bottom: 3rem;}
+	.build-comp h2,#call h2  { font-size:42px;}
+	.build-comp p { padding: 1rem 0rem 2rem; font-size: 16px;}
+    .with-sec {
+        width: 35%;
+        flex-wrap: wrap;
+    }
+    .accounts {
+        padding: 4rem 2rem;}
+    .dev-no{width:90%;}  
+    .dev-no p{font-size:20px;}  
+	#call { padding-top: 5rem;  padding-bottom: 5rem;}
+	#development {  padding-top: 4rem; padding-bottom:04rem;}
+	.dev-card h4 {font-size: 20px;     margin: 0px;}
+	.dev-cont>div {  width: 31%;}
+	.dev-cont { padding-top: 2rem;}
+
+    #banner-head .right-side img {
+        margin-top: 02rem;}
+     /* signup-form */
+    #details-web {
+        width: auto;
+        margin: 0;
+        padding:var(--main-pad);
+        padding-top:4rem;
+        padding-bottom:4rem;
+    }
+    .signup{padding:2rem;width:600px;}
+    /* dashboard */
+   .type-btn{padding:0.4rem 1rem;}
+   .content .slider{width:180px;}
+  
+ }  
+   

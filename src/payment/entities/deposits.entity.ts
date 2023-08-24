@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { User } from '../../users/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, ManyToMany, IsNull, Unique } from 'typeorm';
 
 @Entity({ name: 'deposits' })
 
@@ -11,14 +11,17 @@ export class Deposit {
     @Column({ name: 'provider' })
     provider: string;
 
-    @Column({ name: 'transaction_id' })
+    @Column({ name: 'transaction_id',  unique: true, type: 'varchar' })
     transactionId: string;
 
     @Column({ name: 'amount' })
     amount: number;
 
-    @Column('json')
-    payload: Record<string, any>;
+    @Column({name:'status', enum:['pending','completed','failed']})
+    status:string;
+
+    @Column('json',{nullable:true})
+    payload: string;
 
     @ManyToOne(() => User, (user) => user.groups)   //customer reference using userId
     user: User
