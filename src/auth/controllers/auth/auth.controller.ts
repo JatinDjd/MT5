@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode, Session } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -84,9 +84,16 @@ export class AuthController {
 
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto, @Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body() data: LoginDto, @Request() req, @Session() session) {
+    const result = await this.authService.login(req.user);
+
+    // Store tokens in session (you can also use cookies or local storage)
+    session.accessToken = result.accessToken;
+    session.refreshToken = result.refreshToken;
+    
+    return result;
   }
 
   @Get('confirm')
