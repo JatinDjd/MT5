@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
@@ -27,8 +25,8 @@ export class OrdersService {
     try {
       const isValidOrderValue = await this.validateOrderValue(userId, data);
       const isValidSL = await this.validateStopLoss(data);
-      
-      if (!isValidOrderValue) throw new Error("Order amount must be less than or equal to the margin amount");
+
+      if (!isValidOrderValue) throw new Error("You don't have sufficient balance.");
       if (!isValidSL) throw new Error("Stop-loss must be greater than entry price");
       if (isValidOrderValue && isValidSL) {
         const order = await this.orderRepository.save({
@@ -44,6 +42,28 @@ export class OrdersService {
         });
         return order;
       }
+    } catch (error) {
+      throw new Error(error.message);
+
+    }
+  }
+
+  async wrapPosition(data: any, userId: any) {
+    try {
+     
+        const order = await this.orderRepository.save({
+          MsgCode: data.MsgCode,
+          Symbol: data.Symbol,
+          Price: data.Price,
+          StopLimitPrice: data.StopLimitPrice,
+          LotSize: data.LotSize,
+          SL: data.SL,
+          oBuySell: data.oBuy_Sell,
+          TakeProfit: data.TP,
+          UserId: userId
+        });
+        return order;
+     
     } catch (error) {
       throw new Error(error.message);
 

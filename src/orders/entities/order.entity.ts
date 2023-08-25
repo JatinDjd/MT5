@@ -44,4 +44,11 @@ export class Order {
 
   @Column('decimal', { precision: 10, scale: 2 })
   oBuySell: number;
+
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  currentInitialPrice: number;
+
+
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  currentClosingPrice: number;
 }

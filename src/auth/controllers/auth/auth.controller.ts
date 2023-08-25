@@ -20,8 +20,37 @@ export class AuthController {
 
 
   @Post('register')
-  @HttpCode(201)
   async register(@Body() createUserDto: CreateUserDto) {
+    try {
+      const token = Math.floor(1000 + Math.random() * 9000).toString();
+      const user = await this.authService.createUser({
+        ...createUserDto,
+        token,
+      });
+      await this.mailService.sendUserConfirmation(user, token);
+      
+    } catch (error) {
+      switch (error.status) {
+        case 422:
+          throw new HttpException(
+            {
+              error: 'Email already taken',
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+
+        default:
+          throw new HttpException(
+            { error: 'Internal Server Error' },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+      }
+    }
+  }
+
+  @Post('register')
+  @HttpCode(201)
+  async registerWeb(@Body() createUserDto: CreateUserDto) {
     try {
       const token = Math.floor(1000 + Math.random() * 9000).toString();
       const user = await this.authService.createUser({

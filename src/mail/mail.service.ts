@@ -12,7 +12,7 @@ export class MailService {
     private mailerService: MailerService,
   ) {
     // SendGrid.setApiKey(process.env.sendGrid_Key);   //causing issue after turning esModuleInterop flag true in tsconfig (for razorpay)
-    
+
   }
 
 
@@ -27,13 +27,12 @@ export class MailService {
       template: './emailVerification', // `.hbs` extension is appended automatically
       context: {
         // ✏️ filling curly brackets with content
-        name: user.firstName, 
+        name: user.firstName,
         url,
       },
     })
       .then((success) => {
-        console.log(success)
-        return success
+        return true
       })
       .catch((err) => {
         console.log(err)
@@ -43,7 +42,7 @@ export class MailService {
 
   // default to send mails
   async sendMail(data) {
-     this.mailerService.sendMail({
+    this.mailerService.sendMail({
       to: data.email,
       from: "jatin@masterinfotech.com", // override default from
       subject: data.subject,

@@ -3,6 +3,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { WrapPositionDto } from './dto/wrap-position.dto';
 
 @ApiTags('Order')
 @Controller('order')
@@ -27,10 +28,25 @@ export class OrderController {
 
     @UseGuards(AuthGuard('jwt'))
     @ApiBearerAuth('access-token')
+    @Post('wrap-position')
+    async wrapPosition(@Body() wrapPositionDto: WrapPositionDto, @Request() req) {
+        const userId = req.user.id;
+        try {
+            const order = await this.orderService.wrapPosition(wrapPositionDto, userId);
+            if (order) return { message: 'Order created successfully', order };
+        } catch (error) {
+            return { error: error.message };
+        }
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth('access-token')
     @Get('orders')
     findAllOrders(@Request() req) {
         const userId = req.user.id;
         return this.orderService.findAll(userId);
     }
+
+
 
 }
