@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 't
 
 @Entity('orders')
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
 

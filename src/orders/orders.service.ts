@@ -50,20 +50,14 @@ export class OrdersService {
 
   async wrapPosition(data: any, userId: any) {
     try {
-     
-        const order = await this.orderRepository.save({
-          MsgCode: data.MsgCode,
-          Symbol: data.Symbol,
-          Price: data.Price,
-          StopLimitPrice: data.StopLimitPrice,
-          LotSize: data.LotSize,
-          SL: data.SL,
-          oBuySell: data.oBuy_Sell,
-          TakeProfit: data.TP,
-          UserId: userId
+
+      const order = await this.orderRepository.update(
+        { id: data.orderId, user: userId },
+        {
+          currentClosingPrice: data.currentClosingPrice,
         });
-        return order;
-     
+      return order;
+
     } catch (error) {
       throw new Error(error.message);
 
