@@ -475,8 +475,13 @@
 
         amountForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent form submission
-
+            {{!-- debugger; --}}
             const amount = parseInt(document.getElementById('amount').value, 10); // Convert to integer
+
+                    {{!-- const token = sessionStorage.getItem('accessToken');  --}}
+                    const token = '{{token}}'
+                    console.log("accessToken------>>", token)
+
 
             
 
@@ -485,7 +490,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization':"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkwODJlN2MxLWM2MTMtNGI4OS1hYjNiLTg0YWU5MWE2NjBmZSIsImZpcnN0TmFtZSI6IkphdGluIiwibGFzdE5hbWUiOiJEZXN3YWwiLCJlbWFpbCI6ImphdGluLjEzZGVzd2FsQGdtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTY5Mjg4NDYxNywiZXhwIjoxNjkyODg4MjE3fQ.9BDNRBOr09bI9bkNJ7Il2crDW0E6aMuUKTcce908a2A"
+                        'Authorization':`Bearer ${token}`
                     },
                     body: JSON.stringify({ "amount": amount}), // Send amount as JSON in the request body
                 });

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, UseGuards, Post, Request, Render } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -6,6 +6,8 @@ import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { upiLinkDTO } from './dto/upiLink.dto';
+import * as session from 'express-session';
+
 
 @ApiTags('Payment')
 @Controller('payment')
@@ -37,13 +39,20 @@ export class PaymentController {
     return result;
   }
 
+
   @Get('dashboard')
   @Render('upi')
-  async renderDashboard() {
-
-    return {}
+  async renderDashboard(@Session() session:Record<string, any>) {
+    console.log("sessionnnn", session.accessToken)
+    return {token:session.accessToken}
   }
 
+  // @Get('test')
+  // async test(@Session() session:Record<string, any>){
+  //   console.log(session)
+  //   console.log(session.accessToken)
+  //   return session.accessToken;
+  // }
   
 
 

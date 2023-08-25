@@ -75,7 +75,7 @@ export class PaymentService {
       };
   
       const savedData = await this.createDeposit(data);
-      return savedData ? res.short_url : "can't save to db";
+      return  res;
     } catch (error) {
       console.log(error);
       throw error;

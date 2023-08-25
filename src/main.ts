@@ -32,6 +32,7 @@ async function bootstrap() {
   // Configure session middleware
   app.use(
     session({
+      name:'NESTJS_SESSION',
       secret: process.env.SESSION_KEY,
       resave: false,
       saveUninitialized: false,
