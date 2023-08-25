@@ -51,8 +51,9 @@ export class PaymentService {
 
     try {
       const { amount } = upiData;
+      const multipliedAmount = amount * 100;
       const res = await razorpay.paymentLink.create({
-        amount,
+        amount:multipliedAmount,
         currency: 'INR',
         description: 'For XYZ purpose',
         customer: {
