@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode, Session } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -60,10 +60,17 @@ export class AuthController {
       // const token = user.id;
       await this.mailService.sendUserConfirmation(user, token);
       
-      if (user?.firstName != null) {
-        Redirect('/api/auth/signup-success');
-      }
+      // if (user?.firstName != null) {
+      //   Redirect('/api/auth/signup-success');
+      // }
 
+    
+      return( {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
       
     } catch (error) {
       switch (error.response.statusCode) {
@@ -98,11 +105,24 @@ export class AuthController {
     return {}; // No data needs to be passed to the template
   }
 
+  @Get('login-page')
+  @Render('login') // Specify the success template name (without .hbs extension)
+  loginPage() {
+    return {}; // No data needs to be passed to the template
+  }
+
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto, @Request() req) {
-    return this.authService.login(req.user);
+  async login(@Body() data: LoginDto, @Request() req, @Session() session) {
+    const result = await this.authService.login(req.user);
+
+    // Store tokens in session (you can also use cookies or local storage)
+    session.accessToken = result.accessToken;
+    session.refreshToken = result.refreshToken;
+    
+    return result;
   }
 
   @Get('confirm')

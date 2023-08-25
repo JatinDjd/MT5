@@ -8,6 +8,7 @@ import { AppModule } from './app.module';
 import 'reflect-metadata';
 import * as dotenv from 'dotenv'
 import { join } from 'path';
+import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -28,6 +29,14 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }));
+  // Configure session middleware
+  app.use(
+    session({
+      secret: process.env.SESSION_KEY,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Trading APP API')
