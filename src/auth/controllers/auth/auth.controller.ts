@@ -28,7 +28,7 @@ export class AuthController {
         token,
       });
       await this.mailService.sendUserConfirmation(user, token);
-      
+      return user;
     } catch (error) {
       switch (error.status) {
         case 422:
@@ -48,7 +48,7 @@ export class AuthController {
     }
   }
 
-  @Post('register')
+  @Post('register-web')
   @HttpCode(201)
   async registerWeb(@Body() createUserDto: CreateUserDto) {
     try {
@@ -59,19 +59,19 @@ export class AuthController {
       });
       // const token = user.id;
       await this.mailService.sendUserConfirmation(user, token);
-      
+
       // if (user?.firstName != null) {
       //   Redirect('/api/auth/signup-success');
       // }
 
-    
-      return( {
+
+      return ({
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
       });
-      
+
     } catch (error) {
       switch (error.response.statusCode) {
         case '422':
@@ -95,7 +95,7 @@ export class AuthController {
   @Get('signup-view')
   @Render('signUp') // Specify the template name (without .hbs extension)
   getSignUp() {
-    return {} ; // Pass data to the template
+    return {}; // Pass data to the template
   }
 
 
@@ -115,14 +115,14 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto, @Request() req, @Session() session:Record<string, any>) {
+  async login(@Body() data: LoginDto, @Request() req, @Session() session: Record<string, any>) {
     const result = await this.authService.login(req.user);
 
     // Store tokens in session (you can also use cookies or local storage)
     session.accessToken = result.accessToken;
     session.refreshToken = result.refreshToken;
     console.log(session);
-    
+
     return result;
   }
 

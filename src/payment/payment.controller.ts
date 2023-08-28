@@ -42,6 +42,7 @@ export class PaymentController {
       
       return result; // Handle other cases if needed
     
+
   }
 
 
@@ -84,5 +85,14 @@ export class PaymentController {
     const userId = req.user.id;
     return this.paymentService.transactions();
   }
+
+
+  @Get('order-history')
+  async orderHistory(@Request() req) {
+    let userId = { userId: req.user.id };
+        console.log(req.user)
+        return await this.paymentService.orderHistory(userId)
+  }
+
 
 }
