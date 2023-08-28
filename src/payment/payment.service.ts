@@ -93,7 +93,7 @@ export class PaymentService {
   async paymentConfirmation(webhookData) {
     try {
       const data=await webhookData;
-      const { event, payload } = await data.event.body;
+      const { event, payload } = await data;
       console.log('1st statement')
       const webhook_id = payload.payment_link.entity.id;
       console.log('2nd statement')
