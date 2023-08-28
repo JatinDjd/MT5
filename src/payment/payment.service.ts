@@ -37,8 +37,9 @@ export class PaymentService {
     const sumResult = await this.depositRepository
       .createQueryBuilder('deposits')
       .select('SUM(deposits.amount)', 'sum')
-      .where('deposits.status = :status', { status: 'completed', userId: userId })
+      .where('deposits.status = :status', { status: 'completed', userId: userId})
       .getRawOne();
+      console.log("summmmm---->>", sumResult)
 
     return sumResult.sum || 0;
   }
@@ -59,6 +60,8 @@ export class PaymentService {
       const res = await razorpay.paymentLink.create({
         amount:multipliedAmount,
         currency: 'INR',
+        callback_method: "get",
+        callback_url: 'https://localhost:3000/api/payment/dashboard',
         description: 'For XYZ purpose',
         customer: {
           name: 'Gaurav Kumar',
@@ -97,6 +100,21 @@ export class PaymentService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async orderHistory(user) {
+    try {
+      const res= this.depositRepository.find({ where: { 'user': user.userId } });
+      if (res) {
+        return res;        
+      }
+      else {
+        return "No Record Found"
+      }
+    } catch (error) {
+      return error;
+    }
+    
   }
 
 

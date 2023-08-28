@@ -36,17 +36,12 @@ export class PaymentController {
   
   @Post('payment-confirmation')
   async paymentConfirmation(@Body() webhookData: any, @Session() session:Record<string, any>) {
-    // console.log('webhokData', webhookData)
-<<<<<<< HEAD
+    console.log('webhokData', webhookData)
     const result=await this.paymentService.paymentConfirmation(webhookData);
     console.log(result);
       
       return result; // Handle other cases if needed
     
-=======
-    const result = await this.paymentService.paymentConfirmation(webhookData);
-    return result;
->>>>>>> e69deece97c7269fcc9e31a0b142720d8909383d
   }
 
 
@@ -57,7 +52,6 @@ export class PaymentController {
     return {token:session.accessToken}
   }
 
-<<<<<<< HEAD
   // @Get('test')
   // async test(@Session() session:Record<string, any>){
   //   console.log(session)
@@ -70,9 +64,6 @@ export class PaymentController {
   async paymentComplete(@Session() session:Record<string, any>) {
 
   }
-=======
-
->>>>>>> e69deece97c7269fcc9e31a0b142720d8909383d
 
 
   @Roles('customer')
