@@ -20,6 +20,7 @@ export class PaymentController {
     return this.paymentService.createDeposit(createDepositDto);
   }
 
+
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('payment-link')
@@ -63,7 +64,7 @@ export class PaymentController {
   @Get('deposit-complete')
   @Render('upi')
   async paymentComplete(@Session() session:Record<string, any>) {
-
+    
   }
 
 
@@ -90,9 +91,11 @@ export class PaymentController {
   @Get('order-history')
   async orderHistory(@Request() req) {
     let userId = { userId: req.user.id };
-        console.log(req.user)
-        return await this.paymentService.orderHistory(userId)
+        console.log(req.user);
+        return await this.paymentService.orderHistory(userId);
+
   }
+
 
 
 }

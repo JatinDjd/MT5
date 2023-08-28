@@ -35,10 +35,10 @@ export class PaymentService {
 
   async totalDeposits(userId: string) {
     const sumResult = await this.depositRepository
-      .createQueryBuilder('deposits')
-      .select('SUM(deposits.amount)', 'sum')
-      .where('deposits.status = :status', { status: 'completed', userId: userId})
-      .getRawOne();
+    .createQueryBuilder('deposits')
+    .select('SUM(deposits.amount)', 'sum')
+    .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
+    .getRawOne();
       console.log("summmmm---->>", sumResult)
 
     return sumResult.sum || 0;
