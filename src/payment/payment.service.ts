@@ -61,7 +61,7 @@ export class PaymentService {
         amount:multipliedAmount,
         currency: 'INR',
         callback_method: "get",
-        callback_url: 'https://localhost:3000/api/payment/dashboard',
+        callback_url: 'https://trade.masterinfotech.com/api/payment/dashboard',
         description: 'For XYZ purpose',
         customer: {
           name: 'Gaurav Kumar',
@@ -70,7 +70,7 @@ export class PaymentService {
         },
         notify: { sms: true, email: true },
         reminder_enable: true,
-        options: { checkout: { method: { netbanking: 1, card: 1, upi: 0, wallet: 0 } } },
+        options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
       });
 
       const data = {
