@@ -115,15 +115,21 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto, @Request() req, @Session() session) {
+  async login(@Body() data: LoginDto, @Request() req, @Session() session:Record<string, any>) {
     const result = await this.authService.login(req.user);
 
     // Store tokens in session (you can also use cookies or local storage)
     session.accessToken = result.accessToken;
     session.refreshToken = result.refreshToken;
+    console.log(session);
     
     return result;
   }
+
+  // @Get('test')
+  // async test(@Session() session:Record<string, any>) {
+  //   return session.accessToken;
+  // }
 
   @Get('confirm')
   async confirmEmail(@Query() query: EmailVerificationDto) {

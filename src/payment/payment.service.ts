@@ -55,8 +55,9 @@ export class PaymentService {
 
     try {
       const { amount } = upiData;
+      const multipliedAmount = amount * 100;
       const res = await razorpay.paymentLink.create({
-        amount,
+        amount:multipliedAmount,
         currency: 'INR',
         description: 'For XYZ purpose',
         customer: {
@@ -66,7 +67,7 @@ export class PaymentService {
         },
         notify: { sms: true, email: true },
         reminder_enable: true,
-        options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
+        options: { checkout: { method: { netbanking: 1, card: 1, upi: 0, wallet: 0 } } },
       });
 
       const data = {
@@ -78,7 +79,7 @@ export class PaymentService {
       };
 
       const savedData = await this.createDeposit(data);
-      return savedData ? res.short_url : "can't save to db";
+      return  res;
     } catch (error) {
       console.log(error);
       throw error;

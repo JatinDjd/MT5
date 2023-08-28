@@ -13,6 +13,7 @@ import { AuthService } from './services/auth/auth.service';
 import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { Manager } from '../manager/entities/manager.entity';
+import { AppModule } from 'src/app.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { Manager } from '../manager/entities/manager.entity';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '3600s' },
     }),
+    // AppModule
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy, MailService],
