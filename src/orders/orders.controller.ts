@@ -17,7 +17,14 @@ export class OrderController {
     async createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
         const userId = req.user.id;
         try {
-            const order = await this.orderService.create(createOrderDto, userId);
+            switch (createOrderDto.OrderType) {
+                case 'Buy':
+                    var order = await this.orderService.createBuy(createOrderDto, userId);
+                    break;
+                default:
+                    var order = await this.orderService.createSell(createOrderDto, userId);
+                    break;
+            }
             if (order) return { message: 'Order created successfully', order };
         } catch (error) {
             return { error: error.message };
@@ -44,6 +51,15 @@ export class OrderController {
         const userId = req.user.id;
         return this.orderService.findAll(userId);
     }
+
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth('access-token')
+    @Get('active-orders')
+    findActiveOrders(@Request() req) {
+        const userId = req.user.id;
+        return this.orderService.findActiveOrders(userId);
+    }
+
 
 
 

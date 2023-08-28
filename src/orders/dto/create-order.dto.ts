@@ -11,6 +11,11 @@ enum OrderCategory {
     SellStopLimit = 'Sell Stop Limit',
 }
 
+enum OrderType {
+    Buy = 'Buy',
+    Sell = 'Sell',
+}
+
 export class CreateOrderDto {
     @IsInt()
     MsgCode: number;
@@ -37,6 +42,9 @@ export class CreateOrderDto {
 
     @IsEnum(OrderCategory)
     OrderCategories: OrderCategory;
+
+    @IsEnum(OrderType)
+    OrderType: OrderType;
 
     @IsString()
     Remarks: string;

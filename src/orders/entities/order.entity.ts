@@ -51,4 +51,13 @@ export class Order {
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   currentClosingPrice: number;
+
+  @Column({ enum: ['Manual','Triggered'], default: 'Manual' })
+  closingType: string;
+
+  @Column({ enum: ['Pending','Cancelled','Closed'], default: 'Pending' })
+  tradeStatus: string;
+
+  @Column({ enum: ['Buy','Sell'], default: 'Buy' })
+  orderType: string;
 }
