@@ -1,4 +1,4 @@
-import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session, Redirect } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -32,11 +32,16 @@ export class PaymentController {
     return paymentOrder;
   }
 
+  
+  
   @Post('payment-confirmation')
-  async paymentConfirmation(@Body() webhookData: any) {
+  async paymentConfirmation(@Body() webhookData: any, @Session() session:Record<string, any>) {
     // console.log('webhokData', webhookData)
     const result=await this.paymentService.paymentConfirmation(webhookData);
-    return result;
+    console.log(result);
+      
+      return result; // Handle other cases if needed
+    
   }
 
 
@@ -54,6 +59,11 @@ export class PaymentController {
   //   return session.accessToken;
   // }
   
+  @Get('deposit-complete')
+  @Render('upi')
+  async paymentComplete(@Session() session:Record<string, any>) {
+
+  }
 
 
   @Roles('customer')

@@ -155,7 +155,12 @@
                                     <label for="amount">Amount:</label>
                                     <input type="text" id="amount" name="amount" required class="amount-add-feild" style="display: block;">
                                     <button type="submit" id="addMoneyButton">Add Money</button>
+                                    
                                 </form>
+
+                                    <div id="loader" class="loader" style="display: none;"></div>
+
+
                             </div>
                         {{!-- </a> --}}
                     </div>
@@ -217,8 +222,11 @@
                         
                     </div>
                     </div>
+                    
                 </div>
+                
             </div>
+            
             <div class="withdrawl text">
                 <div class="title"><h3>Withdrawl</h3></div>
                 <div class="deposit-sec">
@@ -472,10 +480,11 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const amountForm = document.getElementById('amountForm');
+        const loader = document.getElementById('loader');
 
         amountForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent form submission
-            {{!-- debugger; --}}
+            
             const amount = parseInt(document.getElementById('amount').value, 10); // Convert to integer
 
                     {{!-- const token = sessionStorage.getItem('accessToken');  --}}
@@ -486,6 +495,7 @@
             
 
             try {
+                 loader.style.display = 'block';
                 const response = await fetch('http://localhost:3000/api/payment/payment-link', {
                     method: 'POST',
                     headers: {
@@ -497,7 +507,7 @@
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    window.open(responseData.short_url);
+                    window.location.href = responseData.short_url;
                     // Handle the response data (e.g., show the link or perform any required action)
                 } else {
                     console.error('API request failed');
@@ -505,9 +515,16 @@
             } catch (error) {
                 console.error('Error:', error);
             }
+            finally {
+                loader.style.display = 'none';
+            }
         });
     });
+
+    
 </script>
+
+
 
   </body>
   </html>

@@ -123,7 +123,7 @@
         const signupForm = document.getElementById('signupForm');
         const responseMessage = document.getElementById('responseMessage'); // Define the responseMessage element
 
-
+          debugger;
         signupForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent form submission
 
@@ -145,7 +145,7 @@
                 console.log("response------------>>>>>>>", response);
 
                 if (response.ok) {
-                    const responseData = await response.json();
+                    const responseData =response;
                     responseMessage.textContent = "User created successfully!! ";
                     // Handle the response data
                     if (response.status === 201) {

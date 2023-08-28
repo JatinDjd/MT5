@@ -63,7 +63,7 @@ export class PaymentService {
         },
         notify: { sms: true, email: true },
         reminder_enable: true,
-        options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
+        options: { checkout: { method: { netbanking: 1, card: 1, upi: 0, wallet: 0 } } },
       });
 
       const data = {
