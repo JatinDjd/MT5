@@ -93,11 +93,16 @@ export class PaymentService {
   async paymentConfirmation(webhookData) {
     try {
       const { event, payload } = await webhookData.event.body;
+      console.log('1st statement')
       const webhook_id = payload.payment_link.entity.id;
+      console.log('2nd statement')
       const status = event === 'payment_link.paid' ? 'completed' : 'failed';
+      console.log('1st statement')
       const dbUpdate = await this.depositRepository.update({ transactionId: webhook_id }, { payload, status });
+      console.log('3rd statement')
       return `Number of rows affected - ${dbUpdate.affected}`;
     } catch (error) {
+      console.error(error);
       throw error;
     }
   }
