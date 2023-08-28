@@ -43,6 +43,10 @@ export class PaymentService {
     return sumResult.sum || 0;
   }
 
+  async transactions() {
+    return await this.depositRepository.find();
+  }
+
   async createPaymentOrder(upiData, user) {
     const razorpay = new Razorpay({
       key_id: process.env.KEY_ID,

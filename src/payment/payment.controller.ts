@@ -24,10 +24,10 @@ export class PaymentController {
   @ApiBearerAuth('access-token')
   @Post('payment-link')
   // @Render('upi') // Specify the payment template name (without .hbs extension)
-  async initiatePayment(@Body() upiData:upiLinkDTO, @Request() req) {
+  async initiatePayment(@Body() upiData: upiLinkDTO, @Request() req) {
     let userId = { userId: req.user.id };
-    const paymentOrder = await this.paymentService.createPaymentOrder(upiData,userId);
-    
+    const paymentOrder = await this.paymentService.createPaymentOrder(upiData, userId);
+
     // return { paymentOrder };
     return paymentOrder;
   }
@@ -37,11 +37,16 @@ export class PaymentController {
   @Post('payment-confirmation')
   async paymentConfirmation(@Body() webhookData: any, @Session() session:Record<string, any>) {
     // console.log('webhokData', webhookData)
+<<<<<<< HEAD
     const result=await this.paymentService.paymentConfirmation(webhookData);
     console.log(result);
       
       return result; // Handle other cases if needed
     
+=======
+    const result = await this.paymentService.paymentConfirmation(webhookData);
+    return result;
+>>>>>>> e69deece97c7269fcc9e31a0b142720d8909383d
   }
 
 
@@ -52,6 +57,7 @@ export class PaymentController {
     return {token:session.accessToken}
   }
 
+<<<<<<< HEAD
   // @Get('test')
   // async test(@Session() session:Record<string, any>){
   //   console.log(session)
@@ -64,6 +70,9 @@ export class PaymentController {
   async paymentComplete(@Session() session:Record<string, any>) {
 
   }
+=======
+
+>>>>>>> e69deece97c7269fcc9e31a0b142720d8909383d
 
 
   @Roles('customer')
@@ -73,6 +82,16 @@ export class PaymentController {
   totalDeposits(@Request() req) {
     const userId = req.user.id;
     return this.paymentService.totalDeposits(userId);
+  }
+
+
+  @Roles('manager')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('transactions')
+  transactions(@Request() req) {
+    const userId = req.user.id;
+    return this.paymentService.transactions();
   }
 
 }

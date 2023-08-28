@@ -16,8 +16,6 @@ export class OrderController {
     @Post('new-order')
     async createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
         const userId = req.user.id;
-        //check amount based on margin based trade amt 
-        // const isValidToOrder = this.orderService.checkValidations(userId, createOrderDto);
         try {
             const order = await this.orderService.create(createOrderDto, userId);
             if (order) return { message: 'Order created successfully', order };
@@ -33,7 +31,7 @@ export class OrderController {
         const userId = req.user.id;
         try {
             const order = await this.orderService.wrapPosition(wrapPositionDto, userId);
-            if (order) return { message: 'Order created successfully', order };
+            if (order) return { message: 'Order closed successfully', order };
         } catch (error) {
             return { error: error.message };
         }
