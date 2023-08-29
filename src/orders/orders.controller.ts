@@ -47,7 +47,7 @@ export class OrderController {
         }
     }
 
-    @Roles('customer')
+    @Roles('manager')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('orders')
@@ -56,13 +56,22 @@ export class OrderController {
         return this.orderService.findAll(userId);
     }
 
-    @Roles('customer')
+    @Roles('manager')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('active-orders')
     findActiveOrders(@Request() req) {
         const userId = req.user.id;
         return this.orderService.findActiveOrders(userId);
+    }
+
+    @Roles('manager')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
+    @Get('manager')
+    findManagerOrders(@Request() req) {
+        const userId = req.user.id;
+        return this.orderService.findAll(userId);
     }
 
 
