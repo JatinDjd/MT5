@@ -482,11 +482,11 @@
 
         amountForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent form submission
-            
+            debugger;
             const amount = parseInt(document.getElementById('amount').value, 10); // Convert to integer
 
                     {{!-- const token = sessionStorage.getItem('accessToken');  --}}
-                    const token = '{{token}}'
+                    const token = '{{data.token}}'
                     console.log("accessToken------>>", token)
 
 
@@ -505,7 +505,7 @@
 
                 if (response.ok) {
                     const responseData = await response.json();
-                    window.location.href = responseData.short_url;
+                    window.location.href = responseData.data.short_url;
                     // Handle the response data (e.g., show the link or perform any required action)
                 } else {
                     console.error('API request failed');
@@ -526,7 +526,7 @@
     document.addEventListener("DOMContentLoaded", async () => {
         try {
             {{!-- debugger; --}}
-            const token = '{{token}}'
+            const token = '{{data.token}}'
                     console.log("accessToken------>>", token)
             const response = await fetch('http://localhost:3000/api/payment/total-deposits',{
                                     method: 'GET',
@@ -536,9 +536,12 @@
                     }
             });
             if (response.ok) {
-                const responseData = await response.json()/100;
+                console.log("res",response);
+                const responseData = await response.json();
+                const ress=responseData.data/100;
+                console.log("res2",ress);
                 const dynamicAmountElement = document.getElementById('dynamicAmount');
-                dynamicAmountElement.textContent = `${responseData} INR`;
+                dynamicAmountElement.textContent = `${ress} INR`;
             } else {
                 console.error('API request failed');
             }

@@ -70,13 +70,17 @@ export class AuthController {
       //   Redirect('/api/auth/signup-success');
       // }
 
-
-      return ({
+      console.log(user);
+      const res = {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-      });
+      };
+
+      return {
+        status:"ok"
+      }
 
     } catch (error) {
       switch (error.response.statusCode) {
