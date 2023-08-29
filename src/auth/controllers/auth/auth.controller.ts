@@ -34,14 +34,20 @@ export class AuthController {
         case 422:
           throw new HttpException(
             {
-              error: 'Email already taken',
+              statusCode: '422',
+              message: 'Email already taken',
+              data: []
             },
             HttpStatus.BAD_REQUEST,
           );
 
         default:
           throw new HttpException(
-            { error: 'Internal Server Error' },
+            {
+              statusCode: '500',
+              message: 'Internal server error',
+              data: []
+            },
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
       }
@@ -77,14 +83,20 @@ export class AuthController {
         case '422':
           throw new HttpException(
             {
-              error: 'Email already taken',
+              statusCode: '422',
+              message: 'Email already taken',
+              data: []
             },
             HttpStatus.BAD_REQUEST,
           );
 
         default:
           throw new HttpException(
-            { error: 'Internal Server Error' },
+            {
+              statusCode: '500',
+              message: 'Internal server error',
+              data: []
+            },
             HttpStatus.INTERNAL_SERVER_ERROR,
           );
       }
