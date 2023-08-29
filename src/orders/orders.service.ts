@@ -40,7 +40,9 @@ export class OrdersService {
           SL: data.SL,
           oBuySell: data.oBuy_Sell,
           TakeProfit: data.TP,
-          UserId: userId
+          UserId: userId,
+          openingPrice: data.OpeningPrice,
+          closingPrice: data.ClosingPrice
         });
         return order;
       }
@@ -58,7 +60,8 @@ export class OrdersService {
 
       if (!isValidOrderValue) throw new Error("You don't have sufficient balance.");
       if (!isValidSL) throw new Error("Stop-loss must be greater than entry price");
-      if (isValidOrderValue && isValidSL) {
+      if (!isValidTP) throw new Error("Take-profit must be less than entry price");
+      if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
           MsgCode: data.MsgCode,
           Symbol: data.Symbol,
@@ -68,7 +71,9 @@ export class OrdersService {
           SL: data.SL,
           oBuySell: data.oBuy_Sell,
           TakeProfit: data.TP,
-          UserId: userId
+          UserId: userId,
+          openingPrice: data.OpeningPrice,
+          closingPrice: data.ClosingPrice
         });
         return order;
       }
@@ -84,7 +89,7 @@ export class OrdersService {
       const order = await this.orderRepository.update(
         { id: data.orderId, UserId: userId },
         {
-          currentClosingPrice: data.currentClosingPrice,
+          closingPrice: data.currentClosingPrice,
           closingType: 'Manual'
         });
       return order;
@@ -98,7 +103,7 @@ export class OrdersService {
       const order = await this.orderRepository.update(
         { id: data.orderId, UserId: userId },
         {
-          currentClosingPrice: data.currentClosingPrice,
+          closingPrice: data.currentClosingPrice,
           closingType: 'Triggered'
         });
       return order;
@@ -113,7 +118,7 @@ export class OrdersService {
   }
 
   async findActiveOrders(userid: string) {
-    const orders = await this.orderRepository.find({ where: { UserId: userid, currentClosingPrice: IsNull() } });
+    const orders = await this.orderRepository.find({ where: { UserId: userid, closingPrice: IsNull() } });
     return orders;
   }
 
@@ -136,7 +141,7 @@ export class OrdersService {
 
   async validateStopLossSell(data: any) {
     // Check if stop-loss is less than or equal to the current price and valid
-    if (Number(data.SL) !== undefined && Number(data.SL) <= Number(data.currentInitialPrice)) {
+    if (Number(data.SL) !== undefined && Number(data.SL) > Number(data.currentInitialPrice)) {
       return false
     }
     return true;
@@ -144,7 +149,7 @@ export class OrdersService {
 
   async validateTakeProfitSell(data: any) {
     // Check if take-profit is greater than or equal to the current price and valid
-    if (Number(data.SL) !== undefined && Number(data.TP) >= Number(data.currentInitialPrice)) {
+    if (Number(data.SL) !== undefined && Number(data.TP) < Number(data.currentInitialPrice)) {
       return false
     }
     return true;

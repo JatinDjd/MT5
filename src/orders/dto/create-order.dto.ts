@@ -1,4 +1,5 @@
-import { IsInt, IsDecimal, IsString, IsEnum } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsDecimal, IsString, IsEnum, IsOptional, ValidateIf } from 'class-validator';
 
 
 enum OrderCategory {
@@ -35,10 +36,18 @@ export class CreateOrderDto {
     @IsDecimal()
     SL: number;
 
-
     @IsDecimal()
     TP: number;
 
+    @ApiProperty()
+    @ValidateIf((o) => !o.ClosingPrice) // Validate amount only if currency is not provided
+    @IsDecimal()
+    OpeningPrice?: number;
+
+    @ApiProperty()
+    @ValidateIf((o) => !o.OpeningPrice) // Validate amount only if currency is not provided
+    @IsDecimal()
+    ClosingPrice?: string;
 
     @IsEnum(OrderCategory)
     OrderCategories: OrderCategory;
