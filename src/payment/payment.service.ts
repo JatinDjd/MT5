@@ -35,10 +35,11 @@ export class PaymentService {
 
   async totalDeposits(userId: string) {
     const sumResult = await this.depositRepository
-      .createQueryBuilder('deposits')
-      .select('SUM(deposits.amount)', 'sum')
-      .where('deposits.status = :status', { status: 'completed', userId: userId })
-      .getRawOne();
+    .createQueryBuilder('deposits')
+    .select('SUM(deposits.amount)', 'sum')
+    .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
+    .getRawOne();
+      console.log("summmmm---->>", sumResult)
 
     return sumResult.sum || 0;
   }
@@ -59,6 +60,8 @@ export class PaymentService {
       const res = await razorpay.paymentLink.create({
         amount:multipliedAmount,
         currency: 'INR',
+        callback_method: "get",
+        callback_url: 'https://trade.masterinfotech.com/api/payment/dashboard',
         description: 'For XYZ purpose',
         customer: {
           name: 'Gaurav Kumar',
@@ -67,7 +70,7 @@ export class PaymentService {
         },
         notify: { sms: true, email: true },
         reminder_enable: true,
-        options: { checkout: { method: { netbanking: 1, card: 1, upi: 0, wallet: 0 } } },
+        options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
       });
 
       const data = {
@@ -89,14 +92,40 @@ export class PaymentService {
 
   async paymentConfirmation(webhookData) {
     try {
-      const { event, payload } = await webhookData.event.body;
+      console.log("Start");
+      const data=await webhookData;
+      console.log("Before destructuring");
+      const payload = data.payload;
+      const event = data.event;
+      console.log("After destructuring");
+      // const { event, payload } = await data;
+      console.log('1st statement')
       const webhook_id = payload.payment_link.entity.id;
+      console.log('2nd statement')
       const status = event === 'payment_link.paid' ? 'completed' : 'failed';
+      console.log('1st statement')
       const dbUpdate = await this.depositRepository.update({ transactionId: webhook_id }, { payload, status });
+      console.log('3rd statement')
       return `Number of rows affected - ${dbUpdate.affected}`;
     } catch (error) {
+      console.error(error);
       throw error;
     }
+  }
+
+  async orderHistory(user) {
+    try {
+      const res= this.depositRepository.find({ where: { 'user': user.userId } });
+      if (res) {
+        return res;        
+      }
+      else {
+        return "No Record Found"
+      }
+    } catch (error) {
+      return error;
+    }
+    
   }
 
 

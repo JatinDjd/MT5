@@ -20,6 +20,7 @@ export class PaymentController {
     return this.paymentService.createDeposit(createDepositDto);
   }
 
+
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('payment-link')
@@ -36,9 +37,13 @@ export class PaymentController {
   
   @Post('payment-confirmation')
   async paymentConfirmation(@Body() webhookData: any, @Session() session:Record<string, any>) {
-    // console.log('webhokData', webhookData)
-    const result = await this.paymentService.paymentConfirmation(webhookData);
-    return result;
+    console.log('webhokData', webhookData)
+    const result=await this.paymentService.paymentConfirmation(webhookData);
+    console.log(result);
+      
+      return result; // Handle other cases if needed
+    
+
   }
 
 
@@ -49,6 +54,18 @@ export class PaymentController {
     return {token:session.accessToken}
   }
 
+  // @Get('test')
+  // async test(@Session() session:Record<string, any>){
+  //   console.log(session)
+  //   console.log(session.accessToken)
+  //   return session.accessToken;
+  // }
+  
+  @Get('deposit-complete')
+  @Render('upi')
+  async paymentComplete(@Session() session:Record<string, any>) {
+    
+  }
 
 
   @Roles('customer')
@@ -69,5 +86,16 @@ export class PaymentController {
     const userId = req.user.id;
     return this.paymentService.transactions();
   }
+
+
+  @Get('order-history')
+  async orderHistory(@Request() req) {
+    let userId = { userId: req.user.id };
+        console.log(req.user);
+        return await this.paymentService.orderHistory(userId);
+
+  }
+
+
 
 }

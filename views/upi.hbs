@@ -28,7 +28,7 @@
         <li><a href="#">Trading</a></li>
         <li><a href="#">Platforms</a></li>
         <li><a href="#">Tools</a></li>
-        <li><a href="#" class="black-btn white-br-btn">Sign In</a></li>
+        <li><a href="#" class="black-btn white-br-btn">Log Out</a></li>
       </ul>
     </nav>
   </header>
@@ -80,15 +80,13 @@
                     </div>
                     <div class="type-box">
                         <div class="real-data">
-                         
-                                <ul>
-                                    <li>Real</li>
-                                    <li>MT5</li>
-                                    <li>Standard</li>
-                                    <li>124263763</li>
-                                </ul>
-                                <h3>0.00 USD</h3>
-                            
+                            <ul>
+                                <li>Real</li>
+                                <li>MT5</li>
+                                <li>Standard</li>
+                                <li>124263763</li>
+                            </ul>
+                            <h3 id="dynamicAmount">0.00 USD</h3>
                         </div>
                         <div class="real-btns">
                             <ul>
@@ -521,7 +519,33 @@
         });
     });
 
-    
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            {{!-- debugger; --}}
+            const token = '{{token}}'
+                    console.log("accessToken------>>", token)
+            const response = await fetch('http://localhost:3000/api/payment/total-deposits',{
+                                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization':`Bearer ${token}`
+                    }
+            });
+            if (response.ok) {
+                const responseData = await response.json()/100;
+                const dynamicAmountElement = document.getElementById('dynamicAmount');
+                dynamicAmountElement.textContent = `${responseData} INR`;
+            } else {
+                console.error('API request failed');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
 </script>
 
 
