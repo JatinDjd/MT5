@@ -68,9 +68,8 @@ export class UsersController {
         return this.userService.remove(id);
     }
 
-    @Roles('admin')
-    @UseGuards(AuthGuard('jwt'), RoleGuard)
-    @ApiBearerAuth('access-token')
+
+    // need to add admin role based access 
     @Post('assign-role')
     async assignRole(@Body() assignRoleDto: AssignRoleDto) {
         const createdUser = this.userService.assignRole(assignRoleDto);
