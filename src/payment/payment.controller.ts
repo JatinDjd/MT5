@@ -64,7 +64,7 @@ export class PaymentController {
   @Get('deposit-complete')
   @Render('upi')
   async paymentComplete(@Session() session:Record<string, any>) {
-    
+
   }
 
 
