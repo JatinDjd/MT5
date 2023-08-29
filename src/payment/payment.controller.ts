@@ -6,7 +6,6 @@ import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { upiLinkDTO } from './dto/upiLink.dto';
-import * as session from 'express-session';
 
 
 @ApiTags('Payment')

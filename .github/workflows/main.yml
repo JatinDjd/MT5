@@ -13,6 +13,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up SSH key
+      uses: webfactory/ssh-agent@v0.5.2
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
     - name: SSH into server and run git pull
       uses: appleboy/ssh-action@master
       with:
@@ -22,8 +27,8 @@ jobs:
         # port: ${{ secrets.SERVER_PORT }}  # Uncomment if needed
         script: |
           cd /var/www/MT5
-          sudo rm -r dist
           sudo git pull origin main
-          npm install
+          sudo rm -r dist
+          npm install --force
           npm run build
           pm2 restart trading-app
