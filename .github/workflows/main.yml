@@ -13,6 +13,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up SSH key
+      uses: shimataro/secure-env-action@v2
+      with:
+        keys: ${{ secrets.DEPLOY_KEY }}
+
     - name: SSH into server and run git pull
       uses: appleboy/ssh-action@master
       with:

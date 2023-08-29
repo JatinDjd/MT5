@@ -87,6 +87,15 @@ export class PaymentController {
     return this.paymentService.transactions();
   }
 
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('transactions-customer')
+  transactionsCustomers(@Request() req) {
+    const userId = req.user.id;
+    console.log(userId);
+    return this.paymentService.transactionsCustomer(userId);
+  }
 
   @Get('order-history')
   async orderHistory(@Request() req) {

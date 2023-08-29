@@ -48,6 +48,10 @@ export class PaymentService {
     return await this.depositRepository.find();
   }
 
+  async transactionsCustomer(user) {
+    return await this.depositRepository.find({where:{'user':user.userId}});
+  }
+
   async createPaymentOrder(upiData, user) {
     const razorpay = new Razorpay({
       key_id: process.env.KEY_ID,
