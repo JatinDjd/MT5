@@ -27,7 +27,7 @@ jobs:
         # port: ${{ secrets.SERVER_PORT }}  # Uncomment if needed
         script: |
           cd /var/www/MT5
-          sudo git pull origin main
+          sudo git pull https://JatinDJD:${{ secrets.GIT_PAT }}@github.com/JatinDjd/MT5.git main
           sudo rm -r dist
           npm install --force
           npm run build
