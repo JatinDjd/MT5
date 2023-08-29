@@ -9,6 +9,7 @@ import 'reflect-metadata';
 import * as dotenv from 'dotenv'
 import { join } from 'path';
 import session from 'express-session';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -29,10 +30,12 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }));
+  // Apply the response interceptor globally
+  app.useGlobalInterceptors(new ResponseInterceptor());
   // Configure session middleware
   app.use(
     session({
-      name:'NESTJS_SESSION',
+      name: 'NESTJS_SESSION',
       secret: process.env.SESSION_KEY,
       resave: false,
       saveUninitialized: false,
@@ -50,8 +53,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-    app.enableCors({
-    allowedHeaders: ['Authorization','content-type'],
+  app.enableCors({
+    allowedHeaders: ['Authorization', 'content-type'],
     origin: 'http://localhost:3000',
     credentials: true,
   });

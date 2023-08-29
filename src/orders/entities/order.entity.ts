@@ -46,11 +46,10 @@ export class Order {
   oBuySell: number;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
-  currentInitialPrice: number;
-
+  openingPrice: number;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
-  currentClosingPrice: number;
+  closingPrice: number;
 
   @Column({ enum: ['Manual','Triggered'], default: 'Manual' })
   closingType: string;
