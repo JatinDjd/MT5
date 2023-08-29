@@ -1,7 +1,7 @@
 // src/common/dtos/response.dto.ts
 
 export class ResponseDto<T> {
-    status: number; 
+    statusCode: number; 
     message: string;
     data: T;
   }

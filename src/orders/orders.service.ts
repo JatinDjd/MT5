@@ -16,8 +16,8 @@ export class OrdersService {
     private readonly groupRepository: Repository<Group>,
     @InjectRepository(GroupUser)
     private readonly groupUserRepository: Repository<GroupUser>,
-    private readonly paymentService: PaymentService
-
+    private readonly paymentService: PaymentService,
+    // private readonly httpService: HttpService
   ) { }
 
 
@@ -91,20 +91,6 @@ export class OrdersService {
         {
           closingPrice: data.currentClosingPrice,
           closingType: 'Manual'
-        });
-      return order;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
-  async autoWrapPosition(data: any, userId: any) {
-    try {
-      const order = await this.orderRepository.update(
-        { id: data.orderId, UserId: userId },
-        {
-          closingPrice: data.currentClosingPrice,
-          closingType: 'Triggered'
         });
       return order;
     } catch (error) {

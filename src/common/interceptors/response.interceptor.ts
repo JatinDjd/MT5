@@ -10,8 +10,9 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ResponseDto<T>
   intercept(context: ExecutionContext, next: CallHandler): Observable<ResponseDto<T>> {
     return next.handle().pipe(
       map(data => ({
-        status: context.switchToHttp().getResponse().statusCode, // Set the status based on response code
+        statusCode: context.switchToHttp().getResponse().statusCode, // Set the status based on response code
         message: 'Request successful', // You can customize this message
+        // message: context.switchToHttp().getResponse().statusText,
         data
       })),
     );
