@@ -47,6 +47,7 @@ export class PaymentController {
 
   @Roles('customer')
   @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
   @Get('dashboard')
   @Render('upi')
   async renderDashboard(@Session() session: Record<string, any>) {
