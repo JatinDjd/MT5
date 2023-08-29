@@ -34,7 +34,7 @@ export class AuthController {
         case 422:
           throw new HttpException(
             {
-              statusCode: '422',
+              statusCode: 422,
               message: 'Email already taken',
               data: []
             },
@@ -44,7 +44,7 @@ export class AuthController {
         default:
           throw new HttpException(
             {
-              statusCode: '500',
+              statusCode: 500,
               message: 'Internal server error',
               data: []
             },
