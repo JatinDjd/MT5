@@ -14,9 +14,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up SSH key
-      uses: shimataro/secure-env-action@v2
+      uses: webfactory/ssh-agent@v0.5.2
       with:
-        keys: ${{ secrets.DEPLOY_KEY }}
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: SSH into server and run git pull
       uses: appleboy/ssh-action@master
