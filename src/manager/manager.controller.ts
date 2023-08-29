@@ -15,7 +15,7 @@ export class ManagerController {
   constructor(private readonly managerService: ManagerService) { }
 
 
-  @Roles('customer')
+  @Roles('manager')
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post('create-group')
@@ -24,7 +24,7 @@ export class ManagerController {
     return await this.managerService.createGroup(createManagerDto, userId);
   }
 
-  @Roles('customer')
+  @Roles('manager')
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get('groups')
@@ -33,7 +33,7 @@ export class ManagerController {
   }
 
 
-  @Roles('customer')
+  @Roles('manager')
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get('groups/:groupId')
@@ -42,7 +42,8 @@ export class ManagerController {
   }
 
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles('manager')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Patch('groups/:groupId')
   updateGroup(@Param() param: GroupIdDto, @Body() data: UpdateGroupDto, @Request() req) {
@@ -54,7 +55,8 @@ export class ManagerController {
     });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @Roles('manager')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Delete('groups/:id')
   removeGroup(@Param('id') id: string) {

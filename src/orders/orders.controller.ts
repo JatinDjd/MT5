@@ -4,14 +4,17 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { WrapPositionDto } from './dto/wrap-position.dto';
+import { Roles } from '../auth/roles/roles.decorator';
+import { RoleGuard } from '../auth/role/role.guard';
 
 @ApiTags('Order')
 @Controller('order')
 export class OrderController {
     constructor(private readonly orderService: OrdersService) { }
 
-    
-    @UseGuards(AuthGuard('jwt'))
+
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Post('new-order')
     async createGroup(@Body() createOrderDto: CreateOrderDto, @Request() req) {
@@ -31,8 +34,8 @@ export class OrderController {
         }
     }
 
-    @UseGuards(AuthGuard('jwt'))
-    @ApiBearerAuth('access-token')
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard) @ApiBearerAuth('access-token')
     @Post('wrap-position')
     async wrapPosition(@Body() wrapPositionDto: WrapPositionDto, @Request() req) {
         const userId = req.user.id;
@@ -44,7 +47,8 @@ export class OrderController {
         }
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('orders')
     findAllOrders(@Request() req) {
@@ -52,7 +56,8 @@ export class OrderController {
         return this.orderService.findAll(userId);
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('active-orders')
     findActiveOrders(@Request() req) {

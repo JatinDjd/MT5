@@ -89,7 +89,7 @@ export class AuthService {
 
     async getProfile(userId) {
         const profile = await this.userRepository.findOne({
-            where: { id: userId }, select: ['id', 'firstName', 'lastName', 'isActive']
+            where: { id: userId }, select: ['id', 'firstName', 'lastName', 'isActive', 'role']
         });
         return profile;
     }

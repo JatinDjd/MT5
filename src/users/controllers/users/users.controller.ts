@@ -7,28 +7,33 @@ import { UserEditDto } from '../../dto/userEdit.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AssignRoleDto } from '../../../users/dto/assign-role.dto';
+import { Roles } from '../../../auth/roles/roles.decorator';
+import { RoleGuard } from '../../../auth/role/role.guard';
 
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
     constructor(private readonly userService: UsersService) { }
 
-
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get()
     async findAll(): Promise<User[]> {
         return this.userService.findAll();
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get(':id')
     async findOne(@Param('id') id: string): Promise<User> {
         return this.userService.findOne(id);
     }
 
-    @UseGuards(AuthGuard('jwt'))
+
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Post()
     async create(@Body() userDto: UserDto) {
@@ -41,7 +46,8 @@ export class UsersController {
         return createdUser;
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Put(':id')
     async update(@Param('id') id: string, @Body() userDto: UserEditDto): Promise<User> {
@@ -54,14 +60,16 @@ export class UsersController {
     }
 
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Delete(':id')
     async remove(@Param('id') id: string): Promise<void> {
         return this.userService.remove(id);
     }
 
-    @UseGuards(AuthGuard('jwt'))
+    @Roles('admin')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Post('assign-role')
     async assignRole(@Body() assignRoleDto: AssignRoleDto) {
