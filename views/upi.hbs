@@ -525,7 +525,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
         try {
-            {{!-- debugger; --}}
+            debugger;
             const token = '{{token}}'
                     console.log("accessToken------>>", token)
             const response = await fetch('http://localhost:3000/api/payment/total-deposits',{
@@ -536,7 +536,9 @@
                     }
             });
             if (response.ok) {
+                console.log("res",response);
                 const responseData = await response.json()/100;
+                console.log("res1",responseData);
                 const dynamicAmountElement = document.getElementById('dynamicAmount');
                 dynamicAmountElement.textContent = `${responseData} INR`;
             } else {
