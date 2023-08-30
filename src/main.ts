@@ -10,6 +10,7 @@ import * as dotenv from 'dotenv'
 import { join } from 'path';
 import session from 'express-session';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { ValidationExceptionFilter } from './common/dtos/validation-exception.filter';
 import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -33,6 +34,10 @@ async function bootstrap() {
   }));
   // Apply the response interceptor globally
   app.useGlobalInterceptors(new ResponseInterceptor());
+
+   // Register the global exception filter
+   app.useGlobalFilters(new ValidationExceptionFilter()); // Use the custom filter
+  
   // Configure session middleware
   app.use(
     session({

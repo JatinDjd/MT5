@@ -11,7 +11,7 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, ResponseDto<T>
     return next.handle().pipe(
       map(data => ({
         statusCode: context.switchToHttp().getResponse().statusCode, // Set the status based on response code
-        message: 'Request successful', // You can customize this message
+        message: ['Request successful'], // You can customize this message
         // message: context.switchToHttp().getResponse().statusText,
         data
       })),

@@ -28,8 +28,9 @@ export class ManagerController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get('groups')
-  findAllGroups() {
-    return this.managerService.findAllGroups();
+  findAllGroups(@Req() req) {
+    const userId = req.user.id;
+    return this.managerService.findAllGroups(userId);
   }
 
 
