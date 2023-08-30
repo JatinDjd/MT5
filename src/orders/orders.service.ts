@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { IsNull, Not, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { PaymentService } from '../payment/payment.service';
@@ -101,6 +101,18 @@ export class OrdersService {
   async findAll(userid: string) {
     const orders = await this.orderRepository.find({ where: { UserId: userid } });
     return orders;
+  }
+
+
+  async findManagerOrders(userid) {
+    // const managerGroups = await this.groupRepository.find({
+    //   where: { userId: userid }, // Use 'userId' instead of 'user'
+    //   select: ['id']
+    // });
+    // const users = await this.groupUserRepository.find({ where: { groupId: In(managerGroups) }, select: ['userId'] });
+    // const orders = await this.orderRepository.find({ where: { UserId: In(users) } });
+    // return orders;
+    return [];
   }
 
   async findActiveOrders(userid: string) {
