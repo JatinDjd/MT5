@@ -613,6 +613,7 @@
             if (response.ok) {
                 console.log("res",response);
                 const responseData = await response.json();
+                console.log("responseData", responseData);
                 const ress=responseData.data/100;
                 console.log("res2",ress);
                 const dynamicAmountElement = document.getElementById('dynamicAmount');

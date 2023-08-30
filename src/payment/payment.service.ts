@@ -41,7 +41,7 @@ export class PaymentService {
     .getRawOne();
       console.log("summmmm---->>", sumResult)
 
-    return sumResult?.sum ;
+    return sumResult?.sum ??0;
   }
 
   async transactions() {
