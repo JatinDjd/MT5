@@ -143,7 +143,7 @@ export class AuthController {
           throw new HttpException(
             {
               statusCode: 404,
-              message: 'No user found with this email!',
+              message: ['No user found with this email!'],
               data: []
             },
             HttpStatus.BAD_REQUEST,
@@ -152,7 +152,7 @@ export class AuthController {
           throw new HttpException(
             {
               statusCode: 401,
-              message: 'Please check your login credentials',
+              message: ['Please check your login credentials'],
               data: []
             },
             HttpStatus.BAD_REQUEST,

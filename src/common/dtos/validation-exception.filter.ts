@@ -13,13 +13,13 @@ export class ValidationExceptionFilter extends BaseExceptionFilter {
         if (exception instanceof BadRequestException) {
             response.status(status).json({
                 statusCode: status,
-                message: Array.isArray(errors.message) ? errors.message : [errors.message],
+                message: Array.isArray(errors.message) ? errors.message : [errors.message ?? errors.error],
                 data: [],
             });
         } else {
             response.status(status).json({
                 statusCode: status,
-                message: Array.isArray(errors.message) ? errors.message : [errors.message],
+                message: Array.isArray(errors.message) ? errors.message : [errors.message ?? errors.error],
             });
         }
     }
