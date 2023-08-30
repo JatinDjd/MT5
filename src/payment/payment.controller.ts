@@ -1,4 +1,4 @@
-import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session, Redirect } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session, Redirect, Res } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -45,11 +45,14 @@ export class PaymentController {
 
   }
 
-  @Roles('customer')
-  @UseGuards(AuthGuard('jwt'), RoleGuard)
-  @Get('dashboard')
   @Render('upi')
+  // @Roles('customer')
+  // @UseGuards(AuthGuard('jwt'))
+  // @ApiBearerAuth('access-token')
+  @Get('dashboard')
   async renderDashboard(@Session() session: Record<string, any>) {
+
+    // const accessToken = request.cookies.access_token;
     console.log("sessionnnn", session.accessToken)
     return { token: session.accessToken }
   }

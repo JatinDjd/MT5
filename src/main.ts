@@ -10,7 +10,11 @@ import * as dotenv from 'dotenv'
 import { join } from 'path';
 import session from 'express-session';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+<<<<<<< HEAD
 import { ValidationExceptionFilter } from './common/dtos/validation-exception.filter';
+=======
+import cookieParser from 'cookie-parser';
+>>>>>>> cb78b834bd97b2c8b47e25a9f2d5090486feadb9
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -46,6 +50,7 @@ async function bootstrap() {
       saveUninitialized: false,
     }),
   );
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('Trading APP API')
