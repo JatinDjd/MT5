@@ -35,7 +35,7 @@ export class AuthController {
           throw new HttpException(
             {
               statusCode: 422,
-              message: 'Email already taken',
+              message: ['Email already taken'],
               data: []
             },
             HttpStatus.BAD_REQUEST,
@@ -45,7 +45,7 @@ export class AuthController {
           throw new HttpException(
             {
               statusCode: 500,
-              message: 'Internal server error',
+              message: ['Internal server error'],
               data: []
             },
             HttpStatus.INTERNAL_SERVER_ERROR,
@@ -79,7 +79,7 @@ export class AuthController {
       };
 
       return {
-        status:"ok"
+        status: "ok"
       }
 
     } catch (error) {
@@ -98,7 +98,7 @@ export class AuthController {
           throw new HttpException(
             {
               statusCode: 500,
-              message: 'Internal server error',
+              message: ['Internal server error'],
               data: []
             },
             HttpStatus.INTERNAL_SERVER_ERROR,
@@ -131,21 +131,45 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto, @Request() req, @Session() session: Record<string, any>) {
-    const result = await this.authService.login(req.user);
+  async login(@Request() req) {
+    try {
+      const result = await this.authService.login(req.user);
+      return result;
+    } catch (error) {
+      switch (error.status) {
+        case 404:
+          throw new HttpException(
+            {
+              statusCode: 404,
+              message: 'No user found with this email!',
+              data: []
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+        case 401:
+          throw new HttpException(
+            {
+              statusCode: 401,
+              message: 'Please check your login credentials',
+              data: []
+            },
+            HttpStatus.BAD_REQUEST,
+          );
 
-    // Store tokens in session (you can also use cookies or local storage)
-    session.accessToken = result.accessToken;
-    session.refreshToken = result.refreshToken;
-    console.log(session);
+        default:
+          throw new HttpException(
+            {
+              statusCode: 500,
+              message: ['Internal server error'],
+              data: []
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+      }
+    }
 
-    return result;
   }
 
-  // @Get('test')
-  // async test(@Session() session:Record<string, any>) {
-  //   return session.accessToken;
-  // }
 
   @Get('confirm')
   async confirmEmail(@Query() query: EmailVerificationDto) {

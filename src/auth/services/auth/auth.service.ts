@@ -5,6 +5,7 @@ import { User } from '../../../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RefreshToken } from '../../../auth/entities/refresh-token.entity';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 
 import {
@@ -108,7 +109,14 @@ export class AuthService {
                 });
             }
         }
-        throw new NotFoundException('No user found with this email!');
+        throw new HttpException(
+            {
+                statusCode: 404,
+                message: 'No user found with this email!',
+                data: []
+            },
+            HttpStatus.BAD_REQUEST,
+        );
     }
 
     async forgotPassword(data) {
@@ -145,6 +153,10 @@ export class AuthService {
                 userId: user.id,
                 accessToken: this.jwtService.sign(payload),
                 refreshToken: await this.generateRefreshToken(payload),
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role
             };
         }
         catch (error) {

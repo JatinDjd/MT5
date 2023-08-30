@@ -2,7 +2,7 @@
 
 export class ResponseDto<T> {
     statusCode: number; 
-    message: string;
+    message: [string];
     data: T;
   }
   

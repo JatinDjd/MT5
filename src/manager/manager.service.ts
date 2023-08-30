@@ -47,8 +47,9 @@ export class ManagerService {
     }
   }
 
-  async findAllGroups() {
-    return await this.groupRepository.find({
+  async findAllGroups(userId) {
+    console.log('uuuuuuuuuussssssseeee', userId)
+    return await this.groupRepository.find({ 
       select: {
         id: true,
         title: true,
