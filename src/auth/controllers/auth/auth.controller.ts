@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Res, UseGuards, Redirect, HttpCode, Session } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
+// import * as cookieParser from 'cookie-parser';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -128,6 +129,7 @@ export class AuthController {
   }
 
 
+  
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
@@ -138,14 +140,22 @@ export class AuthController {
     session.accessToken = result.accessToken;
     session.refreshToken = result.refreshToken;
     console.log(session);
-
+    // console.log(result);
+    // Store tokens in local storage and cookies
+    // res.cookie('access_token', result.accessToken, { httpOnly: true });
+    
     return result;
   }
 
-  // @Get('test')
-  // async test(@Session() session:Record<string, any>) {
-  //   return session.accessToken;
-  // }
+
+  @Get('logout')
+  logout(@Session() session: Record<string, any>) {
+    // Clear session data
+    session.accessToken = null;
+    session.refreshToken = null;
+
+    return { message: 'Logged out successfully' };
+  }
 
   @Get('confirm')
   async confirmEmail(@Query() query: EmailVerificationDto) {
@@ -168,3 +178,5 @@ export class AuthController {
     return await this.authService.getProfile(req.user.id);
   }
 }
+
+

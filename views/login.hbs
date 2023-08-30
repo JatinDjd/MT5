@@ -110,6 +110,7 @@
                 event.preventDefault(); // Prevent form submission
 
                 const formData = new FormData(loginForm);
+                const token = '{{data.token}}'
 
                 try {
                     const response = await fetch('/api/auth/login', {
