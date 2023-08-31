@@ -133,10 +133,15 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Request() req) {
+  async login(@Request() req, @Session() session:Record<string, any>) {
     try {
       const result = await this.authService.login(req.user);
-      return result;
+      // Store tokens in session (you can also use cookies or local storage)
+    session.accessToken = result.accessToken;
+    session.refreshToken = result.refreshToken;
+    console.log(session);
+    
+    return result;
     } catch (error) {
       switch (error.status) {
         case 404:
@@ -193,6 +198,21 @@ export class AuthController {
   async getClientProfile(@Request() req) {
     return await this.authService.getProfile(req.user.id);
   }
+
+  @Get('logout')
+  logout(@Session() session: Record<string, any>) {
+    // Clear session data
+    session.accessToken = null;
+    session.refreshToken = null;
+
+    return { message: 'Logged out successfully' };
+  }
+
+  @Post('complete-profile')
+  completeProfile(){
+    
+  }
+
 }
 
 
