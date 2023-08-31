@@ -25,7 +25,7 @@ export class PaymentService {
         user: data.user,
         provider: data.provider,
         transactionId: data.transactionId,
-        status: data.status
+        status: data.orderStatus
       },
       { transaction: true },
     );
