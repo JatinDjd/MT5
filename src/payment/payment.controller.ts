@@ -13,10 +13,11 @@ import { upiLinkDTO } from './dto/upiLink.dto';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) { }
 
-
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('access-token')
   @Post('create-deposit')
-  createDeposit(@Body() createDepositDto: CreateDepositDto) {
-    return this.paymentService.createDeposit(createDepositDto);
+  createDeposit(@Body() createDepositDto: CreateDepositDto, @Request() req) {
+    return this.paymentService.createDeposit(createDepositDto, req.user.id);
   }
 
 

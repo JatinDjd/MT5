@@ -8,9 +8,6 @@ enum OrderStatus {
 export class CreateDepositDto {
 
     @IsNotEmpty()
-    userId: string
-
-    @IsNotEmpty()
     @IsInt()
     amount: number
 
