@@ -28,7 +28,7 @@ export class OrderController {
                     var order = await this.orderService.createSell(createOrderDto, userId);
                     break;
             }
-            if (order) return { message: 'Order created successfully', order };
+            if (order) return order;
         } catch (error) {
             return { error: error.message };
         }
@@ -47,7 +47,7 @@ export class OrderController {
         }
     }
 
-    
+
 
     @Roles('customer')
     @UseGuards(AuthGuard('jwt'), RoleGuard)

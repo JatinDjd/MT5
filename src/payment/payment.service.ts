@@ -25,7 +25,7 @@ export class PaymentService {
         user: data.user,
         provider: data.provider,
         transactionId: data.transactionId,
-        status: data.status
+        status: data.orderStatus
       },
       { transaction: true },
     );
@@ -35,13 +35,13 @@ export class PaymentService {
 
   async totalDeposits(userId: string) {
     const sumResult = await this.depositRepository
-    .createQueryBuilder('deposits')
-    .select('SUM(deposits.amount)', 'sum')
-    .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
-    .getRawOne();
-      console.log("summmmm---->>", sumResult)
+      .createQueryBuilder('deposits')
+      .select('SUM(deposits.amount)', 'sum')
+      .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
+      .getRawOne();
+    console.log("summmmm---->>", sumResult)
 
-    return sumResult?.sum ??0;
+    return sumResult?.sum ?? 0;
   }
 
   async transactions() {
@@ -49,7 +49,7 @@ export class PaymentService {
   }
 
   async transactionsCustomer(user) {
-    return await this.depositRepository.find({where:{'user':user.userId}});
+    return await this.depositRepository.find({ where: { 'user': user.userId } });
   }
 
   async createPaymentOrder(upiData, user) {
@@ -62,7 +62,7 @@ export class PaymentService {
       const { amount } = upiData;
       const multipliedAmount = amount * 100;
       const res = await razorpay.paymentLink.create({
-        amount:multipliedAmount,
+        amount: multipliedAmount,
         currency: 'INR',
         callback_method: "get",
         callback_url: 'https://trade.masterinfotech.com/api/payment/dashboard',
@@ -86,7 +86,7 @@ export class PaymentService {
       };
 
       const savedData = await this.createDeposit(data);
-      return  res;
+      return res;
     } catch (error) {
       console.log(error);
       throw error;
@@ -97,7 +97,7 @@ export class PaymentService {
   async paymentConfirmation(webhookData) {
     try {
       console.log("Start");
-      const data=await webhookData;
+      const data = await webhookData;
       console.log("Before destructuring");
       const payload = data.payload;
       const event = data.event;
@@ -119,9 +119,9 @@ export class PaymentService {
 
   async orderHistory(user) {
     try {
-      const res= this.depositRepository.find({ where: { 'user': user.userId } });
+      const res = this.depositRepository.find({ where: { 'user': user.userId } });
       if (res) {
-        return res;        
+        return res;
       }
       else {
         return "No Record Found"
@@ -129,7 +129,7 @@ export class PaymentService {
     } catch (error) {
       return error;
     }
-    
+
   }
 
 
