@@ -47,6 +47,7 @@ export class OrdersService {
         return order;
       }
     } catch (error) {
+      console.log('ERRRRROOOOORRRRR--->>>',error)
       throw new Error(error.message);
 
     }
