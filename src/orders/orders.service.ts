@@ -157,8 +157,9 @@ export class OrdersService {
   async validateOrderValue(uId: string, data: any) {
     // check order value based on margin
     const groupUser = await this.groupUserRepository.findOne({ where: { userId: uId } });
-    if (!groupUser) return false;
-    const group = await this.groupRepository.findOne({ select: ['margin'], where: { id: groupUser.id } });
+    if (groupUser) {
+      var group = await this.groupRepository.findOne({ select: ['margin'], where: { id: groupUser.id } });
+    }
     const walletAmt = await this.paymentService.totalDeposits(uId);
     if (!walletAmt) return false;
     const margin = walletAmt * group?.margin ?? 5 //default margin for external user
