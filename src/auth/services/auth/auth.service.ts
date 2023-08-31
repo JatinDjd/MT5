@@ -15,6 +15,8 @@ import {
     UnprocessableEntityException,
 } from '@nestjs/common';
 import { MailService } from '../../../mail/mail.service';
+import { completeProfileDto } from 'src/auth/dto/completeProfile.dto';
+import { CompleteProfile } from '../../entities/completeProfile.entity';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +27,8 @@ export class AuthService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(RefreshToken)
         private readonly refreshTokenRepository: Repository<RefreshToken>,
+        @InjectRepository(CompleteProfile)
+        private readonly userProfile:Repository<CompleteProfile>
 
     ) { }
     async createUser(userData: any) {
@@ -173,5 +177,27 @@ export class AuthService {
             return true;
         }
         return false;
+    }
+
+    async completeProfile(userInfo:completeProfileDto, user){
+        try {
+            console.log(user);
+            const profile = new CompleteProfile(); // Create an instance of your Entity
+            profile.userId = user.userId;
+            profile.DOB = userInfo.DOB;
+            profile.address = userInfo.address;
+            profile.city = userInfo.city;
+            profile.state = userInfo.state;
+            profile.country = userInfo.country;
+            profile.gender = userInfo.gender;
+        
+            const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
+            return savedProfile;
+            
+        } catch (error) {
+            throw error;
+        }
+
+
     }
 }

@@ -45,7 +45,7 @@ export class PaymentService {
   }
 
   async transactions() {
-    return await this.depositRepository.find();
+    return await this.depositRepository.find({where:{'status':"completed"}});
   }
 
   async transactionsCustomer(user) {

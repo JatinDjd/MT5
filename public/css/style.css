@@ -413,20 +413,17 @@ body{
 
   
 
-  #dashboard{padding:var(--main-pad);padding-top:2rem;padding-bottom:7rem;}
-  .content input{
+#dashboard{padding:var(--main-pad);padding-top:2rem;padding-bottom:2rem;}
+.content input{
     display: none;
-  }
+}
   
-  .content{
-    /* display: flex; */
-    justify-content: space-between;
-    /* border: solid 1px  #d8e8ff; */
-    padding: 2rem;
+.content{
+    padding: 2rem 0rem;
     border-radius: 5px;
-  }
+}
   
-  .content .list{
+.content .list{
     display: flex;
     flex-direction: row;
     position: relative;
@@ -435,9 +432,9 @@ body{
     column-gap: 3rem;
     /* border-bottom: solid 1px  #e1e1e1; */
     margin-bottom: 2rem;
-  }
+}
   
-  .content .list label{
+.content .list label{
     cursor: pointer;
     /* height:80px; */
     line-height: 1.2;
@@ -448,17 +445,17 @@ body{
     z-index: 10;
     padding-left: 15px;
     padding-bottom: 1rem;
-  }
+}
   
-  #my-accounts:checked ~ .list label.my-accounts,
-  #deposit:checked ~ .list label.deposit,
-  #withdrawl:checked ~ .list label.withdrawl,
-  #history:checked ~ .list label.history,
-  #settings:checked ~ .list label.settings{
+#my-accounts:checked ~ .list label.my-accounts,
+#deposit:checked ~ .list label.deposit,
+#withdrawl:checked ~ .list label.withdrawl,
+#history:checked ~ .list label.history,
+#settings:checked ~ .list label.settings{
     color: #22272C;
-  }
+}
   
-  .content .slider{
+.content .slider{
     position: absolute;
     left: 0;
     top: -20px;
@@ -468,30 +465,30 @@ body{
     transition: all 0.5s ease;
     box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
     background-color: #fff;
-  }
+}
   
-  #my-accounts:checked ~ .list .slider{
+#my-accounts:checked ~ .list .slider{
     left: 0px;
-  }
+}
   
-  #deposit:checked ~ .list .slider{
+#deposit:checked ~ .list .slider{
     left: 190px;
-  }
+}
   
-  #withdrawl:checked ~ .list .slider{
+#withdrawl:checked ~ .list .slider{
     left: 350px;
-  }
+}
   
-  #history:checked ~ .list .slider{
+#history:checked ~ .list .slider{
     left: 510px;
-  }
+}
   
   
-  #settings:checked ~ .list .slider{
-    left: 660px;
-  }
+#settings:checked ~ .list .slider{
+    left: 680px;
+}
   
-  .content .text-content{
+.content .text-content{
     width: 100%;
     height: 100%;
     color: #303030;
@@ -499,13 +496,13 @@ body{
     background-color: #fff;
     border-radius:5px;
     padding: 2rem;
-  }
+}
   
-  .content .text{
+.content .text{
     display: none;
-  }
+}
   
-  .content .text .title{
+.content .text .title{
     font-size: 25px;
     margin-bottom: 10px;
     font-weight: 500;
@@ -514,37 +511,34 @@ body{
     justify-content: space-between;
     align-items: center;
     padding:0rem 0rem 1rem;
-  }
-  .title h3{font-size:24px;}
-  .content .text-content .my-accounts{
+}
+.title h3{font-size:24px;}
+.content .text-content .my-accounts{
     display: block;
-  }
+}
   
-  #my-accounts:checked ~ .text-content .my-accounts,
-  #deposit:checked ~ .text-content .deposit,
-  #withdrawl:checked ~ .text-content .withdrawl,
-  #history:checked ~ .text-content .history,
-  #settings:checked ~ .text-content .settings{
+#my-accounts:checked ~ .text-content .my-accounts,
+#deposit:checked ~ .text-content .deposit,
+#withdrawl:checked ~ .text-content .withdrawl,
+#history:checked ~ .text-content .history,
+#settings:checked ~ .text-content .settings{
     display: block;
-  }
+}
   
-  #deposit:checked ~ .text-content .my-accounts,
-  #withdrawl:checked ~ .text-content .my-accounts,
-  #history:checked ~ .text-content .my-accounts,
-  #analytics:checked ~ .text-content .my-accounts,
-  #social:checked ~ .text-content .my-accounts,
-  #performance:checked ~ .text-content .my-accounts,
-  #settings:checked ~ .text-content .my-accounts{
+#deposit:checked ~ .text-content .my-accounts,
+#withdrawl:checked ~ .text-content .my-accounts,
+#history:checked ~ .text-content .my-accounts,
+#settings:checked ~ .text-content .my-accounts{
     display: none;
-  }
+}
   
-  .content .list label:hover{
+.content .list label:hover{
     color: #1971e9f2;
-  }
-  .content .list label img{width: 30px;}
-  .content .list label span{
+}
+.content .list label img{width: 30px;}
+.content .list label span{
    display:flex;align-items:center;column-gap: 1rem;
-  }
+}
 
 
 .type-btn{font-size: 17px;background-color:#fff;border:none;padding: .6rem 2rem;text-align: center;border-radius: 5px 5px 0px 0px;}
@@ -571,6 +565,36 @@ body{
 .deposit-hd{border-bottom:2px solid #f5f5f5;}
 .deposit-card i{float:right;color:#1971e9f2;padding:8px;background-color:#f5f5f5;border-radius:50%;}
 .deposit-sec h4{font-size:18px;padding-bottom:1rem;}
+.history-options{
+    display: flex;
+    column-gap: 2rem;
+}
+.history-options select{padding:3px 10px;    border: 2px solid #e8e8e8;}
+.no-history{
+    text-align:center;padding:3rem 0rem;
+}
+.no-history img,.no-history h3,.no-history p{padding:1rem 0rem;}
+.no-history h3{color:#303030;font-size:24px;}
+.no-history p{color:#a1a1a1;font-size:16px;}
+.settings-hd h4{font-size:18px;padding:1rem 0rem;}
+.settings-hd p{font-size:14px;padding-bottom:2rem;}
+.settings-part{padding:2rem 0rem;}
+.settings-part table,.settings-part tr{
+    width: 100%;
+    border-collapse: collapse;
+    border:1px solid #f5f5f5;
+}
+.settings-part td{padding:1rem;width:33%;font-size:14px;}
+.settings-part td span{background-color:#f5f5f5;padding:3px 8px;font-size:12px;margin-right:10px;margin-bottom:10px;}
+.settings .blue-line {
+    width: 8%;}
+#security .blue-line {
+    margin-left: 7.5%;}
+#terminals .blue-line {
+    margin-left: 19%;}
+#conditions .blue-line {
+    margin-left: 31%;}
+
  /* RESPONSIVE CSS */
  @media only screen and (max-width: 767px){
     :root {
@@ -607,11 +631,10 @@ body{
    .dev-no p{font-size: 12px;}
     .dev-no{padding:10px;}
     .left-side p{width:100%;}
-    .title h2, #banner-head .left-side , .build-comp .build-cont ,.dev-cont>div:first-child ,.dev-cont>div:last-child,.dev-no {
-        width: 100%;}
+    .title h2, #banner-head .left-side , .build-comp .build-cont ,.dev-cont>div:first-child ,.dev-cont>div:last-child,.dev-no {width: 100%;}
     #execution{padding-top:2rem;padding-bottom:2rem;}
     .business-serv { row-gap: 1rem;padding:0rem 0rem 3rem;}
- .dev-cont ,#business-serv {padding-top: 0rem;}
+    .dev-cont ,#business-serv {padding-top: 0rem;}
     .left-side p ,.card-box h4{ font-size:18px;  }
     .left-side p { padding:1rem 0rem;}
     .iner-box .line,.web-cont img,  .dev-cont>div img {display:none;}
@@ -654,8 +677,10 @@ body{
         padding: 1rem 0rem;
     }
     .build-comp .build-cont {
-       margin-bottom:1rem;}
+        margin-bottom:1rem;}
     .black-btn{font-size:12px;}   
+    #dashboard{padding-bottom:0rem;}
+    .details-web-cont{padding-bottom:2rem;}
     /* signup-form */
     
     #signup-section{padding:var(--main-pad);}
@@ -667,63 +692,143 @@ body{
         width: auto;
         margin: 0;
         padding:var(--main-pad);
-        padding-top:4rem;
-        padding-bottom:4rem;
+        padding-top:2rem;
+        padding-bottom:2rem;
     }
 
     .signup{padding:1rem;width:auto;margin:0;}
          /* dashboard */
-         .type-box{flex-wrap:wrap;}
-         .content .text-content{padding:1rem;}
-         .real-btns ul{column-gap:1rem;}
-         .content .text .title {
-            margin:0;}
-            .real-btns li {
-                margin-bottom: 0rem;
-            }
-            .real-data h3 {
-                padding: 1rem 0rem 01rem;
-            }
-            .content .list {
-                flex-wrap: wrap;
-                justify-content: start;
-                column-gap: 1rem;
-                margin-bottom: 1rem;
-            }
-         .content .list label {
-            font-size: 12px;padding-left:0rem;width:30%;}
-            .content .list label span{column-gap:5px;}
-           .content{padding:0rem;}
-           .type-btn{padding:0.4rem 1rem 0.4rem 0rem;}
-           .content .slider{width:110px;top: -10px;
-            height: 40px;}
-           .deposit-card{width:100%;}
-           .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
-           .real-data ul li {        font-size: 12px;    }
-           #deposit:checked ~ .list .slider{
-            left: 110px;
-          }
-          
-          #withdrawl:checked ~ .list .slider{
-            left: 230px;
-          }
-          
-          #history:checked ~ .list .slider{
-            top:25px;
-            left:0;
-          }
-          
-          
-          #settings:checked ~ .list .slider{
-            top:25px;
-            left: 110px;
-          }
-          #Demo .blue-line { margin-left: 15%;}
-         .type .blue-line{width:12%;}
-         .deposit-card i {
-            margin-top: -2rem;
-        }
+    .type-box{flex-wrap:wrap;}
+    .content .text-content{padding:1rem;}
+    .real-btns ul{column-gap:1rem;}
+    .content .text .title {
+        margin:0;}
+    .real-btns li {
+        margin-bottom: 0rem;
+    }
+    .real-data h3 {
+        padding: 1rem 0rem 01rem;
+    }
+    .content .list {
+        flex-wrap: wrap;
+        justify-content: start;
+        column-gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .content .list label {
+        font-size: 12px;padding-left:0rem;width:30%;}
+    .content .list label span{column-gap:5px;    padding-left: 5px;}
+    .content{padding:0rem;}
+    .type-btn{padding:0.4rem 1rem 0.4rem 0rem;font-size:12px;}
+    .content .slider{width:110px;top: -10px;
+        height: 40px;}
+    .deposit-card {
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+    }
+    .deposit-card i {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    .deposit-card ul {
+        padding:  0rem;
+       
+    }
+    .deposit-card ul li{font-size:12px;}
+    .deposit-card>div:nth-child(2){width:52%;}
+    .deposit-hd {
+        border-bottom: 0px solid #f5f5f5;
+        width: 45%;
+    }
+    .deposit-cont{padding-bottom:2rem;}
+    .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+    .real-data ul li {        font-size: 12px;    }
+    #deposit:checked ~ .list .slider{
+        left: 110px;
+    }
+      
+    #withdrawl:checked ~ .list .slider{
+        left: 240px;
+    }
+      
+    #history:checked ~ .list .slider{
+        top:25px;
+        left:0;
+    }
+      
+      
+    #settings:checked ~ .list .slider{
+        top:25px;
+        left: 110px;
+    }
+    #Demo .blue-line { margin-left: 15%;}
+    .type .blue-line{width:12%;}
+    .deposit-card i {
+        margin-top: -2rem;
+    }
+    .deposit-sec h4 {
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
+    .history-options {
+        column-gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .history-options select {
+        font-size: 12px;
+        margin-bottom:1rem;
+        width:45%;
+    }
+    .no-history{padding:1rem 0rem;}
+    .no-history h3 {
+        font-size: 16px;
+    }
+    .no-history h3,.no-history p {
+        padding:0rem 0rem 0.5rem;
+    }
+    .settings-part td {
+        width: 100%;
+        display: block;
+        padding:8px;
+    }
+    .settings .blue-line {
+        margin-top: -2.2rem;
+    }
+    #security .blue-line {
+        margin-left: 15%;
+        width: 25%;
+    }
+    #conditions .blue-line {
+        margin-left: 0%;
+        margin-top: 0;
+        width:28%;
+    }
+    #terminals .blue-line {
+        margin-left: 45%;
+        width: 28%;
+    }
     
+    .settings-part {
+        padding: 1rem 0rem;
+    }
+    .title h3 {
+        font-size: 20px;
+    }
+    #details-web .details-web-cont p:first-child, #details-web .details-web-cont p:nth-child(2) {
+        font-size: 14px;
+    }
+    .settings-hd p {
+        padding-bottom: 1rem;
+    }
+    /* pooja css  history tab*/
+    #Transaction .blue-line { width: 120px!important;}
+    #Order .blue-line { margin-left: 33%!important; }
+    #Order .blue-line {    width: 95px!important;}
  }
  @media only screen and (min-width: 768px) and (max-width: 1023px){
 	  :root { --main-pad: 0rem 2rem;
@@ -811,33 +916,43 @@ body{
         padding-bottom:4rem;
     }
     .signup{padding:2rem;width:600px;}
-       /* dashboard */
-       .content .list label {
-        font-size: 14px;}
-        .content .list label span{column-gap:5px;}
-       .content{padding:0rem;}
-       .type-btn{padding:0.4rem 1rem 0.4rem 0rem;}
-       .content .slider{width:150px;}
-       .deposit-card{width:32%;}
-       .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
-       .real-data ul li {        font-size: 12px;    }
-       #deposit:checked ~ .list .slider{
-        left: 160px;
-      }
+    /* dashboard */
+    .content .list label {font-size: 14px;padding-left:5px;}
+    .content .list label span{column-gap:5px;}
+    .content{padding:0rem;}
+    .type-btn{padding:0.4rem 1rem 0.4rem 0rem;font-size:13px;}
+    .content .slider{width:140px;}
+    .deposit-card{width:32%;}
+    .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+    .real-data ul li {        font-size: 12px;    }
+    #deposit:checked ~ .list .slider{
+        left: 150px;
+    }
       
-      #withdrawl:checked ~ .list .slider{
-        left: 310px;
-      }
+    #withdrawl:checked ~ .list .slider{
+        left: 280px;
+    }
       
-      #history:checked ~ .list .slider{
-        left: 470px;
-      }
-      
-      
-      #settings:checked ~ .list .slider{
-        left: 600px;
-      }
-
+    #history:checked ~ .list .slider{
+        left: 430px;
+    }     
+    #settings:checked ~ .list .slider{
+        left: 550px;
+    }
+    #security .blue-line {
+        margin-left: 10%;
+    }
+    #terminals .blue-line {
+        margin-left: 25%;
+    }
+    #conditions .blue-line {
+        margin-left: 42%;
+    }
+   
+      /* pooja css  history tab*/
+     #Transaction .blue-line { width: 130px!important;}
+     #Order .blue-line { margin-left: 18%!important; }
+     #Order .blue-line {    width: 100px !important;}
  
 } 
  @media only screen and (min-width: 1024px) and (max-width: 1200px){
@@ -921,31 +1036,42 @@ body{
     }
     .signup{padding:2rem;width:600px;}
      /* dashboard */
-     .content .list label {
+    .content .list label {
         font-size: 14px;}
-        .content .list label span{column-gap:5px;}
-       .content{padding:0rem;}
-       .type-btn{padding:0.4rem 1rem;}
-       .content .slider{width:150px;}
-       .deposit-card{width:32%;}
-       .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
-       .real-data ul li {        font-size: 12px;    }
-       #deposit:checked ~ .list .slider{
+    .content .list label span{column-gap:5px;}
+    .content{padding:0rem;}
+    .type-btn{padding:0.4rem 1rem;font-size:14px;}
+    .content .slider{width:150px;}
+    .deposit-card{width:32%;}
+    .text-content .black-btn{font-size:12px;    padding: 5px 10px;}
+    .real-data ul li {        font-size: 12px;    }
+    #deposit:checked ~ .list .slider{
         left: 160px;
-      }
+    }
       
-      #withdrawl:checked ~ .list .slider{
+    #withdrawl:checked ~ .list .slider{
         left: 310px;
-      }
+    }
       
-      #history:checked ~ .list .slider{
+    #history:checked ~ .list .slider{
         left: 470px;
-      }
-      
-      
-      #settings:checked ~ .list .slider{
+    }     
+    #settings:checked ~ .list .slider{
         left: 600px;
-      }
+    }
+    #security .blue-line {
+        margin-left: 10%;
+    }
+    #terminals .blue-line {
+        margin-left: 25%;
+    }
+    #conditions .blue-line {
+        margin-left: 42%;
+    }
+     /* pooja css  history tab*/
+     #Transaction .blue-line {width: 150px!important;}
+     #Order .blue-line { margin-left: 18%!important; }
+     #Order .blue-line {    width: 100px !important;}
  }
  
  @media only screen and (min-width: 1201px) and (max-width: 1366px){
@@ -993,7 +1119,7 @@ body{
         padding: 4rem 2rem;}
     .dev-no{width:90%;}  
     .dev-no p{font-size:20px;}  
-                /* signup-form */
+     /* signup-form */
     #details-web {
         width: auto;
         margin: 0;
@@ -1004,9 +1130,12 @@ body{
     .signup{padding:2rem;width:600px;}
 
      /* dashboard */
-   .type-btn{padding:0.4rem 1rem;}
+   .type-btn{padding:0.4rem 1rem;font-size:14px}
    .content .slider{width:180px;}
-  
+    /* pooja css  history tab*/
+    #Transaction .blue-line {width: 155px!important;}
+    #Order .blue-line {margin-left: 13%!important;}
+    #Order .blue-line {width: 112px !important;}
  }
  @media only screen and (min-width: 1367px) and (max-width: 1600px){
 	:root {
@@ -1054,132 +1183,60 @@ body{
     }
     .signup{padding:2rem;width:600px;}
     /* dashboard */
-   .type-btn{padding:0.4rem 1rem;}
+   .type-btn{padding:0.4rem 1rem;    font-size: 16px;}
    .content .slider{width:180px;}
-
-
-
-  .loader-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loader {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.loader {
-    background: #000;
-    background: radial-gradient(#222, #000);
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 99999;
-}
-
-.loader-inner {
-    bottom: 0;
-    height: 60px;
-    left: 0;
-    margin: auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100px;
-}
-
-.loader-line-wrap {
-    animation: 
-    spin 2000ms cubic-bezier(.175, .885, .32, 1.275) infinite
-  ;
-    box-sizing: border-box;
-    height: 50px;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    transform-origin: 50% 100%;
-    width: 100px;
-}
-.loader-line {
-    border: 4px solid transparent;
-    border-radius: 100%;
-    box-sizing: border-box;
-    height: 100px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100px;
-}
-.loader-line-wrap:nth-child(1) { animation-delay: -50ms; }
-.loader-line-wrap:nth-child(2) { animation-delay: -100ms; }
-.loader-line-wrap:nth-child(3) { animation-delay: -150ms; }
-.loader-line-wrap:nth-child(4) { animation-delay: -200ms; }
-.loader-line-wrap:nth-child(5) { animation-delay: -250ms; }
-
-.loader-line-wrap:nth-child(1) .loader-line {
-    border-color: hsl(0, 80%, 60%);
-    height: 90px;
-    width: 90px;
-    top: 7px;
-}
-.loader-line-wrap:nth-child(2) .loader-line {
-    border-color: hsl(60, 80%, 60%);
-    height: 76px;
-    width: 76px;
-    top: 14px;
-}
-.loader-line-wrap:nth-child(3) .loader-line {
-    border-color: hsl(120, 80%, 60%);
-    height: 62px;
-    width: 62px;
-    top: 21px;
-}
-.loader-line-wrap:nth-child(4) .loader-line {
-    border-color: hsl(180, 80%, 60%);
-    height: 48px;
-    width: 48px;
-    top: 28px;
-}
-.loader-line-wrap:nth-child(5) .loader-line {
-    border-color: hsl(240, 80%, 60%);
-    height: 34px;
-    width: 34px;
-    top: 35px;
-}
-
-@keyframes spin {
-    0%, 15% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
+    /* pooja css  history tab*/
+    #Transaction .blue-line {width: 175px!important;}
+    #Order .blue-line {margin-left: 13%!important;}
+    #Order .blue-line {width: 135px !important;}
  }  
+
+ #Transaction .blue-line{ width: 12%;}
+ #Order .blue-line { width: 8%;}
+ #Order .blue-line { margin-left: 13%;}
+ .type .blue-line{width:5.5%;}
+
+
+
+ /* TABLE STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+  }
+  .table-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: var(--darkblue);
+    border-radius: 40px;
+  }
+  .table-wrapper::-webkit-scrollbar-track {
+    background: var(--white);
+    border-radius: 40px;
+  }
+  .table-wrapper table {
+    margin: 25px 0 30px;
+    border-collapse: collapse;
+    text-align: center;
+    border: solid 1px #e2e2e2;
+    width: 100%;
+  }
+  .table-wrapper table th,
+  .table-wrapper table td {
+    padding: 10px;
+    min-width: 110px;
+    border-bottom: solid 1px #e2e2e2;
+  }
+  .table-wrapper table th {
+    color: #020202;
+    background: #f6f6f6;
+  }
+  .table-wrapper table tbody tr:nth-of-type(even) > * {
+    background: var(--lightblue);
+  }
+  .table-credits {
+    font-size: 12px;
+    margin-top: 10px;
+  }
    

@@ -33,6 +33,12 @@ jobs:
           # Attempt to pull, but ignore any errors
           sudo git pull https://JatinDJD:${{ secrets.GIT_PAT }}@github.com/JatinDjd/MT5.git main || true
           
+          git add .
+          git commit -m "server commit"
+          
+          # Attempt to pull, but ignore any errors
+          sudo git pull https://JatinDJD:${{ secrets.GIT_PAT }}@github.com/JatinDjd/MT5.git main || true
+          
           # Push changes to the repository
           git add .
           git commit -m "server commit"

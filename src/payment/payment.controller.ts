@@ -92,4 +92,13 @@ export class PaymentController {
     return this.paymentService.transactions();
   }
 
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('transactions-customer')
+  transactionsCustomer(@Request() req) {
+    const userId = req.user.id;
+    return this.paymentService.transactions();
+  }
+
 }
