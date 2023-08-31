@@ -27,7 +27,22 @@ jobs:
         # port: ${{ secrets.SERVER_PORT }}  # Uncomment if needed
         script: |
           cd /var/www/MT5
+          git add .
+          git commit -m "server commit"
+          
+          # Attempt to pull, but ignore any errors
+          sudo git pull https://JatinDJD:${{ secrets.GIT_PAT }}@github.com/JatinDjd/MT5.git main || true
+          
+          # Push changes to the repository
+          git add .
+          git commit -m "server commit"
+          sudo git push origin main
+          
+          # Pull again to ensure the latest changes are synced
+          git add .
+          git commit -m "server commit"
           sudo git pull https://JatinDJD:${{ secrets.GIT_PAT }}@github.com/JatinDjd/MT5.git main
+          
           sudo rm -r dist
           npm install --force
           npm run build
