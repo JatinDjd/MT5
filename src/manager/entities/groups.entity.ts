@@ -12,7 +12,7 @@ export class Group {
     title: string;
 
     @Column({ name: 'margin', nullable: true })
-    margin: number;                 //it will be calculated as %
+    margin: number;                 //it will be calculated based number of times
 
     @ManyToOne(() => User, (user) => user.groups)   //manager reference using userId
     user: User
