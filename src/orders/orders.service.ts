@@ -116,7 +116,7 @@ export class OrdersService {
   }
 
   async findActiveOrders(userid: string) {
-    const orders = await this.orderRepository.find({ where: { UserId: userid, closingPrice: IsNull() } });
+    const orders = await this.orderRepository.find({ where: { UserId: userid, tradeStatus: 'Pending' } });
     return orders;
   }
 

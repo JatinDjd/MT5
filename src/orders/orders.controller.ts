@@ -47,7 +47,9 @@ export class OrderController {
         }
     }
 
-    @Roles('manager')
+    
+
+    @Roles('customer')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('orders')
@@ -56,7 +58,7 @@ export class OrderController {
         return this.orderService.findAll(userId);
     }
 
-    @Roles('manager')
+    @Roles('customer')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('active-orders')
