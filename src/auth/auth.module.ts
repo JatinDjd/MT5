@@ -14,13 +14,14 @@ import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { Manager } from '../manager/entities/manager.entity';
 import { AppModule } from 'src/app.module';
+import { CompleteProfile } from './entities/completeProfile.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager]),
+    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager,CompleteProfile]),
    
     JwtModule.register({
       secret: process.env.JWT_SECRET,

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -8,6 +8,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
+import { completeProfileDto } from '../../dto/completeProfile.dto';
 // import * as cookieParser from 'cookie-parser';
 
 @ApiTags('Authentication')
@@ -133,7 +134,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Request() req, @Session() session: Record<string, any>) {
+  async login(@Body() data: LoginDto,@Request() req, @Session() session:Record<string, any>) {
     try {
       const result = await this.authService.login(req.user);
       // Store tokens in session (you can also use cookies or local storage)
@@ -208,9 +209,14 @@ export class AuthController {
     return { message: 'Logged out successfully' };
   }
 
+  // @ValidationPipe()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('access-token')
   @Post('complete-profile')
-  completeProfile() {
-
+  async completeProfile(@Body() userInfo:completeProfileDto,  @Request() req){
+      console.log(userInfo)
+      let userId = { userId: req.user.id };
+     return await this.authService.completeProfile(userInfo,userId)
   }
 
 }

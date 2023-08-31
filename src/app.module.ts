@@ -21,6 +21,7 @@ import { Deposit } from './payment/entities/deposits.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { join } from 'path';
+import { CompleteProfile } from './auth/entities/completeProfile.entity';
 
 
 @Module({
@@ -39,7 +40,7 @@ import { join } from 'path';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],

@@ -486,26 +486,265 @@
                     </div>
                 </div>
             </div>
-            <div class="history text">
-                <div class="title">Transaction history</div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore ullam, voluptatem, mollitia amet iure sequi sapiente reprehenderit consectetur a saepe error molestiae vitae pariatur delectus repudiandae ipsa aspernatur eveniet quo maiores dignissimos. Officiis, molestias velit accusamus ipsa consectetur exercitationem voluptatem natus quisquam soluta facilis. Quas, autem harum? Consequuntur blanditiis quasi consequatur, omnis debitis odio ratione excepturi nulla fugit mollitia itaque esse fuga, soluta eos aspernatur? Modi delectus quasi dicta veritatis. Vero, expedita mollitia veritatis magni aperiam maxime ipsum. Ut, debitis.</p>
+
+        </div>
+                    <div class="history text">
+                <div class="title"><h3>Transaction history</h3></div>
+                
+                <div class="">
+                    <button class="type-btn" onclick="openType('Transaction')">Transaction History</button>
+                    <button class="type-btn" onclick="openType('Order')">Order History</button>
+                </div>
+                  
+                  <div id="Transaction" class="type">
+                    <div class="blue-line"></div>
+                    
+                    <div class="type-box">
+                        <div class="table-wrapper">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>1950</th>
+                                  <th>1955</th>
+                                  <th>%</th>
+                                  <th>1960</th>
+                                  <th>%</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>8,151</td>
+                                  <td>8,892</td>
+                                  <td>1.76</td>
+                                  <td>9,830</td>
+                                  <td>2.03</td>
+                                </tr>
+                                <tr>
+                                  <td>1,228</td>
+                                  <td>1,393</td>
+                                  <td>2.56</td>
+                                  <td>1,624</td>
+                                  <td>3.12</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                    </div>
+                  </div>
+                  
+                  <div id="Order" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                   
+                    <div class="type-box">
+                        <div class="table-wrapper">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>190</th>
+                                  <th>195</th>
+                                  <th>%</th>
+                                  <th>190</th>
+                                  <th>%</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>8,11</td>
+                                  <td>8,82</td>
+                                  <td>1.76</td>
+                                  <td>9,30</td>
+                                  <td>2.03</td>
+                                </tr>
+                                <tr>
+                                  <td>1,28</td>
+                                  <td>1,93</td>
+                                  <td>2.5</td>
+                                  <td>1,64</td>
+                                  <td>3.1</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        
+                    </div> 
+                  </div>
+
+
+                <!-- <div class="no-history">
+                    <div>
+                        <img src="assets/images/search.png">
+                        <h3>No Transactions related to your search</h3>
+                        <p>Search another transaction</p>
+                    </div>
+                </div> -->
             </div>
-            <div class="analytics text">
-                <div class="title">Analytics</div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore ullam, voluptatem, mollitia amet iure sequi sapiente reprehenderit consectetur a saepe error molestiae vitae pariatur delectus repudiandae ipsa aspernatur eveniet quo maiores dignissimos. Officiis, molestias velit accusamus ipsa consectetur exercitationem voluptatem natus quisquam soluta facilis. Quas, autem harum? Consequuntur blanditiis quasi consequatur, omnis debitis odio ratione excepturi nulla fugit mollitia itaque esse fuga, soluta eos aspernatur? Modi delectus quasi dicta veritatis. Vero, expedita mollitia veritatis magni aperiam maxime ipsum. Ut, debitis.</p>
-            </div>
-            <div class="social text">
-                <div class="title">Social</div>
-                <p>Lorem ipsum dolor sit, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
-            </div>
-            <div class="performance text">
-                <div class="title">Performance</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
-            </div>
+            <!-- settings tab -->
             <div class="settings text">
-                <div class="title">Settings</div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate, quia repudiandae quisquam nam molestiae non. Itaque repudiandae quam, sed maxime voluptate quos ipsam optio odio ab molestiae facilis numquam repellendus, natus maiores vel soluta accusantium placeat nihil ad cupiditate consequuntur reprehenderit deserunt nam tempora. Voluptates non quia corporis temporibus tempora.</p>
-            </div>
+                <div class="title"><h3>Settings</h3></div>
+                <div class="">
+                    <button class="type-btn" onclick="openType('profile')">Profile</button>
+                    <button class="type-btn" onclick="openType('security')">Security settings</button>
+                    <button class="type-btn" onclick="openType('terminals')">Trading Terminals</button>
+                    <button class="type-btn" onclick="openType('conditions')">Trading Conditions</button>
+                 
+                    
+                </div>
+                  
+                  <div id="profile" class="type">
+                    <div class="blue-line"></div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Identification</h4>
+                            <p>Make sure your profile is complete with all your personal information to enjoy all Exness Benefits.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Account Verification</td>
+                                <td>0% Complete</td>
+                                <td><span>Not verified</span><a href="" class="black-btn">Complete Profile</a></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Personal information</h4>
+                            <p>This is the personal information you have provided during registration.
+                                This information is not visible to other users.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Full name</td>
+                                <td>Not filled</td>
+                             
+                            </tr>
+                            <tr>
+                                <td>Country of residence</td>
+                                <td>India</td>
+                             
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>Not filled</td>
+                             
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Contact information</h4>
+                            <p>We will contact you using the details you have provided.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Email address</td>
+                                <td> na···or@masterinfotech.com</td>              
+                            </tr>
+                          
+                        </table>
+
+                    </div>
+                   
+                    
+                  </div>
+                  
+                  <div id="security" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Authorization</h4>
+                            <p>Information for logging in to Exness.
+                                Change your password whenever you think it might have been compromised.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Login</td>
+                                <td>  na···or@masterinfotech.com</td>
+                            </tr>
+                            <tr>
+                                <td>Password</td>
+                                <td> ············</td>
+                                <td><a href="" class="black-btn">Change</a></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>2-Step verification</h4>
+                            <p>2-step verification ensures that all sensitive transactions are authorized by you.
+                                We encourage you to enter verification codes to confirm these transactions.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Security type</td>
+                                <td>  na···or@masterinfotech.com</td>
+                                <td><span>Low security</span><a href="" class="black-btn">Change</a></td>
+                            </tr>
+                          
+                        </table>
+
+                    </div>
+                    
+                  </div>
+                  <div id="terminals" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Default terminal</h4>
+                            <p>Set the default trading terminal for all your MT4 and MT5 accounts.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>MT5 Accounts</td>
+                                <td> Set your default terminal</td>
+                                <td><a href="" class="black-btn">Change</a></td>
+                            </tr>
+                            <tr>
+                                <td>MT4 Accounts</td>
+                                <td> Set your default terminal</td>
+                                <td><a href="" class="black-btn">Change</a></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    
+                    
+                  </div>
+                  <div id="conditions" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                    <div class="settings-part">
+                        <div class="settings-hd">
+                            <h4>Trading Conditions</h4>
+                            <p>Here's a list of the better-than-market trading conditions you can currently enjoy on your accounts.</p>
+    
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Negative Balance Protection</td>
+                                <td> You can never lose more money than you put into your account. If a stop out causes all your positions to close in a negative balance, we will restore it to 0.</td>
+                                <td><a href="" class="black-btn">Learn more</a></td>
+                            </tr>
+                            <tr>
+                                <td>Swap-Free</td>
+                                <td> No more overnight charges. Hold positions on popular instruments for as long as you want, without paying swaps. The list of swap-free instruments varies depending on your Swap-Free Level.</td>
+                                <td><a href="" class="black-btn">Learn more</a></td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    
+                    
+                  </div>
+              
+              
         </div>
     </div>
     </section>
