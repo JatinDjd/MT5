@@ -9,9 +9,6 @@ import { IsArray, IsEnum, IsInt, IsNotEmpty, IsObject, IsString, Matches, MaxLen
 export class CreateDepositDto {
 
     @IsNotEmpty()
-    userId: string
-
-    @IsNotEmpty()
     @IsInt()
     amount: number
 

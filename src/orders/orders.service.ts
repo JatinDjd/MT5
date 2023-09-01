@@ -163,7 +163,7 @@ export class OrdersService {
     const walletAmt = await this.paymentService.totalDeposits(uId);
     if (!walletAmt) return false;
     const margin = walletAmt * group?.margin ?? 5 //default margin for external user
-    if (data.Price !== undefined && data.Price <= margin) {
+    if ((data.OpeningPrice ?? data.ClosingPrice) <= margin) {
       return false;
     }
     return true;
