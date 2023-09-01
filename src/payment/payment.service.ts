@@ -18,11 +18,10 @@ export class PaymentService {
   }
 
 
-  async createDeposit(data, userId) {
+  async createDeposit(data) {
     const deposit = await this.depositRepository.save(
       {
         amount: data.amount,
-        userId: userId,
         provider: data.provider,
         transactionId: data.transactionId,
         status: data.orderStatus
@@ -85,7 +84,7 @@ export class PaymentService {
         status: 'pending',
       };
 
-      const savedData = await this.createDeposit(data, user.userId);
+      const savedData = await this.createDeposit(data);
       return res;
     } catch (error) {
       console.log(error);

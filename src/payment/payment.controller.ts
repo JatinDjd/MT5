@@ -16,8 +16,8 @@ export class PaymentController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('create-deposit')
-  createDeposit(@Body() createDepositDto: CreateDepositDto, @Request() req) {
-    return this.paymentService.createDeposit(createDepositDto, req.user.id);
+  createDeposit(@Body() createDepositDto: CreateDepositDto) {
+    return this.paymentService.createDeposit(createDepositDto);
   }
 
 
