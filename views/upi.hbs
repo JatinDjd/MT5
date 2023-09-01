@@ -493,7 +493,8 @@
                 
                 <div class="">
                     <button class="type-btn" onclick="openType('Transaction')">Transaction History</button>
-                    <button class="type-btn" onclick="openType('Order')">Order History</button>
+                    <button class="type-btn" onclick="openType('Active Order')">Active Order History</button>
+                    <button class="type-btn" onclick="openType('Past Order')">Past Order History</button>
                 </div>
                   
                   <div id="Transaction" class="type">
@@ -504,14 +505,14 @@
                             <table>
                               <thead>
                                 <tr>
-                                  <th>1950</th>
-                                  <th>1955</th>
-                                  <th>%</th>
-                                  <th>1960</th>
-                                  <th>%</th>
+                                  <th>S.NO</th>
+                                  <th>AMOUNT</th>
+                                  <th>PAYMENT MODE</th>
+                                  <th>TRANSACTION ID</th>
+                                  <th>PAYMENT DATE</th>
                                 </tr>
                               </thead>
-                              <tbody>
+                              {{!-- <tbody>
                                 <tr>
                                   <td>8,151</td>
                                   <td>8,892</td>
@@ -526,13 +527,20 @@
                                   <td>1,624</td>
                                   <td>3.12</td>
                                 </tr>
-                              </tbody>
+                              </tbody> --}}
+                              <tbody id="data-table-body">
+                <!-- Table rows will be added here dynamically -->
+            </tbody>
                             </table>
+                            <div id="pagination">
+        <button id="prevPage">Previous Page</button>
+        <button id="nextPage">Next Page</button>
+    </div>
                         </div>
                     </div>
                   </div>
                   
-                  <div id="Order" class="type" style="display:none">
+                  <div id="Active Order" class="type" style="display:none">
                     <div class="blue-line"></div>
                    
                     <div class="type-box">
@@ -561,6 +569,43 @@
                                   <td>2.5</td>
                                   <td>1,64</td>
                                   <td>3.1</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                        </div>
+                        
+                    </div> 
+                  </div>
+
+                  <div id="Past Order" class="type" style="display:none">
+                    <div class="blue-line"></div>
+                   
+                    <div class="type-box">
+                        <div class="table-wrapper">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>190222222</th>
+                                  <th>192222225</th>
+                                  <th>%24423</th>
+                                  <th>193242420</th>
+                                  <th>%4242</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>8,142ee1</td>
+                                  <td>8,8cdcdds2</td>
+                                  <td>1.7s s 6</td>
+                                  <td>9, dscewc30</td>
+                                  <td>2.ced3203</td>
+                                </tr>
+                                <tr>
+                                  <td>1,e2fe2cec8</td>
+                                  <td>1,2cf2ec23c9e3</td>
+                                  <td>2.5c23c23c</td>
+                                  <td>1,623c234</td>
+                                  <td>3.1c2c22</td>
                                 </tr>
                               </tbody>
                             </table>
@@ -914,6 +959,86 @@ logoutButton.addEventListener('click', async (event) => {
     });
 } --}}
 </script>
+
+<script>
+    // Replace this with the actual API endpoint URL
+    const apiUrl = 'http://localhost:3000/api/payment/transactions-customer';
+
+    // Variables for pagination
+    let currentPage = 1;
+    const recordsPerPage = 5;
+
+    // Fetch data from the API
+    function fetchData() {
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(responseData => {
+                const data = responseData.data;
+
+                // Calculate the starting and ending indexes for the current page
+                const startIndex = (currentPage - 1) * recordsPerPage;
+                const endIndex = startIndex + recordsPerPage;
+
+                // Get the table body element
+                const tableBody = document.getElementById('data-table-body');
+                tableBody.innerHTML = ''; // Clear previous data
+
+                // Iterate through the data array for the current page
+                for (let i = startIndex; i < endIndex && i < data.length; i++) {
+                    const item = data[i];
+                    const row = document.createElement('tr');
+
+                    const sNo = i + 1; // Incremented S.NO
+                    const formattedAmount = (item.amount / 100).toFixed(2);
+                    const formattedDateTime = new Date(item.updated_at).toLocaleString();
+
+                    row.innerHTML = `
+                        <td>${sNo}</td>
+                        <td>${formattedAmount}</td>
+                        <td>${item.provider}</td>
+                        <td>${item.transactionId}</td>
+                        <td>${formattedDateTime}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = endIndex >= data.length;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    // Initialize data on page load
+    fetchData();
+
+    // Pagination event listeners
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchData();
+        }
+    });
+
+    document.getElementById('nextPage').addEventListener('click', () => {
+        // You should add a condition to check if there are more pages
+        // based on the total number of records and recordsPerPage.
+        // For this example, it's assumed that there are always more pages.
+        currentPage++;
+        fetchData();
+    });
+    </script>
+
+
+
+
+
 
 
 

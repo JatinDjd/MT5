@@ -5,6 +5,7 @@ import { RazorpayModule } from 'nestjs-razorpay';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Deposit } from './entities/deposits.entity';
 import { AppModule } from 'src/app.module';
+import { Order } from '../orders/entities/order.entity';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { AppModule } from 'src/app.module';
       key_secret: process.env.KEY_SECRET
     }),
     TypeOrmModule.forFeature([
-      Deposit
+      Deposit,
+      Order
      ]),
     //  AppModule
    ],

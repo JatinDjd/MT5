@@ -1,10 +1,11 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsEnum, IsInt, IsNotEmpty, IsObject, IsString, Matches, MaxLength, MinLength, ValidateNested } from 'class-validator';
 
 
-enum OrderStatus {
-    Pending = 'pending',
-    Completed = 'completed',
-}
+// enum status {
+//     Pending = 'pending',
+//     Completed = 'completed',
+// }
 export class CreateDepositDto {
 
     @IsNotEmpty()
@@ -25,6 +26,6 @@ export class CreateDepositDto {
     @ValidateNested()
     payload: string;
 
-    @IsEnum(OrderStatus)
-    orderStatus: OrderStatus;
+    @ApiProperty({enum:['completed','pending']})
+    status: string;
 }

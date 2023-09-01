@@ -16,7 +16,7 @@ export class PaymentController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('create-deposit')
-  createDeposit(@Body() createDepositDto: CreateDepositDto) {
+  createDeposit(@Body() createDepositDto: CreateDepositDto, @Request() req) {
     return this.paymentService.createDeposit(createDepositDto);
   }
 
@@ -77,10 +77,20 @@ export class PaymentController {
   @Roles('customer')
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
-  @Get('order-history')
-  async orderHistory(@Request() req) {
+  @Get('active-order-history')
+  async activeOrderHistory(@Request() req) {
     let userId = { userId: req.user.id };
-    return await this.paymentService.orderHistory(userId);
+    return await this.paymentService.activeOrderHistory(userId);
+
+  }
+
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('past-order-history')
+  async pastOrderHistory(@Request() req) {
+    let userId = { userId: req.user.id };
+    return await this.paymentService.pastOrderHistory(userId);
 
   }
 
@@ -99,7 +109,7 @@ export class PaymentController {
   @Get('transactions-customer')
   transactionsCustomer(@Request() req) {
     const userId = req.user.id;
-    return this.paymentService.transactions();
+    return this.paymentService.transactionsCustomer(userId);
   }
 
 }
