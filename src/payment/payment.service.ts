@@ -3,13 +3,18 @@ import Razorpay from 'razorpay';
 import { Deposit } from './entities/deposits.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Order } from '../orders/entities/order.entity';
 
 @Injectable()
 export class PaymentService {
 
 
+
   constructor(@InjectRepository(Deposit)
-  private readonly depositRepository: Repository<Deposit>,) {
+  private readonly depositRepository: Repository<Deposit>,
+  @InjectRepository(Order)
+  private readonly orderRepository:Repository<Order>
+  ) {
     //   this.razorpay = new Razorpay({
     //     key_id: process.env.KEY_ID,
     //     key_secret: process.env.KEY_SECRET,
@@ -25,7 +30,7 @@ export class PaymentService {
         user: data.user,
         provider: data.provider,
         transactionId: data.transactionId,
-        status: data.orderStatus
+        status: data.status
       },
       { transaction: true },
     );
@@ -49,7 +54,7 @@ export class PaymentService {
   }
 
   async transactionsCustomer(user) {
-    return await this.depositRepository.find({ where: { 'user': user.userId } });
+    return await this.depositRepository.find({ where: { 'user': user.userId, 'status':'completed' }, select:['amount',"provider","transactionId","updated_at"] });
   }
 
   async createPaymentOrder(upiData, user) {
@@ -76,6 +81,7 @@ export class PaymentService {
         reminder_enable: true,
         options: { checkout: { method: { netbanking: 1, card: 1, upi: 1, wallet: 0 } } },
       });
+      console.log("res------>>", res);
 
       const data = {
         amount: res.amount,
@@ -86,6 +92,7 @@ export class PaymentService {
       };
 
       const savedData = await this.createDeposit(data);
+      console.log(savedData)
       return res;
     } catch (error) {
       console.log(error);
@@ -117,9 +124,9 @@ export class PaymentService {
     }
   }
 
-  async orderHistory(user) {
+  async activeOrderHistory(user) {
     try {
-      const res = this.depositRepository.find({ where: { 'user': user.userId } });
+      const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'pending' } });
       if (res) {
         return res;
       }
@@ -132,6 +139,20 @@ export class PaymentService {
 
   }
 
+  async pastOrderHistory(user) {
+    try {
+      const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'closed' } });
+      if (res) {
+        return res;
+      }
+      else {
+        return "No Record Found"
+      }
+    } catch (error) {
+      return error;
+    }
+
+  }
 
 
 
