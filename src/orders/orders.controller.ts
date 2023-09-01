@@ -66,6 +66,14 @@ export class OrderController {
         return this.orderService.findActiveOrders(userId);
     }
 
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
+    @Get('order-types')
+    orderTypes() {
+        return this.orderService.orderTypes();
+    }
+
     @Roles('manager')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')

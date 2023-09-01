@@ -104,6 +104,16 @@ export class OrdersService {
     return orders;
   }
 
+  async orderTypes() {
+    return [{ 'name': 'Instant Execution', 'id': 1 }
+      , { 'name': 'Buy Limit', 'id': 2 }
+      , { 'name': 'Sell Limit', 'id': 3 }
+      , { 'name': 'Buy Stop', 'id': 4 }
+      , { 'name': 'Sell Stop', 'id': 5 }
+      , { 'name': 'Buy Stop Limit', 'id': 6 }
+      , { 'name': 'Sell Stop Limit', 'id': 7 }]
+  }
+
 
   async findManagerOrders(userid) {
     // const managerGroups = await this.groupRepository.find({
