@@ -18,8 +18,14 @@ enum OrderType {
 }
 
 export class CreateOrderDto {
-    @IsInt()
-    MsgCode: number;
+    @IsString()
+    FullPairName: string;
+
+    @IsString()
+    PairId: string;
+
+    @IsDecimal()
+    SwapRate: number;
 
     @IsString()
     Symbol: string;

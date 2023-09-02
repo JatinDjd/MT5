@@ -15,8 +15,20 @@ export class Order {
   @Column({ name: 'UserId', type: 'uuid' }) //user ID is User ID of order creator/owner
   UserId: string;
 
-  @Column()
-  MsgCode: number;
+  @Column({ default: 0 })
+  Deviation: number;
+
+  @Column({ nullable: true })
+  expiration: number;
+
+  @Column({ nullable: true })
+  FullPairName: string;
+
+  @Column({ nullable: true })
+  PairId: string;
+
+  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  SwapRate: number;
 
   @Column()
   Symbol: string;
@@ -51,12 +63,12 @@ export class Order {
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   closingPrice: number;
 
-  @Column({ enum: ['Manual','Triggered'], default: 'Manual' })
+  @Column({ enum: ['Manual', 'Triggered'], default: 'Manual' })
   closingType: string;
 
-  @Column({ enum: ['Pending','Cancelled','Closed'], default: 'Pending' })
+  @Column({ enum: ['Pending', 'Cancelled', 'Closed'], default: 'Pending' })
   tradeStatus: string;
 
-  @Column({ enum: ['Buy','Sell'], default: 'Buy' })
+  @Column({ enum: ['Buy', 'Sell'], default: 'Buy' })
   orderType: string;
 }

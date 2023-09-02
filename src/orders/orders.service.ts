@@ -32,8 +32,10 @@ export class OrdersService {
       if (!isValidTP) throw new Error("Take-profile must be greater than current price");
       if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
-          MsgCode: data.MsgCode,
-          Symbol: data.Symbol,
+          FullPairName: data.FullPairName,
+          PairId: data.PairId,
+          Symbol: data.Symbol,   //NICKNAME
+          SwapRate: data.SwapRate,
           Price: data.Price,
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,
@@ -64,8 +66,10 @@ export class OrdersService {
       if (!isValidTP) throw new Error("Take-profit must be less than entry price");
       if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
-          MsgCode: data.MsgCode,
-          Symbol: data.Symbol,
+          FullPairName: data.FullPairName,
+          PairId: data.PairId,
+          Symbol: data.Symbol,   //NICKNAME
+          SwapRate: data.SwapRate,
           Price: data.Price,
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,

@@ -22,6 +22,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 
 @Module({
@@ -52,7 +53,8 @@ import { CompleteProfile } from './auth/entities/completeProfile.entity';
     ManagerModule,
     FeedsModule,
     OrdersModule,
-    PaymentModule
+    PaymentModule,
+    WishlistModule
   ],
   controllers: [],
   providers: [],
