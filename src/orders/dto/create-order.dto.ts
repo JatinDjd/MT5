@@ -3,13 +3,13 @@ import { IsInt, IsDecimal, IsString, IsEnum, IsOptional, ValidateIf } from 'clas
 
 
 enum OrderCategory {
-    InstantExecution = 'Instant Execution',
-    BuyLimit = 'Buy Limit',
-    SellLimit = 'Sell Limit',
-    BuyStop = 'Buy Stop',
-    SellStop = 'Sell Stop',
-    BuyStopLimit = 'Buy Stop Limit',
-    SellStopLimit = 'Sell Stop Limit',
+    InstantExecution = 0,
+    BuyLimit = 1,
+    SellLimit = 2,
+    BuyStop = 3,
+    SellStop = 4,
+    BuyStopLimit = 5,
+    SellStopLimit = 6,
 }
 
 enum OrderType {

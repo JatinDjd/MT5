@@ -2,6 +2,15 @@
 import { User } from '../../users/entities/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
+enum OrderCategory {
+  InstantExecution = 0,
+  BuyLimit = 1,
+  SellLimit = 2,
+  BuyStop = 3,
+  SellStop = 4,
+  BuyStopLimit = 5,
+  SellStopLimit = 6,
+}
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
@@ -48,14 +57,11 @@ export class Order {
   @Column('decimal', { precision: 10, scale: 2 })
   TakeProfit: number;
 
-  @Column({ enum: ['Instant Execution', 'Buy Limit', 'Sell Limit', 'Buy Stop', 'Sell Stop', 'Buy Stop Limit', 'Sell Stop Limit'], default: 'Instant Execution' })
+  @Column({ enum: OrderCategory, default: 'Instant Execution' })
   OrderCategories: string;
 
   @Column({ nullable: true })
   Remarks: string;
-
-  @Column('decimal', { precision: 10, scale: 2 })
-  oBuySell: number;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   openingPrice: number;
