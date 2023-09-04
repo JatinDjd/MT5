@@ -11,6 +11,7 @@ enum OrderCategory {
   BuyStopLimit = 5,
   SellStopLimit = 6,
 }
+
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
@@ -18,11 +19,9 @@ export class Order {
 
 
   @ManyToOne(() => User, (user) => user)
-  @JoinColumn({ name: 'UserId' })
-  user: User;
-
-  @Column({ name: 'UserId', type: 'uuid' }) //user ID is User ID of order creator/owner
+  @JoinColumn({ name: 'UserId'})
   UserId: string;
+  user: User;
 
   @Column({ default: 0 })
   Deviation: number;

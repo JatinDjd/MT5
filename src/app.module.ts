@@ -23,6 +23,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
 import { WishlistModule } from './wishlist/wishlist.module';
+import { Wishlist } from './wishlist/entities/wishlist.entity';
 
 
 @Module({
@@ -41,7 +42,7 @@ import { WishlistModule } from './wishlist/wishlist.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile, Wishlist],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],

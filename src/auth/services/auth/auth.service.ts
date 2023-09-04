@@ -28,7 +28,7 @@ export class AuthService {
         @InjectRepository(RefreshToken)
         private readonly refreshTokenRepository: Repository<RefreshToken>,
         @InjectRepository(CompleteProfile)
-        private readonly userProfile:Repository<CompleteProfile>
+        private readonly userProfile: Repository<CompleteProfile>
 
     ) { }
     async createUser(userData: any) {
@@ -52,6 +52,7 @@ export class AuthService {
             );
 
             if (res) {
+                delete res.token;
                 return res;
             }
             throw new UnprocessableEntityException('Unable to create account!');
@@ -179,7 +180,7 @@ export class AuthService {
         return false;
     }
 
-    async completeProfile(userInfo:completeProfileDto, user){
+    async completeProfile(userInfo: completeProfileDto, user) {
         try {
             console.log(user);
             const profile = new CompleteProfile(); // Create an instance of your Entity
@@ -190,10 +191,10 @@ export class AuthService {
             profile.state = userInfo.state;
             profile.country = userInfo.country;
             profile.gender = userInfo.gender;
-        
+
             const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
             return savedProfile;
-            
+
         } catch (error) {
             throw error;
         }

@@ -63,7 +63,4 @@ export class CreateOrderDto {
 
     @IsString()
     Remarks: string;
-
-    @IsDecimal()
-    oBuy_Sell: number;
 }
