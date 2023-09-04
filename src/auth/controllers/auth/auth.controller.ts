@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -9,7 +9,7 @@ import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 import { completeProfileDto } from '../../dto/completeProfile.dto';
-// import * as cookieParser from 'cookie-parser';
+import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -218,6 +218,15 @@ export class AuthController {
       let userId = { userId: req.user.id };
      return await this.authService.completeProfile(userInfo,userId)
   }
+
+
+  @Post('verify-sms')
+  async verifySms(phoneNumber:PhoneNumberDto){
+    console.log(phoneNumber);
+    return await this.authService.smsVerification(phoneNumber.phoneNumber)
+  }
+
+
 
 }
 

@@ -22,6 +22,9 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
+import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { FeedbackForm } from './miscellaneous/entity/feedback.entity';
+import { faq } from './miscellaneous/entity/faq.entity';
 
 
 @Module({
@@ -40,7 +43,7 @@ import { CompleteProfile } from './auth/entities/completeProfile.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile,FeedbackForm, faq],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
@@ -52,7 +55,8 @@ import { CompleteProfile } from './auth/entities/completeProfile.entity';
     ManagerModule,
     FeedsModule,
     OrdersModule,
-    PaymentModule
+    PaymentModule,
+    MiscellaneousModule
   ],
   controllers: [],
   providers: [],

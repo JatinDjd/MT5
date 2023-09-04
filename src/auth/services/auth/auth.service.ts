@@ -17,9 +17,11 @@ import {
 import { MailService } from '../../../mail/mail.service';
 import { completeProfileDto } from 'src/auth/dto/completeProfile.dto';
 import { CompleteProfile } from '../../entities/completeProfile.entity';
+import { Twilio } from "twilio";
 
 @Injectable()
 export class AuthService {
+    // private readonly client:Twilio;
     constructor(
         private readonly jwtService: JwtService,
         private readonly mailService: MailService,
@@ -28,9 +30,14 @@ export class AuthService {
         @InjectRepository(RefreshToken)
         private readonly refreshTokenRepository: Repository<RefreshToken>,
         @InjectRepository(CompleteProfile)
-        private readonly userProfile:Repository<CompleteProfile>
+        private readonly userProfile:Repository<CompleteProfile>,
+        
 
-    ) { }
+    ) {
+        // const accountSid = process.env.TWILIO_SID;
+        // const authToken = process.env.TWILIO_TOKEN;
+        // this.client = new Twilio(accountSid, authToken);
+     }
     async createUser(userData: any) {
         const email = userData.email;
         const findUser = await this.userRepository.findOne({
@@ -96,7 +103,10 @@ export class AuthService {
         const profile = await this.userRepository.findOne({
             where: { id: userId }, select: ['id', 'firstName', 'lastName', 'isActive', 'role']
         });
-        return profile;
+        const info = await this.userProfile.findOne({where:{ userId:userId }, select:['address','city','state','country','gender','DOB','occupation','annual_income','employment_status','income_source','previous_trading_experience','purpose','total_wealth']})
+        console.log(info);
+        const result = {...profile,...info}
+        return result;
     }
 
     async validateUser(email: string, password: string): Promise<any> {
@@ -190,6 +200,13 @@ export class AuthService {
             profile.state = userInfo.state;
             profile.country = userInfo.country;
             profile.gender = userInfo.gender;
+            profile.occupation = userInfo.occupation;
+            profile.employment_status = userInfo.employment_status;
+            profile.previous_trading_experience = userInfo.previous_trading_experience;
+            profile.purpose = userInfo.purpose;
+            profile.annual_income = userInfo.annual_income;
+            profile.total_wealth = userInfo.total_wealth;
+            profile.income_source = userInfo.income_source;
         
             const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
             return savedProfile;
@@ -200,4 +217,40 @@ export class AuthService {
 
 
     }
+
+    async smsVerification(phoneNumber: string){
+
+        try {
+            const accountSid = process.env.TWILIO_SID;
+            const authToken = process.env.TWILIO_TOKEN;
+            const verifySid = process.env.TWILIO_VERIFY_SID;
+            const client = require("twilio")(accountSid, authToken);
+
+            client.verify.v2
+            .services(verifySid)
+            .verifications.create({ to: phoneNumber, channel: "sms" })
+            .then((verification) => console.log(verification.status))
+            .then(() => {
+                const readline = require("readline").createInterface({
+                input: process.stdin,
+                output: process.stdout,
+                });
+                readline.question("Please enter the OTP:", (otpCode) => {
+                client.verify.v2
+                    .services(verifySid)
+                    .verificationChecks.create({ to: "+918929283030", code: otpCode })
+                    .then((verification_check) => console.log(verification_check.status))
+                    .then(() => readline.close());
+                });
+            });
+            }
+         catch (error) {
+            throw error;
+        }
+            
+        }
+
+        
+
+
 }

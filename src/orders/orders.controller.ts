@@ -76,6 +76,27 @@ export class OrderController {
     }
 
 
+    // @Roles('customer')
+    // @UseGuards(AuthGuard('jwt'), RoleGuard)
+    // @ApiBearerAuth('access-token')
+    // @Get('active-order')
+    // async activeOrderHistory(@Request() req) {
+    //   let userId = { userId: req.user.id };
+    //   return await this.orderService.activeOrderHistory(userId);
+  
+    // }
+  
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
+    @Get('completed-order')
+    async pastOrderHistory(@Request() req) {
+      let userId = { userId: req.user.id };
+      return await this.orderService.pastOrderHistory(userId);
+  
+    }
+  
+
 
 
 }
