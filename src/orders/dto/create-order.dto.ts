@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsDecimal, IsString, IsEnum, IsOptional, ValidateIf } from 'class-validator';
+import { IsDecimal, IsString, IsEnum, ValidateIf } from 'class-validator';
 
 
 enum OrderCategory {
