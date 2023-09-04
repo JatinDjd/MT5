@@ -59,6 +59,7 @@ export class AuthService {
             );
 
             if (res) {
+                delete res.token;
                 return res;
             }
             throw new UnprocessableEntityException('Unable to create account!');
@@ -189,7 +190,7 @@ export class AuthService {
         return false;
     }
 
-    async completeProfile(userInfo:completeProfileDto, user){
+    async completeProfile(userInfo: completeProfileDto, user) {
         try {
             console.log(user);
             const profile = new CompleteProfile(); // Create an instance of your Entity
@@ -210,7 +211,7 @@ export class AuthService {
         
             const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
             return savedProfile;
-            
+
         } catch (error) {
             throw error;
         }

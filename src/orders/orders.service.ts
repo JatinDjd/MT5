@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
-import { In, IsNull, Not, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository, getRepository } from 'typeorm';
 import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { PaymentService } from '../payment/payment.service';
+import { interval } from 'rxjs';
 
 @Injectable()
 export class OrdersService {
@@ -32,8 +33,10 @@ export class OrdersService {
       if (!isValidTP) throw new Error("Take-profile must be greater than current price");
       if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
-          MsgCode: data.MsgCode,
-          Symbol: data.Symbol,
+          FullPairName: data.FullPairName,
+          PairId: data.PairId,
+          Symbol: data.Symbol,   //NICKNAME
+          SwapRate: data.SwapRate,
           Price: data.Price,
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,
@@ -64,8 +67,10 @@ export class OrdersService {
       if (!isValidTP) throw new Error("Take-profit must be less than entry price");
       if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
-          MsgCode: data.MsgCode,
-          Symbol: data.Symbol,
+          FullPairName: data.FullPairName,
+          PairId: data.PairId,
+          Symbol: data.Symbol,   //NICKNAME
+          SwapRate: data.SwapRate,
           Price: data.Price,
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,
@@ -99,9 +104,89 @@ export class OrdersService {
     }
   }
 
+
+  // async autoWrapPosition(data: any, userId: any) {
+  //   try {
+  //     const dbRecords = await this.orderRepository.find();
+  //     interval(20000) // 20 seconds interval
+  //       .subscribe(async () => {
+  //         await this.httpService.get('https://financialmodelingprep.com/api/v3/fx?apikey=99f9ea41ce6e84dcb91e0bc5d51f818d').subscribe(response => {
+  //           const feedData = response;
+  //           // Process the API response
+  //         });
+  //       )
+  //     const feedData = [
+  //       {
+  //         "ticker": "EUR/USD",
+  //         "bid": "1.08220",
+  //         "ask": "1.08220",
+  //         // ... other properties
+  //       },
+  //       {
+  //         "ticker": "USD/JPY",
+  //         "bid": "146.407",
+  //         "ask": "146.407",
+  //         // ... other properties
+  //       },
+  //       {
+  //         "ticker": "GBP/USD",
+  //         "bid": "1.26252",
+  //         "ask": "1.26252",
+  //         // ... other properties
+  //       }
+  //     ];
+  //     // Initialize an array to store matched ask values and IDs
+  //     const matchedValuesWithIds = [];
+  //     // Map the response to get the ask values for the matching tickers
+  //     const askValues = feedData.map(item => {
+  //       const dbRecord = dbRecords.find(dbItem => dbItem.openingPrice === parseFloat(item.ask));
+  //       if (dbRecord) {
+  //         matchedValuesWithIds.push({
+  //           ticker: item.ticker,
+  //           ask: item.ask,
+  //           dbAsk: dbRecord.ask, // Ask value from the database
+  //           dbId: dbRecord.id, // ID from the database
+  //         });
+  //         return {
+  //           ticker: item.ticker,
+  //           ask: item.ask,
+  //           dbAsk: dbRecord.ask, // Ask value from the database
+  //         };
+  //       }
+  //       return null;
+  //     }).filter(item => item !== null);
+
+  //     const order = await this.orderRepository.update(
+  //       { id: data.orderId, UserId: userId },
+  //       {
+  //         closingPrice: data.currentClosingPrice,
+  //         closingType: 'Triggered'
+  //       });
+  //     return order;
+  //   } catch (error) {
+  //     throw new Error(error.message);
+  //   }
+
+  // }
+
+
   async findAll(userid: string) {
-    const orders = await this.orderRepository.find({ where: { UserId: userid } });
+    const orders = await this.orderRepository
+      .createQueryBuilder("orders")
+      .where("orders.UserId= :UserId", { UserId: userid })
+      .getMany();
+
     return orders;
+  }
+
+  async orderTypes() {
+    return [{ 'name': 'Instant Execution', 'id': 1 }
+      , { 'name': 'Buy Limit', 'id': 2 }
+      , { 'name': 'Sell Limit', 'id': 3 }
+      , { 'name': 'Buy Stop', 'id': 4 }
+      , { 'name': 'Sell Stop', 'id': 5 }
+      , { 'name': 'Buy Stop Limit', 'id': 6 }
+      , { 'name': 'Sell Stop Limit', 'id': 7 }]
   }
 
 
@@ -117,8 +202,18 @@ export class OrdersService {
   }
 
   async findActiveOrders(userid: string) {
-    const orders = await this.orderRepository.find({ where: { UserId: userid, tradeStatus: 'Pending' } });
-    return orders;
+    try {
+      const orders = await this.orderRepository
+        .createQueryBuilder("orders")
+        .where("orders.UserId= :UserId", { UserId: userid })
+        .andWhere("orders.tradeStatus = :tradeStatus", { tradeStatus: "Pending" })
+        .getMany();
+      return orders;
+    } catch (error) {
+      console.log(error)
+      return error.message;
+    }
+
   }
 
   async validateStopLossBuy(data: any) {

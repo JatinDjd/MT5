@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsDecimal, IsString, IsEnum, IsOptional, ValidateIf } from 'class-validator';
+import { IsDecimal, IsString, IsEnum, ValidateIf } from 'class-validator';
 
 
 enum OrderCategory {
-    InstantExecution = 'Instant Execution',
-    BuyLimit = 'Buy Limit',
-    SellLimit = 'Sell Limit',
-    BuyStop = 'Buy Stop',
-    SellStop = 'Sell Stop',
-    BuyStopLimit = 'Buy Stop Limit',
-    SellStopLimit = 'Sell Stop Limit',
+    InstantExecution = 0,
+    BuyLimit = 1,
+    SellLimit = 2,
+    BuyStop = 3,
+    SellStop = 4,
+    BuyStopLimit = 5,
+    SellStopLimit = 6,
 }
 
 enum OrderType {
@@ -18,8 +18,14 @@ enum OrderType {
 }
 
 export class CreateOrderDto {
-    @IsInt()
-    MsgCode: number;
+    @IsString()
+    FullPairName: string;
+
+    @IsString()
+    PairId: string;
+
+    @IsDecimal()
+    SwapRate: number;
 
     @IsString()
     Symbol: string;
@@ -57,7 +63,4 @@ export class CreateOrderDto {
 
     @IsString()
     Remarks: string;
-
-    @IsDecimal()
-    oBuy_Sell: number;
 }
