@@ -219,6 +219,54 @@ export class AuthService {
 
     }
 
+
+    async updateProfile(userId,userInfo){
+
+        let profileRecord = await this.userProfile.findOne({where:{'userId':userId.userId}});
+        let userRecord = await this.userRepository.findOne({where:{'id':userId.userId}})
+        console.log(userRecord);
+        if (!profileRecord) {
+            throw new NotFoundException('User profile not found');
+          };
+        //   profileRecord = {...userInfo,'userId':userId.userId};
+        //   console.log(profileRecord);
+
+        //   return this.userProfile.update(profileRecord,userId.userId);
+        profileRecord.address = userInfo.address;
+        profileRecord.city = userInfo.city;
+        profileRecord.state = userInfo.state;
+        profileRecord.country = userInfo.country;
+        profileRecord.DOB = userInfo.DOB;
+        profileRecord.gender = userInfo.gender;
+        profileRecord.occupation = userInfo.occupation;
+        profileRecord.employment_status = userInfo.employment_status;
+        profileRecord.previous_trading_experience = userInfo.previous_trading_experience;
+        profileRecord.purpose = userInfo.purpose;
+        profileRecord.annual_income = userInfo.annual_income;
+        profileRecord.total_wealth = userInfo.total_wealth;
+        profileRecord.income_source = userInfo.income_source;
+        console.log(profileRecord);
+        const res1 = await this.userProfile.save(profileRecord)
+
+        userRecord.firstName = userInfo.firstName;
+        userRecord.lastName = userInfo.lastName;
+
+        const res2 = await this.userRepository.save(userRecord);
+        console.log(res2);
+        
+        // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
+
+        return ({firstName:res2.firstName,lastName:res2.lastName,...res1})
+
+
+
+
+
+
+
+    }
+
+
     async smsVerification(phoneNumber: string){
 
         try {
