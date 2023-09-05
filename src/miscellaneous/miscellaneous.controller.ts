@@ -3,7 +3,9 @@ import { MiscellaneousService } from './miscellaneous.service';
 import { FeedbackDto } from './dto/feedback.dto';
 import { faq } from './entity/faq.entity';
 import { faqDto } from './dto/faq.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Miscellaneous')
 @Controller('miscellaneous')
 export class MiscellaneousController {
 
