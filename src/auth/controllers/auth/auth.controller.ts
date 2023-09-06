@@ -9,6 +9,8 @@ import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 import { completeProfileDto } from '../../dto/completeProfile.dto';
+import { GuestLoginDto } from 'src/auth/dto/guestLogin.dto';
+// import * as cookieParser from 'cookie-parser';
 import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -118,6 +120,48 @@ export class AuthController {
   }
 
 
+  @Post('guest-login')
+  async guestLogin(@Body() guestLoginDto: GuestLoginDto) {
+    try {
+      const token = Math.floor(1000 + Math.random() * 9000).toString();
+      const deviceId = guestLoginDto.deviceId;
+      const firstName = 'guest'
+      const lastName = 'user'
+      const email = deviceId + '@yopmail.com';
+
+      const user = await this.authService.createLoginGuest({
+        deviceId,
+        email,
+        firstName,
+        lastName,
+        token,
+      });
+      return user;
+    } catch (error) {
+      switch (error.status) {
+        case 422:
+          throw new HttpException(
+            {
+              statusCode: 422,
+              message: ['Email already taken'],
+              data: []
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+
+        default:
+          throw new HttpException(
+            {
+              statusCode: 500,
+              message: ['Internal server error'],
+              data: []
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+      }
+    }
+  }
+
   @Get('signup-view')
   @Render('signUp') // Specify the template name (without .hbs extension)
   getSignUp() {
@@ -142,7 +186,7 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard('local'))
-  async login(@Body() data: LoginDto,@Request() req, @Session() session:Record<string, any>) {
+  async login(@Body() data: LoginDto, @Request() req, @Session() session: Record<string, any>) {
     try {
       const result = await this.authService.login(req.user);
       // Store tokens in session (you can also use cookies or local storage)
@@ -221,10 +265,10 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('complete-profile')
-  async completeProfile(@Body() userInfo:completeProfileDto,  @Request() req){
-      console.log(userInfo)
-      let userId = { userId: req.user.id };
-     return await this.authService.completeProfile(userInfo,userId)
+  async completeProfile(@Body() userInfo: completeProfileDto, @Request() req) {
+    console.log(userInfo)
+    let userId = { userId: req.user.id };
+    return await this.authService.completeProfile(userInfo, userId)
   }
 
 

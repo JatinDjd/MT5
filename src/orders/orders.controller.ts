@@ -35,7 +35,8 @@ export class OrderController {
     }
 
     @Roles('customer')
-    @UseGuards(AuthGuard('jwt'), RoleGuard) @ApiBearerAuth('access-token')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
     @Post('wrap-position')
     async wrapPosition(@Body() wrapPositionDto: WrapPositionDto, @Request() req) {
         const userId = req.user.id;
@@ -83,6 +84,10 @@ export class OrderController {
         return this.orderService.findAll(userId);
     }
 
+    @Get('auto-wrap')
+    autoWrap() {
+        return this.orderService.autoWrapPosition();
+    }
 
     // @Roles('customer')
     // @UseGuards(AuthGuard('jwt'), RoleGuard)

@@ -70,6 +70,49 @@ export class AuthService {
         throw new UnprocessableEntityException('Email already exist');
     }
 
+    async createLoginGuest(userData: any) {
+        const email = userData.email;
+        const findUser = await this.userRepository.findOne({
+            where: {
+                email: email.toLowerCase(),
+            },
+        });
+        if (!findUser) {
+            const user = await this.userRepository.save(
+                {
+                    ...userData,
+                    email: userData.email.toLowerCase(),
+                    firstName: userData.firstName.trim(),
+                    lastName: userData.lastName.trim(),
+                    password: await bcrypt.hash(userData.deviceId, 10),
+                    token: userData.token,
+                },
+                { transaction: true },
+            );
+
+
+            let payload = {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role
+            };
+
+            return {
+                userId: user.id,
+                accessToken: this.jwtService.sign(payload),
+                refreshToken: await this.generateRefreshToken(payload),
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role
+            };
+            throw new UnprocessableEntityException('Unable to create account!');
+        }
+        throw new UnprocessableEntityException('Email already exist');
+    }
+
     async updateRefreshToken(refreshToken, expirydate, payload) {
         await this.refreshTokenRepository.upsert(
             {

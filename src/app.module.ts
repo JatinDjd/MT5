@@ -19,7 +19,6 @@ import { UserProfile } from './users/entities/user_profile.entity';
 import { PaymentModule } from './payment/payment.module';
 import { Deposit } from './payment/entities/deposits.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
-
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
@@ -27,15 +26,21 @@ import { FeedbackForm } from './miscellaneous/entity/feedback.entity';
 import { faq } from './miscellaneous/entity/faq.entity';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { Wishlist } from './wishlist/entities/wishlist.entity';
+import { BullModule } from '@nestjs/bull';
+import { UpdateProcessor } from './common/background-processing/update.processor';
 import { UserDocs } from './auth/entities/userDocs.entity';
 
 
 @Module({
+
   imports: [
+    BullModule.registerQueue({
+      name: 'updateQueue', 
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'views'),
-      
-      }),
+
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -63,6 +68,6 @@ import { UserDocs } from './auth/entities/userDocs.entity';
     WishlistModule
   ],
   controllers: [],
-  providers: [],
+  providers: [UpdateProcessor],
 })
-export class AppModule {}
+export class AppModule { }

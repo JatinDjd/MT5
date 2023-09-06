@@ -9,17 +9,27 @@ import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { PaymentService } from '../payment/payment.service';
 import { Deposit } from '../payment/entities/deposits.entity';
+import { BackgroundProcessingService } from '../common/background-processing/background-processing.service';
+import { BullModule } from '@nestjs/bull';
+import { BullQueueModule } from '../bull.module';
 
 
 @Module({
-  providers: [OrdersGateway, OrdersService, PaymentService],
+  providers: [OrdersGateway, OrdersService, PaymentService, BackgroundProcessingService],
   controllers: [OrderController],
   imports: [
+    BullModule.forRoot({
+      redis: {
+        host: 'localhost', // Redis server host
+        port: 6379, // Redis server port
+      },
+    }),
+    BullQueueModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     TypeOrmModule.forFeature([
-      Order,Group,GroupUser,Deposit
+      Order, Group, GroupUser, Deposit
     ])
   ]
 })
