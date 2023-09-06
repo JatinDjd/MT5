@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { User } from '../../users/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity({ name: 'groups' })
 
@@ -15,6 +15,7 @@ export class Group {
     margin: number;                 //it will be calculated based number of times
 
     @ManyToOne(() => User, (user) => user.groups)   //manager reference using userId
+    @JoinTable()
     user: User
 
 

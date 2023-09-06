@@ -14,6 +14,10 @@ import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express'
 import { DocType } from '../../../auth/dto/userDoc.dto';
+import path from 'path';
+import { OrdersService } from '../../../orders/orders.service';
+import * as fs from 'fs';
+import 'path';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -249,13 +253,29 @@ export class AuthController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File,  @Request() req, @Body() doctype: DocType,) {
     console.log(file);
-    let user = {userId:req.user.id};
-    return await this.authService.handleFile(file, user, doctype)
+    // let user = {userId:req.user.id};
+    // return await this.authService.handleFile(file, user, doctype)
+    const user = { userId: req.user.id };
+    const savedFileInfo = await this.authService.handleFile(file, user, doctype);
+
+    // Move the uploaded file to the permanent storage location
+    const permanentStoragePath = '../../../../docs'; // Change to your desired storage path
+    const newFilePath = path.join(permanentStoragePath, savedFileInfo[0].id + path.extname(file.originalname));
+
+    try {
+      fs.renameSync(file.path, newFilePath); // Move the file
+    } catch (err) {
+      console.error('Error moving the file:', err);
+      // Handle the error appropriately
+    }
+
+    return savedFileInfo;
+  }
 
   }
 
 
 
-}
+
 
 

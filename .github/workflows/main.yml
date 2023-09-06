@@ -52,4 +52,5 @@ jobs:
           sudo rm -r dist
           npm install --force
           npm run build
-          pm2 restart trading-app
+          pm2 restart app
+          
