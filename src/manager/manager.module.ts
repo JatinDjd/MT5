@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Group } from './entities/groups.entity';
 import { GroupUser } from './entities/groups_users.entity';
 import { Manager } from './entities/manager.entity';
+import { User } from '../users/entities/user.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { Manager } from './entities/manager.entity';
     TypeOrmModule.forFeature([
      Group,
      GroupUser,
-     Manager
+     Manager,
+     User
     ])
   ],
   controllers: [ManagerController],
