@@ -18,6 +18,7 @@ import { MailService } from '../../../mail/mail.service';
 import { completeProfileDto } from 'src/auth/dto/completeProfile.dto';
 import { CompleteProfile } from '../../entities/completeProfile.entity';
 import { Twilio } from "twilio";
+import { UserDocs } from '../../../auth/entities/userDocs.entity';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +32,8 @@ export class AuthService {
         private readonly refreshTokenRepository: Repository<RefreshToken>,
         @InjectRepository(CompleteProfile)
         private readonly userProfile:Repository<CompleteProfile>,
+        @InjectRepository(UserDocs)
+        private readonly userDocs:Repository<UserDocs>,
         
 
     ) {
@@ -297,6 +300,24 @@ export class AuthService {
             throw error;
         }
             
+        }
+
+
+
+        async handleFile(file, user, doctype){
+
+            const fileInfo=new UserDocs();
+            const userid = user.userId;
+            fileInfo.userId = userid;
+            fileInfo.document_type=doctype.document_type;
+            fileInfo.original_name = file.originalname;
+            fileInfo.path = file.path
+            const res =  await this.userDocs.save(fileInfo);
+            if (!res){
+                return "Unable to save in database."
+            }
+            return res;
+
         }
 
         

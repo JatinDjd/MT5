@@ -27,6 +27,7 @@ import { FeedbackForm } from './miscellaneous/entity/feedback.entity';
 import { faq } from './miscellaneous/entity/faq.entity';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { Wishlist } from './wishlist/entities/wishlist.entity';
+import { UserDocs } from './auth/entities/userDocs.entity';
 
 
 @Module({
@@ -45,7 +46,7 @@ import { Wishlist } from './wishlist/entities/wishlist.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile,FeedbackForm,Wishlist, faq],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile,FeedbackForm,Wishlist, faq, UserDocs ],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
