@@ -115,7 +115,6 @@ export class OrdersService {
     const orders = await this.orderRepository
       .createQueryBuilder("orders")
       .where("orders.UserId= :UserId", { UserId: userid })
-      .andWhere("orders.tradeStatus = :tradeStatus")
       .getMany();
 
     return orders;
