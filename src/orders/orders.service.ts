@@ -98,7 +98,8 @@ export class OrdersService {
         { id: data.orderId, UserId: userId },
         {
           closingPrice: data.currentClosingPrice,
-          closingType: 'Manual'
+          closingType: 'Manual',
+          tradeStatus: 'Closed'
         });
       return order;
     } catch (error) {
@@ -245,6 +246,24 @@ export class OrdersService {
       client.connect('ws://192.168.0.118/Quotes');
     } catch (error) {
       throw new Error(error.message);
+    }
+  }
+
+  async pastOrderHistory(user) {
+    try {
+      const orders = await this.orderRepository
+        .createQueryBuilder("orders")
+        .where("orders.UserId= :UserId", { UserId: user.userId })
+        .andWhere("orders.tradeStatus = :tradeStatus", { tradeStatus: "Closed" })
+        .getMany();
+      if (orders) {
+        return orders;
+      }
+      else {
+        return "No Record Found"
+      }
+    } catch (error) {
+      return error;
     }
 
   }

@@ -15,13 +15,18 @@ import { GroupUser } from '../manager/entities/groups_users.entity';
 import { Manager } from '../manager/entities/manager.entity';
 import { AppModule } from 'src/app.module';
 import { CompleteProfile } from './entities/completeProfile.entity';
+import { MulterModule } from '@nestjs/platform-express';
+import { UserDocs } from './entities/userDocs.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager,CompleteProfile]),
+    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager,CompleteProfile,UserDocs]),
+    MulterModule.register({
+      dest: 'uploads/', // Destination folder
+    }),
    
     JwtModule.register({
       secret: process.env.JWT_SECRET,

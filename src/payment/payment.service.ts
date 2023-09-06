@@ -124,37 +124,38 @@ export class PaymentService {
     }
   }
 
-  async activeOrderHistory(user) {
-    try {
-      const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'pending' } });
-      if (res) {
-        return res;
-      }
-      else {
-        return "No Record Found"
-      }
-    } catch (error) {
-      return error;
-    }
+  // async activeOrderHistory(user) {
+  //   try {
+  //     const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'pending' } });
+  //     if (res) {
+  //       return res;
+  //     }
+  //     else {
+  //       return "No Record Found"
+  //     }
+  //   } catch (error) {
+  //     return error;
+  //   }
 
-  }
+  // }
 
-  async pastOrderHistory(user) {
-    try {
-      const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'closed' } });
-      if (res) {
-        return res;
-      }
-      else {
-        return "No Record Found"
-      }
-    } catch (error) {
-      return error;
-    }
+  // async pastOrderHistory(user) {
+  //   try {
+  //     const res = await this.orderRepository.find({ where: { 'user': user.userId, 'tradeStatus':'closed' } });
+  //     if (res) {
+  //       return res;
+  //     }
+  //     else {
+  //       return "No Record Found"
+  //     }
+  //   } catch (error) {
+  //     return error;
+  //   }
 
-  }
+  // }
 
 
 
 
 }
+

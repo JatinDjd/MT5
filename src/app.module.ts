@@ -21,10 +21,14 @@ import { Deposit } from './payment/entities/deposits.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
+import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { FeedbackForm } from './miscellaneous/entity/feedback.entity';
+import { faq } from './miscellaneous/entity/faq.entity';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { Wishlist } from './wishlist/entities/wishlist.entity';
 import { BullModule } from '@nestjs/bull';
 import { UpdateProcessor } from './common/background-processing/update.processor';
+import { UserDocs } from './auth/entities/userDocs.entity';
 
 
 @Module({
@@ -47,7 +51,7 @@ import { UpdateProcessor } from './common/background-processing/update.processor
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile, Order, Deposit, CompleteProfile, Wishlist],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile,FeedbackForm,Wishlist, faq, UserDocs ],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
@@ -60,6 +64,7 @@ import { UpdateProcessor } from './common/background-processing/update.processor
     FeedsModule,
     OrdersModule,
     PaymentModule,
+    MiscellaneousModule,
     WishlistModule
   ],
   controllers: [],

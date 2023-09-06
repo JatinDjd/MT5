@@ -59,9 +59,10 @@ export class PaymentController {
   }
 
 
-  @Get('deposit-complete')
-  @Render('upi')
-  async paymentComplete(@Session() session: Record<string, any>) {
+  @Get('complete-profile')
+  @Render('completeProfile')
+  async completeProfile(@Session() session: Record<string, any>) {
+    return {};
   }
 
 
@@ -74,25 +75,25 @@ export class PaymentController {
     return this.paymentService.totalDeposits(userId);
   }
 
-  @Roles('customer')
-  @UseGuards(AuthGuard('jwt'), RoleGuard)
-  @ApiBearerAuth('access-token')
-  @Get('active-order-history')
-  async activeOrderHistory(@Request() req) {
-    let userId = { userId: req.user.id };
-    return await this.paymentService.activeOrderHistory(userId);
+  // @Roles('customer')
+  // @UseGuards(AuthGuard('jwt'), RoleGuard)
+  // @ApiBearerAuth('access-token')
+  // @Get('active-order-history')
+  // async activeOrderHistory(@Request() req) {
+  //   let userId = { userId: req.user.id };
+  //   return await this.paymentService.activeOrderHistory(userId);
 
-  }
+  // }
 
-  @Roles('customer')
-  @UseGuards(AuthGuard('jwt'), RoleGuard)
-  @ApiBearerAuth('access-token')
-  @Get('past-order-history')
-  async pastOrderHistory(@Request() req) {
-    let userId = { userId: req.user.id };
-    return await this.paymentService.pastOrderHistory(userId);
+  // @Roles('customer')
+  // @UseGuards(AuthGuard('jwt'), RoleGuard)
+  // @ApiBearerAuth('access-token')
+  // @Get('past-order-history')
+  // async pastOrderHistory(@Request() req) {
+  //   let userId = { userId: req.user.id };
+  //   return await this.paymentService.pastOrderHistory(userId);
 
-  }
+  // }
 
   @Roles('manager')
   @UseGuards(AuthGuard('jwt'), RoleGuard)

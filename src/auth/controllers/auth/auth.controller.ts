@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param, Put, UploadedFiles, UploadedFile, UseInterceptors } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -11,6 +11,11 @@ import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 import { completeProfileDto } from '../../dto/completeProfile.dto';
 import { GuestLoginDto } from 'src/auth/dto/guestLogin.dto';
 // import * as cookieParser from 'cookie-parser';
+import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
+import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express'
+import { DocType } from '../../../auth/dto/userDoc.dto';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -261,6 +266,39 @@ export class AuthController {
     let userId = { userId: req.user.id };
     return await this.authService.completeProfile(userInfo, userId)
   }
+
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('access-token')  
+  @Put('update-profile:id')
+  async updateProfile( @Body() userInfo:UpdateProfileDto,  @Request() req){
+
+    let userId = {userId:req.user.id};
+    console.log(userInfo);
+    return await this.authService.updateProfile(userId,userInfo)
+
+  }
+
+
+  @Post('verify-sms')
+  async verifySms(phoneNumber:PhoneNumberDto){
+    console.log(phoneNumber);
+    return await this.authService.smsVerification(phoneNumber.phoneNumber)
+  }
+
+
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('access-token') 
+  @Post('doc-upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File,  @Request() req, @Body() doctype: DocType,) {
+    console.log(file);
+    let user = {userId:req.user.id};
+    return await this.authService.handleFile(file, user, doctype)
+
+  }
+
+
 
 }
 
