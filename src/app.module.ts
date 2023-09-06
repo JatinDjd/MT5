@@ -19,19 +19,24 @@ import { UserProfile } from './users/entities/user_profile.entity';
 import { PaymentModule } from './payment/payment.module';
 import { Deposit } from './payment/entities/deposits.entity';
 import { ServeStaticModule } from '@nestjs/serve-static';
-
 import { join } from 'path';
 import { CompleteProfile } from './auth/entities/completeProfile.entity';
 import { WishlistModule } from './wishlist/wishlist.module';
 import { Wishlist } from './wishlist/entities/wishlist.entity';
+import { BullModule } from '@nestjs/bull';
+import { UpdateProcessor } from './common/background-processing/update.processor';
 
 
 @Module({
+
   imports: [
+    BullModule.registerQueue({
+      name: 'updateQueue', 
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'views'),
-      
-      }),
+
+    }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -42,7 +47,7 @@ import { Wishlist } from './wishlist/entities/wishlist.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile,Order, Deposit, CompleteProfile, Wishlist],
+        entities: [User, RefreshToken, Group, GroupUser, Manager, Order, UserProfile, Order, Deposit, CompleteProfile, Wishlist],
         synchronize: true,   //make true if want to run migration 
       }),
       inject: [ConfigService],
@@ -58,6 +63,6 @@ import { Wishlist } from './wishlist/entities/wishlist.entity';
     WishlistModule
   ],
   controllers: [],
-  providers: [],
+  providers: [UpdateProcessor],
 })
-export class AppModule {}
+export class AppModule { }

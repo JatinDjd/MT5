@@ -35,25 +35,25 @@ export class Order {
   @Column({ nullable: true })
   PairId: string;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 10, scale: 5, nullable: true })
   SwapRate: number;
 
   @Column()
   Symbol: string;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 5 })
   Price: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 5 })
   StopLimitPrice: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 5 })
   LotSize: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 5 })
   SL: number;
 
-  @Column('decimal', { precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 5 })
   TakeProfit: number;
 
   @Column({ enum: OrderCategory, default: 'Instant Execution' })
@@ -62,10 +62,10 @@ export class Order {
   @Column({ nullable: true })
   Remarks: string;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 10, scale: 5, nullable: true })
   openingPrice: number;
 
-  @Column('decimal', { precision: 10, scale: 2, nullable: true })
+  @Column('decimal', { precision: 10, scale: 5, nullable: true })
   closingPrice: number;
 
   @Column({ enum: ['Manual', 'Triggered'], default: 'Manual' })
