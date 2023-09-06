@@ -13,7 +13,6 @@ import { AuthService } from './services/auth/auth.service';
 import { Group } from '../manager/entities/groups.entity';
 import { GroupUser } from '../manager/entities/groups_users.entity';
 import { Manager } from '../manager/entities/manager.entity';
-import { AppModule } from 'src/app.module';
 import { CompleteProfile } from './entities/completeProfile.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { UserDocs } from './entities/userDocs.entity';

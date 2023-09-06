@@ -9,7 +9,7 @@ import { EmailVerificationDto } from '../../dto/emailVerification.dto';
 import { MailService } from '../../../mail/mail.service';
 import { ForgotPasswordLinkDto } from '../../dto/forgotPassword.dto';
 import { completeProfileDto } from '../../dto/completeProfile.dto';
-import { GuestLoginDto } from 'src/auth/dto/guestLogin.dto';
+import { GuestLoginDto } from '../../../auth/dto/guestLogin.dto';
 // import * as cookieParser from 'cookie-parser';
 import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
