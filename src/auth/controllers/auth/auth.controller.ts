@@ -136,6 +136,7 @@ export class AuthController {
         lastName,
         token,
       });
+
       return user;
     } catch (error) {
       switch (error.status) {
@@ -161,6 +162,7 @@ export class AuthController {
       }
     }
   }
+
 
   @Get('signup-view')
   @Render('signUp') // Specify the template name (without .hbs extension)
@@ -273,29 +275,29 @@ export class AuthController {
 
 
   @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth('access-token')  
+  @ApiBearerAuth('access-token')
   @Put('update-profile:id')
-  async updateProfile( @Body() userInfo:UpdateProfileDto,  @Request() req){
+  async updateProfile(@Body() userInfo: UpdateProfileDto, @Request() req) {
 
-    let userId = {userId:req.user.id};
+    let userId = { userId: req.user.id };
     console.log(userInfo);
-    return await this.authService.updateProfile(userId,userInfo)
+    return await this.authService.updateProfile(userId, userInfo)
 
   }
 
 
   @Post('verify-sms')
-  async verifySms(phoneNumber:PhoneNumberDto){
+  async verifySms(phoneNumber: PhoneNumberDto) {
     console.log(phoneNumber);
     return await this.authService.smsVerification(phoneNumber.phoneNumber)
   }
 
 
   @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth('access-token') 
+  @ApiBearerAuth('access-token')
   @Post('doc-upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File,  @Request() req, @Body() doctype: DocType,) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req, @Body() doctype: DocType,) {
     console.log(file);
     // let user = {userId:req.user.id};
     // return await this.authService.handleFile(file, user, doctype)
@@ -316,7 +318,7 @@ export class AuthController {
     return savedFileInfo;
   }
 
-  }
+}
 
 
 

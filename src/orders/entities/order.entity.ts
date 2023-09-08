@@ -1,6 +1,5 @@
-// trade.entity.ts
 import { User } from '../../users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 
 enum OrderCategory {
   InstantExecution = 0,
@@ -14,12 +13,12 @@ enum OrderCategory {
 
 @Entity('orders')
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
 
   @ManyToOne(() => User, (user) => user)
-  @JoinColumn({ name: 'UserId'})
+  @JoinColumn({ name: 'UserId' })
   UserId: string;
   user: User;
 
@@ -76,4 +75,8 @@ export class Order {
 
   @Column({ enum: ['Buy', 'Sell'], default: 'Buy' })
   orderType: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  timeStamp: Date;
 }
+

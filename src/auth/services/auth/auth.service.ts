@@ -19,6 +19,7 @@ import { completeProfileDto } from '../../../auth/dto/completeProfile.dto';
 import { CompleteProfile } from '../../entities/completeProfile.entity';
 import { Twilio } from "twilio";
 import { UserDocs } from '../../../auth/entities/userDocs.entity';
+import { Deposit } from '../../../payment/entities/deposits.entity';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +35,8 @@ export class AuthService {
         private readonly userProfile: Repository<CompleteProfile>,
         @InjectRepository(UserDocs)
         private readonly userDocs: Repository<UserDocs>,
+        @InjectRepository(Deposit)
+        private readonly depositRepo: Repository<Deposit>,
 
 
     ) {
@@ -41,6 +44,8 @@ export class AuthService {
         // const authToken = process.env.TWILIO_TOKEN;
         // this.client = new Twilio(accountSid, authToken);
     }
+
+
     async createUser(userData: any) {
         const email = userData.email;
         const findUser = await this.userRepository.findOne({
@@ -77,57 +82,60 @@ export class AuthService {
                 email: email,
             },
         });
-        if (!findUser) {
-            const user = await this.userRepository.save(
-                {
-                    ...userData,
-                    email: userData.email.toLowerCase(),
-                    firstName: userData.firstName.trim(),
-                    lastName: userData.lastName.trim(),
-                    password: await bcrypt.hash(userData.deviceId, 10),
-                    token: userData.token,
-                },
-                { transaction: true },
-            );
 
+        const isNewUser = !findUser;
 
-            let payload = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role
-            };
+        const user = isNewUser
+            ? await this.userRepository.save({
+                ...userData,
+                email: userData.email.toLowerCase(),
+                firstName: userData.firstName.trim(),
+                lastName: userData.lastName.trim(),
+                password: await bcrypt.hash(userData.deviceId, 10),
+                token: userData.token,
+            })
+            : findUser;
 
-            return {
-                userId: user.id,
-                accessToken: this.jwtService.sign(payload),
-                refreshToken: await this.generateRefreshToken(payload),
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role
-            };
+        if (isNewUser) { //if new user then deposit amount
+
+            const depositValues = [
+                'UPI',
+                1000,
+                user.id,
+                '{}',
+                `TRN${user.id}`,
+                'completed',
+            ];
+
+            const query = `
+            INSERT INTO public.deposits(
+                provider, amount, "userId", payload, transaction_id, status
+            )
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *;`;
+            await this.depositRepo.query(query, depositValues);
         }
 
-        let payload = {
-            id: findUser.id,
-            firstName: findUser.firstName,
-            lastName: findUser.lastName,
-            email: findUser.email,
-            role: findUser.role
+        const payload = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
         };
 
         return {
-            userId: findUser.id,
+            userId: payload.id,
             accessToken: this.jwtService.sign(payload),
             refreshToken: await this.generateRefreshToken(payload),
-            firstName: findUser.firstName,
-            lastName: findUser.lastName,
-            email: findUser.email,
-            role: findUser.role
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            role: payload.role,
         };
     }
+
+
 
     async updateRefreshToken(refreshToken, expirydate, payload) {
         await this.refreshTokenRepository.upsert(
