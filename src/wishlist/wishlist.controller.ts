@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, Delete, Request, HttpException, HttpStatus } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -14,9 +14,34 @@ export class WishlistController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post()
-  create(@Body() createWishlistDto: CreateWishlistDto) {
-    return this.wishlistService.create(createWishlistDto);
+  async create(@Body() createWishlistDto: CreateWishlistDto, @Request() req,) {
+    try {
+      return await this.wishlistService.create(createWishlistDto, req.user.id);
+    } catch (error) {
+      switch (error.status) {
+        case 422:
+          throw new HttpException(
+            {
+              statusCode: 422,
+              message: ['A wishlist item with this symbol already exists.'],
+              data: []
+            },
+            HttpStatus.BAD_REQUEST,
+          );
+
+        default:
+          throw new HttpException(
+            {
+              statusCode: 500,
+              message: ['Internal server error'],
+              data: []
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+      }
+    }
   }
+
 
   @Roles('customer')
   @UseGuards(AuthGuard('jwt'), RoleGuard)

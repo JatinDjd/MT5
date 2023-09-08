@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './entities/groups.entity';
 import { Repository } from 'typeorm';
 import { GroupUser } from './entities/groups_users.entity';
-import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class ManagerService {
@@ -12,10 +11,7 @@ export class ManagerService {
     @InjectRepository(Group)
     private readonly groupRepository: Repository<Group>,
     @InjectRepository(GroupUser)
-    private readonly groupUserRepository: Repository<GroupUser>,
-    @InjectRepository(User)
-    private readonly userRepository:Repository<User>,
-
+    private readonly groupUserRepository: Repository<GroupUser>
   ) { }
 
 

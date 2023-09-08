@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, UnprocessableEntityException, } from '@nestjs/common';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
-import { UpdateWishlistDto } from './dto/update-wishlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from './entities/wishlist.entity';
 import { Repository } from 'typeorm';
@@ -13,9 +12,19 @@ export class WishlistService {
   ) { }
 
 
-  create(createWishlistDto: CreateWishlistDto) {
-    const newItem = this.wishlistRepository.create(createWishlistDto);
-    return this.wishlistRepository.save(newItem);
+  async create(createWishlistDto: CreateWishlistDto, userId: any) {
+    // Check if an item with the same symbol already exists
+    const existingItem = await this.wishlistRepository.findOne({
+      where: { symbol: createWishlistDto.symbol, user: { id: userId } },
+    });
+
+    if (existingItem) {
+      throw await new UnprocessableEntityException('A wishlist item with this symbol already exists.');
+    }
+
+    const newItem = await this.wishlistRepository.create(createWishlistDto);
+    newItem.user = userId;
+    return await this.wishlistRepository.save(newItem);
   }
 
   findAll() {
