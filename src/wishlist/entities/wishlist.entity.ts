@@ -29,7 +29,7 @@ export class Wishlist {
   @Column({ default: false })
   isAdded: boolean     // which represents whether the stock is added or bided.
 
-  @Column({ type: 'enum', enum: Category })
+  @Column({ type: 'enum', enum: Category, default: 0 })
   categoryId: Category;
 
 }
