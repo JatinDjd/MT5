@@ -318,7 +318,7 @@ export class AuthController {
       console.error('Error moving the file:', err);
       // Handle the error appropriately
     }
-    return `http://localhost:3000/api/auth/certificates/${file.originalname}`;
+    return `${process.env.RES_PATH}/${file.originalname}`;
     
     
   }
