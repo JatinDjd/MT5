@@ -20,13 +20,13 @@ export class Wishlist {
   @Column({ nullable: true })
   fullPairName: string;
 
-  @Column()
+  @Column({ nullable: true })
   symbol: string;
 
-  @Column({default: false})
+  @Column({ default: false })
   isActive: boolean    //for trade allowed or not as per currency time of trading e.g. some items not provide 24*5 
 
-  @Column({default: false})
+  @Column({ default: false })
   isAdded: boolean     // which represents whether the stock is added or bided.
 
   @Column({ type: 'enum', enum: Category })
