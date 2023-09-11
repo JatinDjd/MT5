@@ -4,7 +4,6 @@ import { PaymentController } from './payment.controller';
 import { RazorpayModule } from 'nestjs-razorpay';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Deposit } from './entities/deposits.entity';
-import { AppModule } from 'src/app.module';
 import { Order } from '../orders/entities/order.entity';
 
 @Module({

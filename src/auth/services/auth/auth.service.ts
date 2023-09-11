@@ -16,13 +16,14 @@ import {
     UnprocessableEntityException,
 } from '@nestjs/common';
 import { MailService } from '../../../mail/mail.service';
-import { completeProfileDto } from 'src/auth/dto/completeProfile.dto';
+import { completeProfileDto } from '../../../auth/dto/completeProfile.dto';
 import { CompleteProfile } from '../../entities/completeProfile.entity';
 import { Twilio } from "twilio";
 import { UserDocs } from '../../../auth/entities/userDocs.entity';
 import path from 'path';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
+import { Deposit } from 'src/payment/entities/deposits.entity';
 
 @Injectable()
 export class AuthService {
@@ -37,16 +38,20 @@ export class AuthService {
         @InjectRepository(RefreshToken)
         private readonly refreshTokenRepository: Repository<RefreshToken>,
         @InjectRepository(CompleteProfile)
-        private readonly userProfile:Repository<CompleteProfile>,
+        private readonly userProfile: Repository<CompleteProfile>,
         @InjectRepository(UserDocs)
-        private readonly userDocs:Repository<UserDocs>,
-        
+        private readonly userDocs: Repository<UserDocs>,
+        @InjectRepository(Deposit)
+        private readonly depositRepo: Repository<Deposit>,
+
 
     ) {
         // const accountSid = process.env.TWILIO_SID;
         // const authToken = process.env.TWILIO_TOKEN;
         // this.client = new Twilio(accountSid, authToken);
-     }
+    }
+
+
     async createUser(userData: any) {
         const email = userData.email;
         const findUser = await this.userRepository.findOne({
@@ -80,44 +85,63 @@ export class AuthService {
         const email = userData.email;
         const findUser = await this.userRepository.findOne({
             where: {
-                email: email.toLowerCase(),
+                email: email,
             },
         });
-        if (!findUser) {
-            const user = await this.userRepository.save(
-                {
-                    ...userData,
-                    email: userData.email.toLowerCase(),
-                    firstName: userData.firstName.trim(),
-                    lastName: userData.lastName.trim(),
-                    password: await bcrypt.hash(userData.deviceId, 10),
-                    token: userData.token,
-                },
-                { transaction: true },
-            );
 
+        const isNewUser = !findUser;
 
-            let payload = {
-                id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role
-            };
+        const user = isNewUser
+            ? await this.userRepository.save({
+                ...userData,
+                email: userData.email.toLowerCase(),
+                firstName: userData.firstName.trim(),
+                lastName: userData.lastName.trim(),
+                password: await bcrypt.hash(userData.deviceId, 10),
+                token: userData.token,
+            })
+            : findUser;
 
-            return {
-                userId: user.id,
-                accessToken: this.jwtService.sign(payload),
-                refreshToken: await this.generateRefreshToken(payload),
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role
-            };
-            throw new UnprocessableEntityException('Unable to create account!');
+        if (isNewUser) { //if new user then deposit amount
+
+            const depositValues = [
+                'UPI',
+                1000,
+                user.id,
+                '{}',
+                `TRN${user.id}`,
+                'completed',
+            ];
+
+            const query = `
+            INSERT INTO public.deposits(
+                provider, amount, "userId", payload, transaction_id, status
+            )
+            VALUES ($1, $2, $3, $4, $5, $6)
+            RETURNING *;`;
+            await this.depositRepo.query(query, depositValues);
         }
-        throw new UnprocessableEntityException('Email already exist');
+
+        const payload = {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+        };
+
+        return {
+            userId: payload.id,
+            accessToken: this.jwtService.sign(payload),
+            refreshToken: await this.generateRefreshToken(payload),
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            role: payload.role,
+        };
     }
+
+
 
     async updateRefreshToken(refreshToken, expirydate, payload) {
         await this.refreshTokenRepository.upsert(
@@ -156,9 +180,9 @@ export class AuthService {
         const profile = await this.userRepository.findOne({
             where: { id: userId }, select: ['id', 'firstName', 'lastName', 'isActive', 'role']
         });
-        const info = await this.userProfile.findOne({where:{ userId:userId }, select:['address','city','state','country','gender','DOB','occupation','annual_income','employment_status','income_source','previous_trading_experience','purpose','total_wealth']})
+        const info = await this.userProfile.findOne({ where: { userId: userId }, select: ['address', 'city', 'state', 'country', 'gender', 'DOB', 'occupation', 'annual_income', 'employment_status', 'income_source', 'previous_trading_experience', 'purpose', 'total_wealth'] })
         console.log(info);
-        const result = {...profile,...info}
+        const result = { ...profile, ...info }
         return result;
     }
 
@@ -260,7 +284,7 @@ export class AuthService {
             profile.annual_income = userInfo.annual_income;
             profile.total_wealth = userInfo.total_wealth;
             profile.income_source = userInfo.income_source;
-        
+
             const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
             return savedProfile;
 
@@ -272,14 +296,14 @@ export class AuthService {
     }
 
 
-    async updateProfile(userId,userInfo){
+    async updateProfile(userId, userInfo) {
 
-        let profileRecord = await this.userProfile.findOne({where:{'userId':userId.userId}});
-        let userRecord = await this.userRepository.findOne({where:{'id':userId.userId}})
+        let profileRecord = await this.userProfile.findOne({ where: { 'userId': userId.userId } });
+        let userRecord = await this.userRepository.findOne({ where: { 'id': userId.userId } })
         console.log(userRecord);
         if (!profileRecord) {
             throw new NotFoundException('User profile not found');
-          };
+        };
         //   profileRecord = {...userInfo,'userId':userId.userId};
         //   console.log(profileRecord);
 
@@ -305,10 +329,10 @@ export class AuthService {
 
         const res2 = await this.userRepository.save(userRecord);
         console.log(res2);
-        
+
         // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
 
-        return ({firstName:res2.firstName,lastName:res2.lastName,...res1})
+        return ({ firstName: res2.firstName, lastName: res2.lastName, ...res1 })
 
 
 
@@ -319,7 +343,7 @@ export class AuthService {
     }
 
 
-    async smsVerification(phoneNumber: string){
+    async smsVerification(phoneNumber: string) {
 
         try {
             const accountSid = process.env.TWILIO_SID;
@@ -328,28 +352,31 @@ export class AuthService {
             const client = require("twilio")(accountSid, authToken);
 
             client.verify.v2
-            .services(verifySid)
-            .verifications.create({ to: phoneNumber, channel: "sms" })
-            .then((verification) => console.log(verification.status))
-            .then(() => {
-                const readline = require("readline").createInterface({
-                input: process.stdin,
-                output: process.stdout,
+                .services(verifySid)
+                .verifications.create({ to: phoneNumber, channel: "sms" })
+                .then((verification) => console.log(verification.status))
+                .then(() => {
+                    const readline = require("readline").createInterface({
+                        input: process.stdin,
+                        output: process.stdout,
+                    });
+                    readline.question("Please enter the OTP:", (otpCode) => {
+                        client.verify.v2
+                            .services(verifySid)
+                            .verificationChecks.create({ to: "+918929283030", code: otpCode })
+                            .then((verification_check) => console.log(verification_check.status))
+                            .then(() => readline.close());
+                    });
                 });
-                readline.question("Please enter the OTP:", (otpCode) => {
-                client.verify.v2
-                    .services(verifySid)
-                    .verificationChecks.create({ to: "+918929283030", code: otpCode })
-                    .then((verification_check) => console.log(verification_check.status))
-                    .then(() => readline.close());
-                });
-            });
-            }
-         catch (error) {
+        }
+        catch (error) {
             throw error;
         }
-            
-        }
+
+    }
+
+
+
 
 
 
@@ -360,7 +387,7 @@ export class AuthService {
             fileInfo.userId = userid;
             fileInfo.document_type=doctype.document_type;
             fileInfo.original_name = file.originalname;
-            fileInfo.path = `/home/jd/new MT5/mt5_trading_backend/${file.path}`
+            fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
             const res =  await this.userDocs.save(fileInfo);
             // if (!res){
             //     return "Unable to save in database."
