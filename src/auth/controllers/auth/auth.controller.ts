@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param, Put, UploadedFiles, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param, Put, UploadedFiles, UploadedFile, UseInterceptors, Req, Res } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -13,10 +13,10 @@ import { GuestLoginDto } from '../../../auth/dto/guestLogin.dto';
 // import * as cookieParser from 'cookie-parser';
 import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express'
 import { DocType } from '../../../auth/dto/userDoc.dto';
-import path from 'path';
+import path, { join } from 'path';
 import { OrdersService } from '../../../orders/orders.service';
 import * as fs from 'fs';
 import 'path';
@@ -293,32 +293,74 @@ export class AuthController {
   }
 
 
+  // @UseGuards(AuthGuard('jwt'))
+  // @ApiBearerAuth('access-token')
+  // @Post('doc-upload')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req, @Body() doctype: DocType,) {
+  //   console.log(file);
+  //   // let user = {userId:req.user.id};
+  //   // return await this.authService.handleFile(file, user, doctype)
+  //   const user = { userId: req.user.id };
+  //   const savedFileInfo = await this.authService.handleFile(file, user, doctype);
+
+  //   // Move the uploaded file to the permanent storage location
+  //   const permanentStoragePath = `${process.env.STATIC_PATH}/docs`; // Change to your desired storage path
+  //   const newFilePath = path.join(permanentStoragePath, savedFileInfo.original_name 
+  //     // + path.extname(file.originalname)
+  //     );
+      
+  //   try {
+  //     const finalPath = fs.renameSync(file.path, newFilePath); // Move the file
+  //     // console.log(finalPath)
+  //     // return finalPath;
+  //   } catch (err) {
+  //     console.error('Error moving the file:', err);
+  //     // Handle the error appropriately
+  //   }
+  //   return `${process.env.RES_PATH}/${file.originalname}`;
+    
+    
+  // }
+
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth('access-token')
   @Post('doc-upload')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req, @Body() doctype: DocType,) {
-    console.log(file);
-    // let user = {userId:req.user.id};
-    // return await this.authService.handleFile(file, user, doctype)
+  @UseInterceptors(FilesInterceptor('files', 2)) // Limit to a maximum of 2 files
+  async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Request() req, @Body() doctype: DocType) {
     const user = { userId: req.user.id };
-    const savedFileInfo = await this.authService.handleFile(file, user, doctype);
+    const fileUrls = [];
 
-    // Move the uploaded file to the permanent storage location
-    const permanentStoragePath = '../../../../docs'; // Change to your desired storage path
-    const newFilePath = path.join(permanentStoragePath, savedFileInfo[0].id + path.extname(file.originalname));
+    // Move and process each file
+    for (const file of files) {
+      const savedFileInfo = await this.authService.handleFile(file, user, doctype);
 
-    try {
-      fs.renameSync(file.path, newFilePath); // Move the file
-    } catch (err) {
-      console.error('Error moving the file:', err);
-      // Handle the error appropriately
+      // Move the uploaded file to the permanent storage location
+      const permanentStoragePath = `${process.env.STATIC_PATH}/docs`; // Change to your desired storage path
+      const newFilePath = path.join(permanentStoragePath, savedFileInfo.original_name);
+
+      try {
+        fs.renameSync(file.path, newFilePath); // Move the file
+        const fileUrl = `${process.env.RES_PATH}/${file.originalname}`;
+        fileUrls.push(fileUrl);
+      } catch (err) {
+        console.error('Error moving the file:', err);
+        // Handle the error appropriately
+      }
     }
 
-    return savedFileInfo;
+    return fileUrls;
   }
 
-}
+  @Get('certificates/:picture_path')
+  getProfileImage(@Param('picture_path') picture_path, @Response() res: any) {
+     const filePath = join(__dirname, '../../../../docs');
+     res.sendFile(picture_path, { root: filePath }); 
+    }
+
+
+  
+  }
 
 
 

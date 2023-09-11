@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,7 +29,8 @@ import { Wishlist } from './wishlist/entities/wishlist.entity';
 import { BullModule } from '@nestjs/bull';
 import { UpdateProcessor } from './common/background-processing/update.processor';
 import { UserDocs } from './auth/entities/userDocs.entity';
-
+import * as express from 'express';
+import * as serveStatic from 'serve-static';
 
 @Module({
 
@@ -70,4 +71,12 @@ import { UserDocs } from './auth/entities/userDocs.entity';
   controllers: [],
   providers: [UpdateProcessor],
 })
-export class AppModule { }
+export class AppModule {  configure(consumer: MiddlewareConsumer) {
+  // Define the path to your "docs" directory
+  const docsDirectory = join(__dirname, '..', 'docs'); // Adjust the path as needed
+
+  // Serve static files from the "docs" directory under the /docs route
+  consumer
+    .apply(serveStatic.default(docsDirectory))
+    .forRoutes({ path: '/docs', method: RequestMethod.GET });
+} }

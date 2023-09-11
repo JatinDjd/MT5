@@ -49,43 +49,24 @@ export class ManagerService {
     async findAllGroups(userId) {
       console.log('uuuuuuuuuussssssseeee', userId);
 
+      try {
+        const groupId = await this.groupRepository.find(userId)
+        console.log("group id ------>>>",groupId);
 
-      // const userInfo = await this.groupUserRepository.find();
-      // console.log('userInfo---->>>>',userInfo)
-      // const targetInfoPromises = userInfo.map(async (user) => {
-      //   const targetId = user.userId;
-        
-      //   const targetUser = await this.userRepository.findOne({ where: { id: targetId }, select: ['firstName', 'lastName', 'email', 'isActive', 'isVerified', 'role'] });
-      //   return targetUser;
-      // });
-      // console.log("promiseInfo---->>",targetInfoPromises)
-      // const targetInfo = await Promise.all(targetInfoPromises);
-      // console.log(targetInfo)
-      // const groupInfo =  await this.groupRepository.find({
-      //   select: {
-      //     id: true,
-      //     title: true,
-      //     margin: true,
-          
-      //   },
-      // });
-      // const combinedInfo = groupInfo.map((group, index) => ({
-      //   ...group,
-      //   user: targetInfo[index], // Add targetInfo as a key-value pair
-      // }));
-      // console.log("combinedInfo---->>",combinedInfo)
-    
-      // return combinedInfo;
-      const groupInfo = await this.groupRepository.find({
-        relations: ['user'], // Include the 'user' relationship
-    });
+        return this.groupRepository.findOne({
+          // where: { 'id':groupId },
+          relations: ['users'],
+      });
+   
+      // return this.groupRepository
+      //   .createQueryBuilder('group')
+      //   .leftJoinAndSelect('group.users', 'users') // Load users associated with the group
+      //   .where('group.id = :groupId', { groupId })
+      //   .getOne();
+      } catch (error) {
+        return error;
+      }
 
-    return groupInfo.map((group) => ({
-        id: group.id,
-        title: group.title,
-        margin: group.margin,
-        user: group.user, // Include the user information in the response
-    }));
 
     }
 

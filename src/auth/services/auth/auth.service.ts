@@ -5,8 +5,9 @@ import { User } from '../../../users/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { RefreshToken } from '../../../auth/entities/refresh-token.entity';
-import { HttpException, HttpStatus } from '@nestjs/common';
-
+import { BadRequestException, HttpException, HttpStatus } from '@nestjs/common';
+import * as fs from 'fs';
+import 'path';
 
 import {
     Injectable,
@@ -19,11 +20,16 @@ import { completeProfileDto } from '../../../auth/dto/completeProfile.dto';
 import { CompleteProfile } from '../../entities/completeProfile.entity';
 import { Twilio } from "twilio";
 import { UserDocs } from '../../../auth/entities/userDocs.entity';
-import { Deposit } from '../../../payment/entities/deposits.entity';
+import path from 'path';
+import * as AWS from 'aws-sdk';
+import { ManagedUpload } from 'aws-sdk/clients/s3';
+import { Deposit } from 'src/payment/entities/deposits.entity';
 
 @Injectable()
 export class AuthService {
     // private readonly client:Twilio;
+    private readonly s3: AWS.S3;
+  private readonly bucketName: string = 'docs-mt5';
     constructor(
         private readonly jwtService: JwtService,
         private readonly mailService: MailService,
@@ -372,23 +378,69 @@ export class AuthService {
 
 
 
-    async handleFile(file, user, doctype) {
 
-        const fileInfo = new UserDocs();
-        const userid = user.userId;
-        fileInfo.userId = userid;
-        fileInfo.document_type = doctype.document_type;
-        fileInfo.original_name = file.originalname;
-        fileInfo.path = file.path
-        const res = await this.userDocs.save(fileInfo);
-        if (!res) {
-            return "Unable to save in database."
+
+
+        async handleFile(file, user, doctype){
+
+            const fileInfo=new UserDocs();
+            const userid = user.userId;
+            fileInfo.userId = userid;
+            fileInfo.document_type=doctype.document_type;
+            fileInfo.original_name = file.originalname;
+            fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
+            const res =  await this.userDocs.save(fileInfo);
+            // if (!res){
+            //     return "Unable to save in database."
+            // }
+            return res;
+
+        
+            
+
         }
-        return res;
 
-    }
+        // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
+        //     const uploadPromises: Promise<ManagedUpload.SendData>[] = [];
+        
+        //     for (const file of files) {
+        //         const fileName = file.originalname;
+        //         const fileStream = file.buffer;
+        //         const keyName = folderName ? `${folderName}/${fileName}` : fileName;
+          
+        //         const params: AWS.S3.PutObjectRequest = {
+        //           Bucket: this.bucketName,
+        //           Key: keyName,
+        //           Body: fileStream,
+        //           ContentType: file.mimetype,
+        //           ACL: 'public-read',
+        //         };
+          
+        //         try {
+        //           const uploadResult: ManagedUpload.SendData = await this.s3.upload(params).promise();
+        //           const s3ObjectUrl = uploadResult.Location;
+          
+        //           // Save file info to the database
+        //           const fileInfo = new UserDocs();
+        //           fileInfo.userId = user.userId;
+        //           fileInfo.document_type = doctype.document_type;
+        //           fileInfo.original_name = fileName;
+        //           fileInfo.path = s3ObjectUrl; // Update with the correct path
+        //           const savedFileInfo = await this.userRepository.save(fileInfo);
+          
+        //           uploadedUrls.push(savedFileInfo.path); // Store the saved URL
+        //         } catch (error) {
+        //           console.error('Failed to upload file to S3:', error);
+        //           // Handle the error appropriately
+        //         }
+        //       }
+          
+        //       return uploadedUrls;
+        //     }
 
+     
 
+        
 
 
 }
