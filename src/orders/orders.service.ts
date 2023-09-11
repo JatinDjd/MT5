@@ -26,13 +26,14 @@ export class OrdersService {
 
   async createBuy(data: any, userId: any) {
     try {
+      data.currentInitialPrice = data.OpeningPrice == 0 ? data.ClosingPrice : data.OpeningPrice;
       const isValidOrderValue = await this.validateOrderValue(userId, data);
       const isValidSL = await this.validateStopLossBuy(data);
-      const isValidTP = await this.validateTakeProfitBuy(data);
+      const isValidTP = this.validateTakeProfitBuy(data);
 
       if (!isValidOrderValue) throw new Error("You don't have sufficient balance.");
-      if (!isValidSL) throw new Error("Stop-loss must be less than current price");
-      if (!isValidTP) throw new Error("Take-profile must be greater than current price");
+      if (!isValidSL) throw new Error("Stop-loss must be less than price");
+      if (!isValidTP) throw new Error("Take-profit must be greater than current price");
       if (isValidOrderValue && isValidSL && isValidTP) {
         const order = await this.orderRepository.save({
           FullPairName: data.FullPairName,
@@ -43,11 +44,13 @@ export class OrdersService {
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,
           SL: data.SL,
-          oBuySell: data.oBuy_Sell,
           TakeProfit: data.TP,
+          OrderCategories: data.OrderCategories,
+          OrderType: data.OrderType,
           UserId: userId,
           openingPrice: data.OpeningPrice,
-          closingPrice: data.ClosingPrice
+          closingPrice: data.ClosingPrice,
+          Remarks: data.Remarks
         });
         return order;
       }
@@ -77,11 +80,13 @@ export class OrdersService {
           StopLimitPrice: data.StopLimitPrice,
           LotSize: data.LotSize,
           SL: data.SL,
-          oBuySell: data.oBuy_Sell,
           TakeProfit: data.TP,
+          OrderCategories: data.OrderCategories,
+          OrderType: data.OrderType,
           UserId: userId,
           openingPrice: data.OpeningPrice,
-          closingPrice: data.ClosingPrice
+          closingPrice: data.ClosingPrice,
+          Remarks: data.Remarks
         });
         return order;
       }
@@ -158,19 +163,19 @@ export class OrdersService {
   }
 
   async validateStopLossBuy(data: any) {
-    // Check if stop-loss is less than or equal to the current price and valid
-    if (Number(data.SL) !== undefined && Number(data.SL) <= Number(data.currentInitialPrice)) {
-      return false
+    // Check if stop-loss is less than current price and valid
+    if (Number(data.SL) !== undefined && Number(data.SL) < Number(data.currentInitialPrice)) {
+      return true
     }
-    return true;
+    return false;
   }
 
   async validateTakeProfitBuy(data: any) {
-    // Check if take-profit is greater than or equal to the current price and valid
-    if (Number(data.SL) !== undefined && Number(data.TP) >= Number(data.currentInitialPrice)) {
-      return false
+    // take-profit should greater than or equal to the current price and valid
+    if (Number(data.TP) !== undefined && Number(data.TP) >= Number(data.currentInitialPrice)) {
+      return true
     }
-    return true;
+    return false;
   }
 
 
@@ -184,10 +189,10 @@ export class OrdersService {
 
   async validateTakeProfitSell(data: any) {
     // Check if take-profit is greater than or equal to the current price and valid
-    if (Number(data.SL) !== undefined && Number(data.TP) < Number(data.currentInitialPrice)) {
-      return false
+    if (Number(data.TP) !== undefined && Number(data.TP) < Number(data.currentInitialPrice)) {
+      return true
     }
-    return true;
+    return false;
   }
 
   async validateOrderValue(uId: string, data: any) {
