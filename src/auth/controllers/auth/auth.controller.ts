@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param, Put, UploadedFiles, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Render, Request, Response, UseGuards, Redirect, HttpCode, Session, ValidationPipe, Param, Put, UploadedFiles, UploadedFile, UseInterceptors, Req, Res } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { CreateUserDto } from '../../dto/createUser.dto';
@@ -16,7 +16,7 @@ import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express'
 import { DocType } from '../../../auth/dto/userDoc.dto';
-import path from 'path';
+import path, { join } from 'path';
 import { OrdersService } from '../../../orders/orders.service';
 import * as fs from 'fs';
 import 'path';
@@ -303,19 +303,41 @@ export class AuthController {
     const savedFileInfo = await this.authService.handleFile(file, user, doctype);
 
     // Move the uploaded file to the permanent storage location
-    const permanentStoragePath = '../../../../docs'; // Change to your desired storage path
-    const newFilePath = path.join(permanentStoragePath, savedFileInfo[0].id + path.extname(file.originalname));
+    const permanentStoragePath = `${process.env.STATIC_PATH}/docs`; // Change to your desired storage path
+    const newFilePath = path.join(permanentStoragePath, savedFileInfo.original_name 
+      // + path.extname(file.originalname)
+      );
 
     try {
-      fs.renameSync(file.path, newFilePath); // Move the file
+      const finalPath = fs.renameSync(file.path, newFilePath); // Move the file
+      // console.log(finalPath)
+      // return finalPath;
     } catch (err) {
       console.error('Error moving the file:', err);
       // Handle the error appropriately
     }
-
-    return savedFileInfo;
+    return `http://localhost:3000/api/auth/certificates/${file.originalname}`;
+    
+    
   }
 
+  @Get('certificates/:picture_path')
+  getProfileImage(@Param('picture_path') picture_path, @Response() res: any) {
+     const filePath = join(__dirname, '../../../../docs');
+     res.sendFile(picture_path, { root: filePath }); 
+    }
+
+  // async uploadFiles(@UploadedFile() files: Express.Multer.File,  @Request() req, @Body() doctype: DocType, @Res() res) {
+  //   try {
+  //     const { folderName } = req.body;
+  //     const uploadedUrls = await this.authService.uploadFiles(files, folderName);
+  //     res.json(uploadedUrls);
+  //   } catch (error) {
+  //     console.error('Failed to upload files', error);
+  //     res.status(500).json({ error: 'Failed to upload files' });
+  //   }
+  // }
+  
   }
 
 

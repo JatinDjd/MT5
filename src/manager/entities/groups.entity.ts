@@ -15,8 +15,8 @@ export class Group {
     margin: number;                 //it will be calculated based number of times
 
     @ManyToOne(() => User, (user) => user.groups)   //manager reference using userId
-    @JoinTable()
-    user: User
+    @JoinTable({ name: 'groups_users' })
+    user: User[]
 
 
     @Column({ default: true })
@@ -25,4 +25,5 @@ export class Group {
     @CreateDateColumn({ name: 'created_at' }) 'created_at': Date;
 
     @UpdateDateColumn({ name: 'updated_at' }) 'updated_at': Date;
+
 }

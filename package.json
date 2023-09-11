@@ -39,6 +39,7 @@
     "@sendgrid/mail": "^7.7.0",
     "@types/passport-local": "^1.0.34",
     "amadeus": "^7.1.0",
+    "aws-sdk": "^2.1454.0",
     "bcrypt": "^5.1.0",
     "bull": "^4.11.3",
     "class-transformer": "^0.5.1",

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Req, Query } from '@nestjs/common';
 import { ManagerService } from './manager.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
@@ -28,7 +28,7 @@ export class ManagerController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get('groups')
-  findAllGroups(@Req() req) {
+  findAllGroups(@Req() req,) {
     const userId = req.user.id;
     return this.managerService.findAllGroups(userId);
   }

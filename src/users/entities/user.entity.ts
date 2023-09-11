@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Order } from '../../orders/entities/order.entity';
 import { Group } from '../../manager/entities/groups.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinTable } from 'typeorm';
 import { UserProfile } from './user_profile.entity';
 
 @Entity({ name: 'users' })
@@ -30,6 +30,7 @@ export class User {
 
 
     @OneToMany(() => Group, (group) => group.user)
+    @JoinTable({ name: 'groups_users' })
     groups: Group[]
 
 

@@ -52,9 +52,7 @@ export class MiscellaneousController {
       return this.miscellaneousService.removeFaq(id);
     }
 
-    @Get('Jaali')
-    jaaliFunc(){
-      return "Jaali Bnda Abinash"
-    }
+
+
 
 }
