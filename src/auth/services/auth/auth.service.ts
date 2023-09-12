@@ -24,6 +24,7 @@ import path from 'path';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
 import { Deposit } from 'src/payment/entities/deposits.entity';
+import { UserProfile } from '../../../users/entities/user_profile.entity';
 
 @Injectable()
 export class AuthService {
@@ -43,6 +44,8 @@ export class AuthService {
         private readonly userDocs: Repository<UserDocs>,
         @InjectRepository(Deposit)
         private readonly depositRepo: Repository<Deposit>,
+        @InjectRepository(UserProfile)
+        private readonly userRepo:Repository<UserProfile>
 
 
     ) {
@@ -68,9 +71,27 @@ export class AuthService {
                     lastName: userData.lastName.trim(),
                     password: await bcrypt.hash(userData.password, 10),
                     token: userData.token,
+                    // profile: {},
                 },
                 { transaction: true },
             );
+
+            
+            await this.userProfile.save({
+                userId: res.id,
+                // Set other default values here
+                // company: '',
+                // phone: '',
+                // country: '',
+                // zipCode: 0,
+                // state: '',
+                // city: '',
+                // address: '',
+                // symbols: { symbols: [] },
+                // ...Object.fromEntries(
+                //     Object.keys(this.userProfile.metadata.propertiesMap).map((key) => [key, null])
+                //   ),
+              });
 
             if (res) {
                 delete res.token;

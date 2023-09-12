@@ -11,24 +11,34 @@ export class UserProfile {
     user: User
 
 
-    @Column()
+    @Column({nullable:true})
     company: string;
 
-    @Column()
+    @Column({nullable:true})
     phone: string;
 
-    @Column()
+    @Column({nullable:true})
     country: string;
 
-    @Column()
+    @Column({nullable:true})
     zipCode: number;
 
-    @Column()
+    @Column({nullable:true})
     state: string;
 
-    @Column()
+    @Column({nullable:true})
     city: string;
 
-    @Column()
+    @Column({nullable:true})
     address: string;
+
+    @Column({type: 'json',nullable:true})
+    symbols: Symbol
 }
+
+export interface Symbol {
+    symbols: {
+      name: string;
+    }[];
+  }
+
