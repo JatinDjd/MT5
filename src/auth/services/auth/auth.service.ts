@@ -106,9 +106,10 @@ export class AuthService {
         const email = userData.email;
         const findUser = await this.userRepository.findOne({
             where: {
-                email: email,
+                email: email.toLowerCase(),
             },
         });
+
 
         const isNewUser = !findUser;
 
