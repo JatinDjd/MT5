@@ -124,6 +124,8 @@ export class OrdersService {
       .getMany();
     // Convert property names to camelCase
     const orders = unSortedData.map((item) => {
+      const tpString = item.timeStamp;
+      const ts = new Date(tpString).getTime();
       return {
         id: item.id,
         orderId: item.orderId,
@@ -146,6 +148,7 @@ export class OrdersService {
         tradeStatus: item.tradeStatus,
         orderType: item.orderType,
         timeStamp: item.timeStamp,
+        ts: ts
       };
     });
 

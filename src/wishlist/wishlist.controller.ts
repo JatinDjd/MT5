@@ -47,8 +47,8 @@ export class WishlistController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get()
-  findAll() {
-    return this.wishlistService.findAll();
+  findAll(@Request() req) {
+    return this.wishlistService.findAll(req.user.id);
   }
 
 

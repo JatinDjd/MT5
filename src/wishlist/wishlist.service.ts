@@ -27,8 +27,8 @@ export class WishlistService {
     return await this.wishlistRepository.save(newItem);
   }
 
-  findAll() {
-    return this.wishlistRepository.find();
+  findAll(userId) {
+    return this.wishlistRepository.find({ where: { user: userId } });
   }
 
   async remove(id: string) {
