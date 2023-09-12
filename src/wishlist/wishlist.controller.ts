@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Param, Delete, Request, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, Delete, Request, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { WishlistService } from './wishlist.service';
 import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -14,7 +14,7 @@ export class WishlistController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Post()
-  async create(@Body() createWishlistDto: CreateWishlistDto, @Request() req,) {
+  async create(@Body() createWishlistDto: CreateWishlistDto, @Request() req) {
     try {
       return await this.wishlistService.create(createWishlistDto, req.user.id);
     } catch (error) {
@@ -59,5 +59,17 @@ export class WishlistController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.wishlistService.remove(id);
+  }
+
+
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Get('symbols')
+  getSymbols(@Query('type') type: number, @Request() req) {
+    // 0=>forex, 1=> Indices, 2=>Metals
+    const symbols = this.wishlistService.getSymbols(type, req.user.id);
+    return symbols;
+
   }
 }
