@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FeedbackForm } from './entity/feedback.entity';
 import { Repository } from 'typeorm';
@@ -52,8 +52,5 @@ export class MiscellaneousService {
     await this.faqRepository.delete(id);
   }
 
-  async addSymbols(data) {
-    return await this.feedbackRepo.save(data)
-  }
 
 }

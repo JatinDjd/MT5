@@ -52,6 +52,7 @@ export class OrdersService {
           closingPrice: data.ClosingPrice,
           Remarks: data.Remarks
         });
+
         return order;
       }
     } catch (error) {
@@ -125,6 +126,7 @@ export class OrdersService {
     const orders = unSortedData.map((item) => {
       return {
         id: item.id,
+        orderId: item.orderId,
         deviation: item.Deviation,
         expiration: item.expiration,
         fullPairName: item.FullPairName,
@@ -183,6 +185,7 @@ export class OrdersService {
       const orders = unSortedData.map((item) => {
         return {
           id: item.id,
+          orderId: item.orderId,
           deviation: item.Deviation,
           expiration: item.expiration,
           fullPairName: item.FullPairName,
@@ -315,6 +318,7 @@ export class OrdersService {
         const orders = unSortedData.map((item) => {
           return {
             id: item.id,
+            orderId: item.orderId,
             deviation: item.Deviation,
             expiration: item.expiration,
             fullPairName: item.FullPairName,

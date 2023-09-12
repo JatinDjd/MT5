@@ -13,9 +13,11 @@ enum OrderCategory {
 
 @Entity('orders')
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
+  @Column({ type: 'int', generated: 'increment' })
+  orderId: number;
 
   @ManyToOne(() => User, (user) => user)
   @JoinColumn({ name: 'UserId' })

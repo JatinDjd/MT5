@@ -93,12 +93,8 @@ export class WishlistService {
     };
     const getSymbolsByType = (type) => symbolLists[type] || [];
     const sortedSymbolList = getSymbolsByType(type);
-    // need to remove wishlist item from sortedSymbolList
     const userSymbols = await this.wishlistRepository.find({ where: { user: { id: userId } }, select: ['symbol'] });
-
-    // Filter out items from sortedSymbolList based on userSymbols
     const filteredSymbolList = sortedSymbolList.filter((symbolItem) => {
-      // Check if the symbolItem's symbol is not in userSymbols
       return !userSymbols.some((userSymbol) => userSymbol.symbol === symbolItem.symbol);
     });
 
