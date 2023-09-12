@@ -17,13 +17,14 @@ import { CompleteProfile } from './entities/completeProfile.entity';
 import { MulterModule } from '@nestjs/platform-express';
 import { UserDocs } from './entities/userDocs.entity';
 import { Deposit } from '../payment/entities/deposits.entity';
+import { UserProfile } from '../users/entities/user_profile.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager,CompleteProfile,UserDocs, Deposit]),
+    TypeOrmModule.forFeature([User, RefreshToken, Group, GroupUser, Manager,CompleteProfile,UserDocs, Deposit,UserProfile]),
     MulterModule.register({
       dest: 'uploads/', // Destination folder
     }),

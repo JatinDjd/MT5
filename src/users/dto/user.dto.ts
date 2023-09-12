@@ -1,3 +1,5 @@
+import { Optional } from '@nestjs/common';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsEmail, MinLength } from 'class-validator';
 
 export class UserDto {
@@ -15,26 +17,37 @@ export class UserDto {
   @MinLength(6)
   password: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   company: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   phone: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   country: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   zipCode: number;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   state: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   city: string;
 
-  @IsNotEmpty()
+  @ApiPropertyOptional()
+  @Optional()
   address: string;
+
+  @ApiPropertyOptional()
+  @Optional()
+  symbols: { name: string }[];
 
 
 }

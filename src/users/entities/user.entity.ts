@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Order } from '../../orders/entities/order.entity';
 import { Group } from '../../manager/entities/groups.entity';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinTable, JoinColumn } from 'typeorm';
 import { UserProfile } from './user_profile.entity';
 
 @Entity({ name: 'users' })
@@ -38,7 +38,8 @@ export class User {
     orders: Order[]
 
 
-    @OneToOne(() => UserProfile, (profile) => profile.user)
+    @OneToOne(() => UserProfile, (profile) => profile.user, { cascade: true })
+    @JoinColumn()
     profiles: UserProfile[]
 
 
