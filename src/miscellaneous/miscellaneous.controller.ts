@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Query, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Query, Param, Post, Put, Request } from '@nestjs/common';
 import { MiscellaneousService } from './miscellaneous.service';
 import { FeedbackDto } from './dto/feedback.dto';
 import { faq } from './entity/faq.entity';
 import { faqDto } from './dto/faq.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { SymbolDto } from './dto/add-symbols.dto';
 
 
 @ApiTags('Miscellaneous')
@@ -120,5 +121,10 @@ export class MiscellaneousController {
     return getSymbolsByType(type);
 
   }
+
+  // @Post('add-symbols')
+  // async addSymbols(@Body() symbolDto: SymbolDto, @Request() req) {
+  //   return this.miscellaneousService.addSymbols(symbolDto, req.user.id);
+  // }
 
 }

@@ -117,10 +117,35 @@ export class OrdersService {
 
 
   async findAll(userid: string) {
-    const orders = await this.orderRepository
+    const unSortedData = await this.orderRepository
       .createQueryBuilder("orders")
       .where("orders.UserId= :UserId", { UserId: userid })
       .getMany();
+    // Convert property names to camelCase
+    const orders = unSortedData.map((item) => {
+      return {
+        id: item.id,
+        deviation: item.Deviation,
+        expiration: item.expiration,
+        fullPairName: item.FullPairName,
+        pairId: item.PairId,
+        swapRate: item.SwapRate,
+        symbol: item.Symbol,
+        price: item.Price,
+        stopLimitPrice: item.StopLimitPrice,
+        lotSize: item.LotSize,
+        sl: item.SL,
+        takeProfit: item.TakeProfit,
+        orderCategories: item.OrderCategories,
+        remarks: item.Remarks,
+        openingPrice: item.openingPrice,
+        closingPrice: item.closingPrice,
+        closingType: item.closingType,
+        tradeStatus: item.tradeStatus,
+        orderType: item.orderType,
+        timeStamp: item.timeStamp,
+      };
+    });
 
     return orders;
   }
@@ -149,18 +174,44 @@ export class OrdersService {
 
   async findActiveOrders(userid: string) {
     try {
-      const orders = await this.orderRepository
+      const unSortedData = await this.orderRepository
         .createQueryBuilder("orders")
         .where("orders.UserId= :UserId", { UserId: userid })
         .andWhere("orders.tradeStatus = :tradeStatus", { tradeStatus: "Pending" })
         .getMany();
+      // Convert property names to camelCase
+      const orders = unSortedData.map((item) => {
+        return {
+          id: item.id,
+          deviation: item.Deviation,
+          expiration: item.expiration,
+          fullPairName: item.FullPairName,
+          pairId: item.PairId,
+          swapRate: item.SwapRate,
+          symbol: item.Symbol,
+          price: item.Price,
+          stopLimitPrice: item.StopLimitPrice,
+          lotSize: item.LotSize,
+          sl: item.SL,
+          takeProfit: item.TakeProfit,
+          orderCategories: item.OrderCategories,
+          remarks: item.Remarks,
+          openingPrice: item.openingPrice,
+          closingPrice: item.closingPrice,
+          closingType: item.closingType,
+          tradeStatus: item.tradeStatus,
+          orderType: item.orderType,
+          timeStamp: item.timeStamp,
+        };
+      });
+
       return orders;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return error.message;
     }
-
   }
+
 
   async validateStopLossBuy(data: any) {
     // Check if stop-loss is less than current price and valid
@@ -255,13 +306,38 @@ export class OrdersService {
 
   async pastOrderHistory(user) {
     try {
-      const orders = await this.orderRepository
+      const unSortedData = await this.orderRepository
         .createQueryBuilder("orders")
         .where("orders.UserId= :UserId", { UserId: user.userId })
         .andWhere("orders.tradeStatus = :tradeStatus", { tradeStatus: "Closed" })
         .getMany();
-      if (orders) {
+      if (unSortedData) {
+        const orders = unSortedData.map((item) => {
+          return {
+            id: item.id,
+            deviation: item.Deviation,
+            expiration: item.expiration,
+            fullPairName: item.FullPairName,
+            pairId: item.PairId,
+            swapRate: item.SwapRate,
+            symbol: item.Symbol,
+            price: item.Price,
+            stopLimitPrice: item.StopLimitPrice,
+            lotSize: item.LotSize,
+            sl: item.SL,
+            takeProfit: item.TakeProfit,
+            orderCategories: item.OrderCategories,
+            remarks: item.Remarks,
+            openingPrice: item.openingPrice,
+            closingPrice: item.closingPrice,
+            closingType: item.closingType,
+            tradeStatus: item.tradeStatus,
+            orderType: item.orderType,
+            timeStamp: item.timeStamp,
+          };
+        });
         return orders;
+
       }
       else {
         return "No Record Found"
