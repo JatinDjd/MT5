@@ -28,7 +28,7 @@ export class WishlistService {
   }
 
   findAll(userId) {
-    return this.wishlistRepository.find({ where: { user: userId } });
+    return this.wishlistRepository.find({ where: { user: { id: userId } } });
   }
 
   async remove(id: string) {
