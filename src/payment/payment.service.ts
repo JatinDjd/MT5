@@ -12,8 +12,8 @@ export class PaymentService {
 
   constructor(@InjectRepository(Deposit)
   private readonly depositRepository: Repository<Deposit>,
-  @InjectRepository(Order)
-  private readonly orderRepository:Repository<Order>
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>
   ) {
     //   this.razorpay = new Razorpay({
     //     key_id: process.env.KEY_ID,
@@ -42,7 +42,7 @@ export class PaymentService {
     const sumResult = await this.depositRepository
       .createQueryBuilder('deposits')
       .select('SUM(deposits.amount)', 'sum')
-      .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
+      .where({ status: 'completed', user: { id: userId } })
       .getRawOne();
     console.log("summmmm---->>", sumResult)
 
@@ -50,11 +50,11 @@ export class PaymentService {
   }
 
   async transactions() {
-    return await this.depositRepository.find({where:{'status':"completed"}});
+    return await this.depositRepository.find({ where: { 'status': "completed" } });
   }
 
   async transactionsCustomer(user) {
-    return await this.depositRepository.find({ where: { 'user': user.userId, 'status':'completed' }, select:['amount',"provider","transactionId","updated_at"] });
+    return await this.depositRepository.find({ where: { 'user': user.userId, 'status': 'completed' }, select: ['amount', "provider", "transactionId", "updated_at"] });
   }
 
   async createPaymentOrder(upiData, user) {

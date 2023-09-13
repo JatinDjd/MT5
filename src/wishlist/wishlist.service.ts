@@ -3,12 +3,15 @@ import { CreateWishlistDto } from './dto/create-wishlist.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wishlist } from './entities/wishlist.entity';
 import { Repository } from 'typeorm';
+import { Order } from '../orders/entities/order.entity';
 
 @Injectable()
 export class WishlistService {
   constructor(
     @InjectRepository(Wishlist)
     private readonly wishlistRepository: Repository<Wishlist>,
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>,
   ) { }
 
 
@@ -27,8 +30,28 @@ export class WishlistService {
     return await this.wishlistRepository.save(newItem);
   }
 
-  findAll(userId) {
-    return this.wishlistRepository.find({ where: { user: { id: userId } } });
+  async findAll(userId) {
+    const userOrderSymbols = await this.orderRepository
+      .createQueryBuilder("orders")
+      .select(["orders.Symbol", "orders.Price"])
+      .where("orders.UserId = :UserId", { UserId: userId })
+      .andWhere("orders.tradeStatus = :tradeStatus", { tradeStatus: "Pending" })
+      .getMany();
+
+    const wishlistItems = await this.wishlistRepository.find({
+      where: { user: { id: userId } }
+    });
+ 
+    for (const wishlistItem of wishlistItems) {
+      const matchingOrderSymbol = userOrderSymbols.find(orderSymbol => orderSymbol.Symbol === wishlistItem.symbol);
+      if (matchingOrderSymbol) {
+        wishlistItem.isAdded = true;
+        wishlistItem.bidPrice = matchingOrderSymbol.Price;
+      }
+    }
+
+
+    return wishlistItems;
   }
 
   async remove(id: string) {

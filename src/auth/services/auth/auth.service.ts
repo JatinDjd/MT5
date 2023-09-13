@@ -23,7 +23,7 @@ import { UserDocs } from '../../../auth/entities/userDocs.entity';
 import path from 'path';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
-import { Deposit } from 'src/payment/entities/deposits.entity';
+import { Deposit } from '../../../payment/entities/deposits.entity';
 import { UserProfile } from '../../../users/entities/user_profile.entity';
 
 @Injectable()

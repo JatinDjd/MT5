@@ -106,7 +106,15 @@ export class OrderController {
     async pastOrderHistory(@Request() req) {
       let userId = { userId: req.user.id };
       return await this.orderService.pastOrderHistory(userId);
-  
+    }
+
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
+    @Get('portfolio')
+    async portfolioMetrics(@Request() req) {
+      let userId = req.user.id;
+      return await this.orderService.portfolioMetrics(userId);
     }
   
 

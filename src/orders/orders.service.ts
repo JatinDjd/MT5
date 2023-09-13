@@ -19,8 +19,7 @@ export class OrdersService {
     private readonly groupRepository: Repository<Group>,
     @InjectRepository(GroupUser)
     private readonly groupUserRepository: Repository<GroupUser>,
-    private readonly paymentService: PaymentService,
-    // private readonly httpService: HttpService
+    private readonly paymentService: PaymentService
   ) { }
 
 
@@ -361,6 +360,27 @@ export class OrdersService {
 
   }
 
+  async portfolioMetrics(userid) {
+    const totalBalance = await this.paymentService.totalDeposits(userid);
+    const groupUser = await this.groupUserRepository.findOne({ where: { userId: userid } });
+    const group = groupUser ? await this.groupRepository.findOne({ select: ['margin'], where: { id: groupUser.id } }) : null;
+
+    const defaultMarginForExternalUser = 5; // Default margin for external user
+    const margin = totalBalance * (group?.margin ?? defaultMarginForExternalUser)
+
+    const data = {
+      balance: totalBalance !== null ? totalBalance : null,
+      margin: margin,
+      equity: 0,
+      freeMargin: 0,
+      marginLevel: 0,
+    };
+
+    return data;
+
+
+
+  }
 
 
 }
