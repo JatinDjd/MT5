@@ -427,8 +427,18 @@ export class AuthService {
     }
 
     async getDocuments(userId) {
-        const res = await this.userDocs.find({ where: { userId: userId }, select: ['original_name', 'document_type'] });
-        return res;
+        // const res = await this.userDocs.find({ where: { userId: userId }, select: ['original_name', 'document_type'] });
+        // https://trade.masterinfotech.com/api/auth/certificates
+        // return res;
+
+        const query = `
+        SELECT  document_type, 
+        CONCAT('https://trade.masterinfotech.com/api/auth/certificates/', original_name) AS document_url
+        FROM user_docs
+        WHERE "userId" = $1
+      `;
+        const results = await this.userDocs.query(query, [userId]);
+        return results;
     }
 
     // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
