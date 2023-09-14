@@ -30,7 +30,7 @@ import { UserProfile } from '../../../users/entities/user_profile.entity';
 export class AuthService {
     // private readonly client:Twilio;
     private readonly s3: AWS.S3;
-  private readonly bucketName: string = 'docs-mt5';
+    private readonly bucketName: string = 'docs-mt5';
     constructor(
         private readonly jwtService: JwtService,
         private readonly mailService: MailService,
@@ -45,7 +45,7 @@ export class AuthService {
         @InjectRepository(Deposit)
         private readonly depositRepo: Repository<Deposit>,
         @InjectRepository(UserProfile)
-        private readonly userRepo:Repository<UserProfile>
+        private readonly userRepo: Repository<UserProfile>
 
 
     ) {
@@ -76,7 +76,7 @@ export class AuthService {
                 { transaction: true },
             );
 
-            
+
             await this.userProfile.save({
                 userId: res.id,
                 // Set other default values here
@@ -91,7 +91,7 @@ export class AuthService {
                 // ...Object.fromEntries(
                 //     Object.keys(this.userProfile.metadata.propertiesMap).map((key) => [key, null])
                 //   ),
-              });
+            });
 
             if (res) {
                 delete res.token;
@@ -290,7 +290,12 @@ export class AuthService {
 
     async completeProfile(userInfo: completeProfileDto, user) {
         try {
-            console.log(user);
+            const fName = userInfo.firstName;
+            const lName = userInfo.lastName
+            await this.userRepository.query(
+                `UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3`,
+                [fName, lName, user.userId]
+            );
             const profile = new CompleteProfile(); // Create an instance of your Entity
             profile.userId = user.userId;
             profile.DOB = userInfo.DOB;
@@ -402,66 +407,71 @@ export class AuthService {
 
 
 
-        async handleFile(file, user, doctype){
+    async handleFile(file, user, doctype) {
 
-            const fileInfo=new UserDocs();
-            const userid = user.userId;
-            fileInfo.userId = userid;
-            fileInfo.document_type=doctype.document_type;
-            fileInfo.original_name = file.originalname;
-            fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
-            const res =  await this.userDocs.save(fileInfo);
-            // if (!res){
-            //     return "Unable to save in database."
-            // }
-            return res;
+        const fileInfo = new UserDocs();
+        const userid = user.userId;
+        fileInfo.userId = userid;
+        fileInfo.document_type = doctype.document_type;
+        fileInfo.original_name = file.originalname;
+        fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
+        const res = await this.userDocs.save(fileInfo);
+        // if (!res){
+        //     return "Unable to save in database."
+        // }
+        return res;
 
-        
-            
 
-        }
 
-        // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
-        //     const uploadPromises: Promise<ManagedUpload.SendData>[] = [];
-        
-        //     for (const file of files) {
-        //         const fileName = file.originalname;
-        //         const fileStream = file.buffer;
-        //         const keyName = folderName ? `${folderName}/${fileName}` : fileName;
-          
-        //         const params: AWS.S3.PutObjectRequest = {
-        //           Bucket: this.bucketName,
-        //           Key: keyName,
-        //           Body: fileStream,
-        //           ContentType: file.mimetype,
-        //           ACL: 'public-read',
-        //         };
-          
-        //         try {
-        //           const uploadResult: ManagedUpload.SendData = await this.s3.upload(params).promise();
-        //           const s3ObjectUrl = uploadResult.Location;
-          
-        //           // Save file info to the database
-        //           const fileInfo = new UserDocs();
-        //           fileInfo.userId = user.userId;
-        //           fileInfo.document_type = doctype.document_type;
-        //           fileInfo.original_name = fileName;
-        //           fileInfo.path = s3ObjectUrl; // Update with the correct path
-        //           const savedFileInfo = await this.userRepository.save(fileInfo);
-          
-        //           uploadedUrls.push(savedFileInfo.path); // Store the saved URL
-        //         } catch (error) {
-        //           console.error('Failed to upload file to S3:', error);
-        //           // Handle the error appropriately
-        //         }
-        //       }
-          
-        //       return uploadedUrls;
-        //     }
 
-     
+    }
 
-        
+    async getDocuments(userId) {
+        const res = await this.userDocs.find({ where: { userId: userId }, select: ['original_name', 'document_type'] });
+        return res;
+    }
+
+    // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
+    //     const uploadPromises: Promise<ManagedUpload.SendData>[] = [];
+
+    //     for (const file of files) {
+    //         const fileName = file.originalname;
+    //         const fileStream = file.buffer;
+    //         const keyName = folderName ? `${folderName}/${fileName}` : fileName;
+
+    //         const params: AWS.S3.PutObjectRequest = {
+    //           Bucket: this.bucketName,
+    //           Key: keyName,
+    //           Body: fileStream,
+    //           ContentType: file.mimetype,
+    //           ACL: 'public-read',
+    //         };
+
+    //         try {
+    //           const uploadResult: ManagedUpload.SendData = await this.s3.upload(params).promise();
+    //           const s3ObjectUrl = uploadResult.Location;
+
+    //           // Save file info to the database
+    //           const fileInfo = new UserDocs();
+    //           fileInfo.userId = user.userId;
+    //           fileInfo.document_type = doctype.document_type;
+    //           fileInfo.original_name = fileName;
+    //           fileInfo.path = s3ObjectUrl; // Update with the correct path
+    //           const savedFileInfo = await this.userRepository.save(fileInfo);
+
+    //           uploadedUrls.push(savedFileInfo.path); // Store the saved URL
+    //         } catch (error) {
+    //           console.error('Failed to upload file to S3:', error);
+    //           // Handle the error appropriately
+    //         }
+    //       }
+
+    //       return uploadedUrls;
+    //     }
+
+
+
+
 
 
 }

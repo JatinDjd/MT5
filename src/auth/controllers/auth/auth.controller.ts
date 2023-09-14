@@ -309,7 +309,7 @@ export class AuthController {
   //   const newFilePath = path.join(permanentStoragePath, savedFileInfo.original_name 
   //     // + path.extname(file.originalname)
   //     );
-      
+
   //   try {
   //     const finalPath = fs.renameSync(file.path, newFilePath); // Move the file
   //     // console.log(finalPath)
@@ -319,8 +319,8 @@ export class AuthController {
   //     // Handle the error appropriately
   //   }
   //   return `${process.env.RES_PATH}/${file.originalname}`;
-    
-    
+
+
   // }
 
   @UseGuards(AuthGuard('jwt'))
@@ -352,15 +352,24 @@ export class AuthController {
     return fileUrls;
   }
 
+  @Get('verified-documents')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('access-token')
+  async verifiedDocyuments(@Request() req) {
+    return await this.authService.getDocuments(req.user.id)
+  }
+
+
+
   @Get('certificates/:picture_path')
   getProfileImage(@Param('picture_path') picture_path, @Response() res: any) {
-     const filePath = join(__dirname, '../../../../docs');
-     res.sendFile(picture_path, { root: filePath }); 
-    }
-
-
-  
+    const filePath = join(__dirname, '../../../../docs');
+    res.sendFile(picture_path, { root: filePath });
   }
+
+
+
+}
 
 
 

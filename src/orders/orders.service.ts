@@ -96,6 +96,10 @@ export class OrdersService {
     }
   }
 
+  async deductAmountFromDeposit() {
+    
+
+  }
 
   async wrapPosition(data: any, userId: any) {
     try {
@@ -375,11 +379,7 @@ export class OrdersService {
       freeMargin: 0,
       marginLevel: 0,
     };
-
     return data;
-
-
-
   }
 
 
