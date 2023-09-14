@@ -313,12 +313,28 @@ export class AuthService {
             profile.income_source = userInfo.income_source;
 
             const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
-            return savedProfile;
+            const obj = {
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                DOB: savedProfile.DOB,
+                address: savedProfile.address,
+                city: savedProfile.city,
+                state: savedProfile.state,
+                country: savedProfile.country,
+                gender: savedProfile.gender,
+                occupation: savedProfile.occupation,
+                employment_status: savedProfile.employment_status,
+                previous_trading_experience: savedProfile.previous_trading_experience,
+                purpose: savedProfile.purpose,
+                annual_income: savedProfile.annual_income,
+                total_wealth: savedProfile.total_wealth,
+                income_source: savedProfile.income_source,
+            };
 
+            return obj;
         } catch (error) {
             throw error;
         }
-
 
     }
 
@@ -331,10 +347,7 @@ export class AuthService {
         if (!profileRecord) {
             throw new NotFoundException('User profile not found');
         };
-        //   profileRecord = {...userInfo,'userId':userId.userId};
-        //   console.log(profileRecord);
 
-        //   return this.userProfile.update(profileRecord,userId.userId);
         profileRecord.address = userInfo.address;
         profileRecord.city = userInfo.city;
         profileRecord.state = userInfo.state;
@@ -408,35 +421,23 @@ export class AuthService {
 
 
     async handleFile(file, user, doctype) {
-
         const fileInfo = new UserDocs();
         const userid = user.userId;
         fileInfo.userId = userid;
         fileInfo.document_type = doctype.document_type;
         fileInfo.original_name = file.originalname;
         fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
-        const res = await this.userDocs.save(fileInfo);
-        // if (!res){
-        //     return "Unable to save in database."
-        // }
-        return res;
-
-
-
-
+        // Delete existing records for the same userId
+        await this.userDocs.delete({ userId: user.userId });
+        return await this.userDocs.save(fileInfo);
     }
 
     async getDocuments(userId) {
-        // const res = await this.userDocs.find({ where: { userId: userId }, select: ['original_name', 'document_type'] });
-        // https://trade.masterinfotech.com/api/auth/certificates
-        // return res;
-
         const query = `
         SELECT  document_type, 
         CONCAT('https://trade.masterinfotech.com/api/auth/certificates/', original_name) AS document_url
         FROM user_docs
-        WHERE "userId" = $1
-      `;
+        WHERE "userId" = $1`;
         const results = await this.userDocs.query(query, [userId]);
         return results;
     }
