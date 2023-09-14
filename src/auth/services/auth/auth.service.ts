@@ -290,48 +290,55 @@ export class AuthService {
 
     async completeProfile(userInfo: completeProfileDto, user) {
         try {
-            const fName = userInfo.firstName;
-            const lName = userInfo.lastName
-            await this.userRepository.query(
-                `UPDATE users SET first_name = $1, last_name = $2 WHERE id = $3`,
-                [fName, lName, user.userId]
-            );
-            const profile = new CompleteProfile(); // Create an instance of your Entity
-            profile.userId = user.userId;
-            profile.DOB = userInfo.DOB;
-            profile.address = userInfo.address;
-            profile.city = userInfo.city;
-            profile.state = userInfo.state;
-            profile.country = userInfo.country;
-            profile.gender = userInfo.gender;
-            profile.occupation = userInfo.occupation;
-            profile.employment_status = userInfo.employment_status;
-            profile.previous_trading_experience = userInfo.previous_trading_experience;
-            profile.purpose = userInfo.purpose;
-            profile.annual_income = userInfo.annual_income;
-            profile.total_wealth = userInfo.total_wealth;
-            profile.income_source = userInfo.income_source;
+            const { firstName, lastName } = userInfo;
 
-            const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
-            const obj = {
-                firstName: userInfo.firstName,
-                lastName: userInfo.lastName,
-                DOB: savedProfile.DOB,
-                address: savedProfile.address,
-                city: savedProfile.city,
-                state: savedProfile.state,
-                country: savedProfile.country,
-                gender: savedProfile.gender,
-                occupation: savedProfile.occupation,
-                employment_status: savedProfile.employment_status,
-                previous_trading_experience: savedProfile.previous_trading_experience,
-                purpose: savedProfile.purpose,
-                annual_income: savedProfile.annual_income,
-                total_wealth: savedProfile.total_wealth,
-                income_source: savedProfile.income_source,
+            // Update the 'users' entity
+            await this.userRepository.update(user.userId, { firstName, lastName });
+
+            // Create or update the 'CompleteProfile' entity
+            let userProfile = await this.userProfile.findOne({ where: { userId: user.userId } });
+
+            if (!userProfile) {
+                userProfile = new CompleteProfile();
+                userProfile.userId = user.userId;
+            }
+
+            // Update the 'CompleteProfile' entity
+            userProfile.DOB = userInfo.DOB;
+            userProfile.address = userInfo.address;
+            userProfile.city = userInfo.city;
+            userProfile.state = userInfo.state;
+            userProfile.country = userInfo.country;
+            userProfile.gender = userInfo.gender;
+            userProfile.occupation = userInfo.occupation;
+            userProfile.employment_status = userInfo.employment_status;
+            userProfile.previous_trading_experience = userInfo.previous_trading_experience;
+            userProfile.purpose = userInfo.purpose;
+            userProfile.annual_income = userInfo.annual_income;
+            userProfile.total_wealth = userInfo.total_wealth;
+            userProfile.income_source = userInfo.income_source;
+
+            await this.userProfile.save(userProfile);
+
+            // Return the updated user and profile data
+            return {
+                firstName,
+                lastName,
+                DOB: userProfile.DOB,
+                address: userProfile.address,
+                city: userProfile.city,
+                state: userProfile.state,
+                country: userProfile.country,
+                gender: userProfile.gender,
+                occupation: userProfile.occupation,
+                employment_status: userProfile.employment_status,
+                previous_trading_experience: userProfile.previous_trading_experience,
+                purpose: userProfile.purpose,
+                annual_income: userProfile.annual_income,
+                total_wealth: userProfile.total_wealth,
+                income_source: userProfile.income_source,
             };
 
-            return obj;
         } catch (error) {
             throw error;
         }
@@ -339,48 +346,48 @@ export class AuthService {
     }
 
 
-    async updateProfile(userId, userInfo) {
+    // async updateProfile(userId, userInfo) {
 
-        let profileRecord = await this.userProfile.findOne({ where: { 'userId': userId.userId } });
-        let userRecord = await this.userRepository.findOne({ where: { 'id': userId.userId } })
-        console.log(userRecord);
-        if (!profileRecord) {
-            throw new NotFoundException('User profile not found');
-        };
+    //     let profileRecord = await this.userProfile.findOne({ where: { 'userId': userId.userId } });
+    //     let userRecord = await this.userRepository.findOne({ where: { 'id': userId.userId } })
+    //     console.log(userRecord);
+    //     if (!profileRecord) {
+    //         throw new NotFoundException('User profile not found');
+    //     };
 
-        profileRecord.address = userInfo.address;
-        profileRecord.city = userInfo.city;
-        profileRecord.state = userInfo.state;
-        profileRecord.country = userInfo.country;
-        profileRecord.DOB = userInfo.DOB;
-        profileRecord.gender = userInfo.gender;
-        profileRecord.occupation = userInfo.occupation;
-        profileRecord.employment_status = userInfo.employment_status;
-        profileRecord.previous_trading_experience = userInfo.previous_trading_experience;
-        profileRecord.purpose = userInfo.purpose;
-        profileRecord.annual_income = userInfo.annual_income;
-        profileRecord.total_wealth = userInfo.total_wealth;
-        profileRecord.income_source = userInfo.income_source;
-        console.log(profileRecord);
-        const res1 = await this.userProfile.save(profileRecord)
+    //     profileRecord.address = userInfo.address;
+    //     profileRecord.city = userInfo.city;
+    //     profileRecord.state = userInfo.state;
+    //     profileRecord.country = userInfo.country;
+    //     profileRecord.DOB = userInfo.DOB;
+    //     profileRecord.gender = userInfo.gender;
+    //     profileRecord.occupation = userInfo.occupation;
+    //     profileRecord.employment_status = userInfo.employment_status;
+    //     profileRecord.previous_trading_experience = userInfo.previous_trading_experience;
+    //     profileRecord.purpose = userInfo.purpose;
+    //     profileRecord.annual_income = userInfo.annual_income;
+    //     profileRecord.total_wealth = userInfo.total_wealth;
+    //     profileRecord.income_source = userInfo.income_source;
+    //     console.log(profileRecord);
+    //     const res1 = await this.userProfile.save(profileRecord)
 
-        userRecord.firstName = userInfo.firstName;
-        userRecord.lastName = userInfo.lastName;
+    //     userRecord.firstName = userInfo.firstName;
+    //     userRecord.lastName = userInfo.lastName;
 
-        const res2 = await this.userRepository.save(userRecord);
-        console.log(res2);
+    //     const res2 = await this.userRepository.save(userRecord);
+    //     console.log(res2);
 
-        // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
+    //     // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
 
-        return ({ firstName: res2.firstName, lastName: res2.lastName, ...res1 })
-
-
+    //     return ({ firstName: res2.firstName, lastName: res2.lastName, ...res1 })
 
 
 
 
 
-    }
+
+
+    // }
 
 
     async smsVerification(phoneNumber: string) {

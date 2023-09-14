@@ -274,16 +274,16 @@ export class AuthController {
   }
 
 
-  @UseGuards(AuthGuard('jwt'))
-  @ApiBearerAuth('access-token')
-  @Put('update-profile:id')
-  async updateProfile(@Body() userInfo: UpdateProfileDto, @Request() req) {
+  // @UseGuards(AuthGuard('jwt'))
+  // @ApiBearerAuth('access-token')
+  // @Put('update-profile:id')
+  // async updateProfile(@Body() userInfo: UpdateProfileDto, @Request() req) {
 
-    let userId = { userId: req.user.id };
-    console.log(userInfo);
-    return await this.authService.updateProfile(userId, userInfo)
+  //   let userId = { userId: req.user.id };
+  //   console.log(userInfo);
+  //   return await this.authService.updateProfile(userId, userInfo)
 
-  }
+  // }
 
 
   @Post('verify-sms')

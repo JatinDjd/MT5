@@ -97,7 +97,7 @@ export class OrdersService {
   }
 
   async deductAmountFromDeposit() {
-    
+
 
   }
 
