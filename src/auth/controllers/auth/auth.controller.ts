@@ -328,6 +328,7 @@ export class AuthController {
   async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Request() req, @Body() doctype: DocType) {
     const user = { userId: req.user.id };
     const fileUrls = [];
+    await this.authService.deleteFiles(user);
 
     // Move and process each file
     for (const file of files) {
