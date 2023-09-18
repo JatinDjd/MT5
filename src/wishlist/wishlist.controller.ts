@@ -5,6 +5,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
+import { RemoveWishlistDto } from './dto/remove-wishlist.dto';
 @ApiTags('Wishlist')
 @Controller('wishlist')
 export class WishlistController {
@@ -59,6 +60,16 @@ export class WishlistController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.wishlistService.remove(id);
+  }
+
+
+  @Roles('customer')
+  @UseGuards(AuthGuard('jwt'), RoleGuard)
+  @ApiBearerAuth('access-token')
+  @Post('remove-bulk')
+  removeInBulk(@Body() removeWishlistDto: RemoveWishlistDto) {
+    const { ids } = removeWishlistDto;
+    return this.wishlistService.removeMultiple(ids);
   }
 
 

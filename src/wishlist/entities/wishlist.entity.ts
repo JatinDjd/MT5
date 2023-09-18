@@ -10,7 +10,7 @@ enum Category {
 @Entity('wishlists')
 export class Wishlist {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
 
   @ManyToOne(() => User, (user) => user)
