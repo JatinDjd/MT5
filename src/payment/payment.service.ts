@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import Razorpay from 'razorpay';
 import { Deposit } from './entities/deposits.entity';
-import { Repository } from 'typeorm';
+import { Between, MoreThanOrEqual, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from '../orders/entities/order.entity';
+import { query } from 'express';
 
 @Injectable()
 export class PaymentService {
@@ -53,8 +54,59 @@ export class PaymentService {
     return await this.depositRepository.find({where:{'status':"completed"}});
   }
 
-  async transactionsCustomer(user) {
-    return await this.depositRepository.find({ where: { 'user': user.userId, 'status':'completed' }, select:['amount',"provider","transactionId","updated_at"] });
+  async transactionsCustomer(user,filters) {
+
+    try {
+       // const userId = user;
+    const query = this.depositRepository.createQueryBuilder('transaction');
+    query.where('transaction.userId = :userId', { user });
+
+    if (filters.status) {
+      query.andWhere('transaction.status = :status', { status: filters.status });
+    }
+
+    // if (filters.last3Days) {
+    //   const threeDaysAgo = new Date();
+    //   threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+    //   query.andWhere('transaction.date >= :last3Days', { last3Days: threeDaysAgo });
+    // }
+
+    // if (filters.last7Days) {
+    //   const sevenDaysAgo = new Date();
+    //   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    //   query.andWhere('transaction.date >= :last7Days', { last7Days: sevenDaysAgo });
+    // }
+
+    // if (filters.last30Days) {
+    //   const thirtyDaysAgo = new Date();
+    //   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    //   query.andWhere('transaction.date >= :last30Days', { last30Days: thirtyDaysAgo });
+    // }
+
+    // if (filters.last3Months) {
+    //   const threeMonthsAgo = new Date();
+    //   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    //   query.andWhere('transaction.date >= :last3Months', { last3Months: threeMonthsAgo });
+    // }
+
+    // if (filters.customStartDate && filters.customEndDate) {
+    //   query.andWhere('transaction.date BETWEEN :customStartDate AND :customEndDate', {
+    //     customStartDate: filters.customStartDate,
+    //     customEndDate: filters.customEndDate,
+    //   });
+    // }
+
+    return await query.getMany();
+    return await this.depositRepository.find({ where: { 'user': user.userId}, select:['amount',"status","provider","transactionId","updated_at"] });
+
+    } catch (error) {
+      
+      throw error;
+
+    }
+
+
+   
   }
 
   async createPaymentOrder(upiData, user) {

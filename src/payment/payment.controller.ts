@@ -1,4 +1,4 @@
-import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session, Redirect, Res } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards, Post, Request, Render, Req, Session, Redirect, Res, Query } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
@@ -6,6 +6,7 @@ import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { upiLinkDTO } from './dto/upiLink.dto';
+import { TransactionFilterDto } from './dto/transactionFilter.dto';
 
 
 @ApiTags('Payment')
@@ -108,9 +109,9 @@ export class PaymentController {
   @UseGuards(AuthGuard('jwt'), RoleGuard)
   @ApiBearerAuth('access-token')
   @Get('transactions-customer')
-  transactionsCustomer(@Request() req) {
+  transactionsCustomer(@Request() req, @Query() filters: TransactionFilterDto) {
     const userId = req.user.id;
-    return this.paymentService.transactionsCustomer(userId);
+    return this.paymentService.transactionsCustomer(userId,filters);
   }
 
 }
