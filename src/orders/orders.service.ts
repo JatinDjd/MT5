@@ -279,7 +279,6 @@ export class OrdersService {
       const client = new WebSocket.client();
       client.on('connect', (connection) => {
         console.log('Connected to WebSocket server');
-
         // Define an async function to perform the database query
         const handleWebSocketMessage = async (message) => {
           if (message.type === 'utf8') {
@@ -302,9 +301,7 @@ export class OrdersService {
             }
           }
         };
-
         connection.on('message', handleWebSocketMessage);
-
         connection.on('close', (reasonCode, description) => {
           console.log(`WebSocket connection closed: ${reasonCode} - ${description}`);
         });

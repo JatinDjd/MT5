@@ -14,10 +14,8 @@ import { GuestLoginDto } from '../../../auth/dto/guestLogin.dto';
 import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { Express } from 'express'
 import { DocType } from '../../../auth/dto/userDoc.dto';
 import path, { join } from 'path';
-import { OrdersService } from '../../../orders/orders.service';
 import * as fs from 'fs';
 import 'path';
 
