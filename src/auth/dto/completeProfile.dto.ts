@@ -3,8 +3,17 @@ import { IsDateString, IsNotEmpty } from "class-validator";
 
 export class completeProfileDto {
     
+
     @IsNotEmpty()
-    // @IsDateString()
+    @ApiProperty({example:'Sandeep'})
+    firstName:string;
+
+    
+    @IsNotEmpty()
+    @ApiProperty({example:'Rana'})
+    lastName:string;
+
+    @IsNotEmpty()
     @ApiProperty({format: 'dd-mm-yyy', example: '15-03-2023'})
     DOB:string;
 

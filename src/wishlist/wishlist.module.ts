@@ -4,6 +4,7 @@ import { WishlistController } from './wishlist.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Wishlist } from './entities/wishlist.entity';
+import { Order } from '../orders/entities/order.entity';
 
 @Module({
   controllers: [WishlistController],
@@ -13,7 +14,7 @@ import { Wishlist } from './entities/wishlist.entity';
       isGlobal: true,
     }),
     TypeOrmModule.forFeature([
-      Wishlist
+      Wishlist, Order
     ])
   ]
 })

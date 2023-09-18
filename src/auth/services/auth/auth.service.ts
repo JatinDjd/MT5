@@ -23,14 +23,14 @@ import { UserDocs } from '../../../auth/entities/userDocs.entity';
 import path from 'path';
 import * as AWS from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/clients/s3';
-import { Deposit } from 'src/payment/entities/deposits.entity';
+import { Deposit } from '../../../payment/entities/deposits.entity';
 import { UserProfile } from '../../../users/entities/user_profile.entity';
 
 @Injectable()
 export class AuthService {
     // private readonly client:Twilio;
     private readonly s3: AWS.S3;
-  private readonly bucketName: string = 'docs-mt5';
+    private readonly bucketName: string = 'docs-mt5';
     constructor(
         private readonly jwtService: JwtService,
         private readonly mailService: MailService,
@@ -45,7 +45,7 @@ export class AuthService {
         @InjectRepository(Deposit)
         private readonly depositRepo: Repository<Deposit>,
         @InjectRepository(UserProfile)
-        private readonly userRepo:Repository<UserProfile>
+        private readonly userRepo: Repository<UserProfile>
 
 
     ) {
@@ -76,7 +76,7 @@ export class AuthService {
                 { transaction: true },
             );
 
-            
+
             await this.userProfile.save({
                 userId: res.id,
                 // Set other default values here
@@ -91,7 +91,7 @@ export class AuthService {
                 // ...Object.fromEntries(
                 //     Object.keys(this.userProfile.metadata.propertiesMap).map((key) => [key, null])
                 //   ),
-              });
+            });
 
             if (res) {
                 delete res.token;
@@ -290,71 +290,96 @@ export class AuthService {
 
     async completeProfile(userInfo: completeProfileDto, user) {
         try {
-            console.log(user);
-            const profile = new CompleteProfile(); // Create an instance of your Entity
-            profile.userId = user.userId;
-            profile.DOB = userInfo.DOB;
-            profile.address = userInfo.address;
-            profile.city = userInfo.city;
-            profile.state = userInfo.state;
-            profile.country = userInfo.country;
-            profile.gender = userInfo.gender;
-            profile.occupation = userInfo.occupation;
-            profile.employment_status = userInfo.employment_status;
-            profile.previous_trading_experience = userInfo.previous_trading_experience;
-            profile.purpose = userInfo.purpose;
-            profile.annual_income = userInfo.annual_income;
-            profile.total_wealth = userInfo.total_wealth;
-            profile.income_source = userInfo.income_source;
+            const { firstName, lastName } = userInfo;
 
-            const savedProfile = await this.userProfile.save(profile); // Save the instance to the database
-            return savedProfile;
+            // Update the 'users' entity
+            await this.userRepository.update(user.userId, { firstName, lastName });
+
+            // Create or update the 'CompleteProfile' entity
+            let userProfile = await this.userProfile.findOne({ where: { userId: user.userId } });
+
+            if (!userProfile) {
+                userProfile = new CompleteProfile();
+                userProfile.userId = user.userId;
+            }
+
+            // Update the 'CompleteProfile' entity
+            userProfile.DOB = userInfo.DOB;
+            userProfile.address = userInfo.address;
+            userProfile.city = userInfo.city;
+            userProfile.state = userInfo.state;
+            userProfile.country = userInfo.country;
+            userProfile.gender = userInfo.gender;
+            userProfile.occupation = userInfo.occupation;
+            userProfile.employment_status = userInfo.employment_status;
+            userProfile.previous_trading_experience = userInfo.previous_trading_experience;
+            userProfile.purpose = userInfo.purpose;
+            userProfile.annual_income = userInfo.annual_income;
+            userProfile.total_wealth = userInfo.total_wealth;
+            userProfile.income_source = userInfo.income_source;
+
+            await this.userProfile.save(userProfile);
+
+            // Return the updated user and profile data
+            return {
+                firstName,
+                lastName,
+                DOB: userProfile.DOB,
+                address: userProfile.address,
+                city: userProfile.city,
+                state: userProfile.state,
+                country: userProfile.country,
+                gender: userProfile.gender,
+                occupation: userProfile.occupation,
+                employment_status: userProfile.employment_status,
+                previous_trading_experience: userProfile.previous_trading_experience,
+                purpose: userProfile.purpose,
+                annual_income: userProfile.annual_income,
+                total_wealth: userProfile.total_wealth,
+                income_source: userProfile.income_source,
+            };
 
         } catch (error) {
             throw error;
         }
 
-
     }
 
 
-    async updateProfile(userId, userInfo) {
+    // async updateProfile(userId, userInfo) {
 
-        let profileRecord = await this.userProfile.findOne({ where: { 'userId': userId.userId } });
-        let userRecord = await this.userRepository.findOne({ where: { 'id': userId.userId } })
-        console.log(userRecord);
-        if (!profileRecord) {
-            throw new NotFoundException('User profile not found');
-        };
-        //   profileRecord = {...userInfo,'userId':userId.userId};
-        //   console.log(profileRecord);
+    //     let profileRecord = await this.userProfile.findOne({ where: { 'userId': userId.userId } });
+    //     let userRecord = await this.userRepository.findOne({ where: { 'id': userId.userId } })
+    //     console.log(userRecord);
+    //     if (!profileRecord) {
+    //         throw new NotFoundException('User profile not found');
+    //     };
 
-        //   return this.userProfile.update(profileRecord,userId.userId);
-        profileRecord.address = userInfo.address;
-        profileRecord.city = userInfo.city;
-        profileRecord.state = userInfo.state;
-        profileRecord.country = userInfo.country;
-        profileRecord.DOB = userInfo.DOB;
-        profileRecord.gender = userInfo.gender;
-        profileRecord.occupation = userInfo.occupation;
-        profileRecord.employment_status = userInfo.employment_status;
-        profileRecord.previous_trading_experience = userInfo.previous_trading_experience;
-        profileRecord.purpose = userInfo.purpose;
-        profileRecord.annual_income = userInfo.annual_income;
-        profileRecord.total_wealth = userInfo.total_wealth;
-        profileRecord.income_source = userInfo.income_source;
-        console.log(profileRecord);
-        const res1 = await this.userProfile.save(profileRecord)
+    //     profileRecord.address = userInfo.address;
+    //     profileRecord.city = userInfo.city;
+    //     profileRecord.state = userInfo.state;
+    //     profileRecord.country = userInfo.country;
+    //     profileRecord.DOB = userInfo.DOB;
+    //     profileRecord.gender = userInfo.gender;
+    //     profileRecord.occupation = userInfo.occupation;
+    //     profileRecord.employment_status = userInfo.employment_status;
+    //     profileRecord.previous_trading_experience = userInfo.previous_trading_experience;
+    //     profileRecord.purpose = userInfo.purpose;
+    //     profileRecord.annual_income = userInfo.annual_income;
+    //     profileRecord.total_wealth = userInfo.total_wealth;
+    //     profileRecord.income_source = userInfo.income_source;
+    //     console.log(profileRecord);
+    //     const res1 = await this.userProfile.save(profileRecord)
 
-        userRecord.firstName = userInfo.firstName;
-        userRecord.lastName = userInfo.lastName;
+    //     userRecord.firstName = userInfo.firstName;
+    //     userRecord.lastName = userInfo.lastName;
 
-        const res2 = await this.userRepository.save(userRecord);
-        console.log(res2);
+    //     const res2 = await this.userRepository.save(userRecord);
+    //     console.log(res2);
 
-        // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
+    //     // return {...res1,{'firstName':res2.firstName,'lastName':res2.lastName} };
 
-        return ({ firstName: res2.firstName, lastName: res2.lastName, ...res1 })
+    //     return ({ firstName: res2.firstName, lastName: res2.lastName, ...res1 })
 
 
 
@@ -362,7 +387,7 @@ export class AuthService {
 
 
 
-    }
+    // }
 
 
     async smsVerification(phoneNumber: string) {
@@ -402,66 +427,69 @@ export class AuthService {
 
 
 
-        async handleFile(file, user, doctype){
+    async handleFile(file, user, doctype) {
+        const fileInfo = new UserDocs();
+        const userid = user.userId;
+        fileInfo.userId = userid;
+        fileInfo.document_type = doctype.document_type;
+        fileInfo.original_name = file.originalname;
+        fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
+        // Delete existing records for the same userId
+        await this.userDocs.delete({ userId: user.userId });
+        return await this.userDocs.save(fileInfo);
+    }
 
-            const fileInfo=new UserDocs();
-            const userid = user.userId;
-            fileInfo.userId = userid;
-            fileInfo.document_type=doctype.document_type;
-            fileInfo.original_name = file.originalname;
-            fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
-            const res =  await this.userDocs.save(fileInfo);
-            // if (!res){
-            //     return "Unable to save in database."
-            // }
-            return res;
+    async getDocuments(userId) {
+        const query = `
+        SELECT  document_type, 
+        CONCAT('https://trade.masterinfotech.com/api/auth/certificates/', original_name) AS document_url
+        FROM user_docs
+        WHERE "userId" = $1`;
+        const results = await this.userDocs.query(query, [userId]);
+        return results;
+    }
 
-        
-            
+    // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
+    //     const uploadPromises: Promise<ManagedUpload.SendData>[] = [];
 
-        }
+    //     for (const file of files) {
+    //         const fileName = file.originalname;
+    //         const fileStream = file.buffer;
+    //         const keyName = folderName ? `${folderName}/${fileName}` : fileName;
 
-        // async uploadFiles(files: any[], folderName: string): Promise<string[]> {
-        //     const uploadPromises: Promise<ManagedUpload.SendData>[] = [];
-        
-        //     for (const file of files) {
-        //         const fileName = file.originalname;
-        //         const fileStream = file.buffer;
-        //         const keyName = folderName ? `${folderName}/${fileName}` : fileName;
-          
-        //         const params: AWS.S3.PutObjectRequest = {
-        //           Bucket: this.bucketName,
-        //           Key: keyName,
-        //           Body: fileStream,
-        //           ContentType: file.mimetype,
-        //           ACL: 'public-read',
-        //         };
-          
-        //         try {
-        //           const uploadResult: ManagedUpload.SendData = await this.s3.upload(params).promise();
-        //           const s3ObjectUrl = uploadResult.Location;
-          
-        //           // Save file info to the database
-        //           const fileInfo = new UserDocs();
-        //           fileInfo.userId = user.userId;
-        //           fileInfo.document_type = doctype.document_type;
-        //           fileInfo.original_name = fileName;
-        //           fileInfo.path = s3ObjectUrl; // Update with the correct path
-        //           const savedFileInfo = await this.userRepository.save(fileInfo);
-          
-        //           uploadedUrls.push(savedFileInfo.path); // Store the saved URL
-        //         } catch (error) {
-        //           console.error('Failed to upload file to S3:', error);
-        //           // Handle the error appropriately
-        //         }
-        //       }
-          
-        //       return uploadedUrls;
-        //     }
+    //         const params: AWS.S3.PutObjectRequest = {
+    //           Bucket: this.bucketName,
+    //           Key: keyName,
+    //           Body: fileStream,
+    //           ContentType: file.mimetype,
+    //           ACL: 'public-read',
+    //         };
 
-     
+    //         try {
+    //           const uploadResult: ManagedUpload.SendData = await this.s3.upload(params).promise();
+    //           const s3ObjectUrl = uploadResult.Location;
 
-        
+    //           // Save file info to the database
+    //           const fileInfo = new UserDocs();
+    //           fileInfo.userId = user.userId;
+    //           fileInfo.document_type = doctype.document_type;
+    //           fileInfo.original_name = fileName;
+    //           fileInfo.path = s3ObjectUrl; // Update with the correct path
+    //           const savedFileInfo = await this.userRepository.save(fileInfo);
+
+    //           uploadedUrls.push(savedFileInfo.path); // Store the saved URL
+    //         } catch (error) {
+    //           console.error('Failed to upload file to S3:', error);
+    //           // Handle the error appropriately
+    //         }
+    //       }
+
+    //       return uploadedUrls;
+    //     }
+
+
+
+
 
 
 }

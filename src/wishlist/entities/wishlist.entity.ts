@@ -32,4 +32,7 @@ export class Wishlist {
   @Column({ type: 'enum', enum: Category, default: 0 })
   categoryId: Category;
 
+  @Column('decimal', { precision: 10, scale: 5, nullable: true })
+  bidPrice: number;
+
 }

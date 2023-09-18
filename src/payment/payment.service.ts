@@ -13,8 +13,8 @@ export class PaymentService {
 
   constructor(@InjectRepository(Deposit)
   private readonly depositRepository: Repository<Deposit>,
-  @InjectRepository(Order)
-  private readonly orderRepository:Repository<Order>
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>
   ) {
     //   this.razorpay = new Razorpay({
     //     key_id: process.env.KEY_ID,
@@ -43,7 +43,7 @@ export class PaymentService {
     const sumResult = await this.depositRepository
       .createQueryBuilder('deposits')
       .select('SUM(deposits.amount)', 'sum')
-      .where('deposits.status = :status AND deposits.userId = :userId', { status: 'completed', userId: userId })
+      .where({ status: 'completed', user: { id: userId } })
       .getRawOne();
     console.log("summmmm---->>", sumResult)
 
@@ -51,62 +51,11 @@ export class PaymentService {
   }
 
   async transactions() {
-    return await this.depositRepository.find({where:{'status':"completed"}});
+    return await this.depositRepository.find({ where: { 'status': "completed" } });
   }
 
-  async transactionsCustomer(user,filters) {
-
-    try {
-       // const userId = user;
-    const query = this.depositRepository.createQueryBuilder('transaction');
-    query.where('transaction.userId = :userId', { user });
-
-    if (filters.status) {
-      query.andWhere('transaction.status = :status', { status: filters.status });
-    }
-
-    // if (filters.last3Days) {
-    //   const threeDaysAgo = new Date();
-    //   threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    //   query.andWhere('transaction.date >= :last3Days', { last3Days: threeDaysAgo });
-    // }
-
-    // if (filters.last7Days) {
-    //   const sevenDaysAgo = new Date();
-    //   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    //   query.andWhere('transaction.date >= :last7Days', { last7Days: sevenDaysAgo });
-    // }
-
-    // if (filters.last30Days) {
-    //   const thirtyDaysAgo = new Date();
-    //   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    //   query.andWhere('transaction.date >= :last30Days', { last30Days: thirtyDaysAgo });
-    // }
-
-    // if (filters.last3Months) {
-    //   const threeMonthsAgo = new Date();
-    //   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-    //   query.andWhere('transaction.date >= :last3Months', { last3Months: threeMonthsAgo });
-    // }
-
-    // if (filters.customStartDate && filters.customEndDate) {
-    //   query.andWhere('transaction.date BETWEEN :customStartDate AND :customEndDate', {
-    //     customStartDate: filters.customStartDate,
-    //     customEndDate: filters.customEndDate,
-    //   });
-    // }
-
-    return await query.getMany();
-    return await this.depositRepository.find({ where: { 'user': user.userId}, select:['amount',"status","provider","transactionId","updated_at"] });
-
-    } catch (error) {
-      
-      throw error;
-
-    }
-
-
-   
+  async transactionsCustomer(user) {
+    return await this.depositRepository.find({ where: { 'user': user.userId, 'status': 'completed' }, select: ['amount', "provider", "transactionId", "updated_at"] });
   }
 
   async createPaymentOrder(upiData, user) {

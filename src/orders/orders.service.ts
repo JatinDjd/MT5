@@ -19,8 +19,7 @@ export class OrdersService {
     private readonly groupRepository: Repository<Group>,
     @InjectRepository(GroupUser)
     private readonly groupUserRepository: Repository<GroupUser>,
-    private readonly paymentService: PaymentService,
-    // private readonly httpService: HttpService
+    private readonly paymentService: PaymentService
   ) { }
 
 
@@ -52,6 +51,7 @@ export class OrdersService {
           closingPrice: data.ClosingPrice,
           Remarks: data.Remarks
         });
+
         return order;
       }
     } catch (error) {
@@ -96,6 +96,10 @@ export class OrdersService {
     }
   }
 
+  async deductAmountFromDeposit() {
+
+
+  }
 
   async wrapPosition(data: any, userId: any) {
     try {
@@ -123,8 +127,11 @@ export class OrdersService {
       .getMany();
     // Convert property names to camelCase
     const orders = unSortedData.map((item) => {
+      const tpString = item.timeStamp;
+      const ts = new Date(tpString).getTime();
       return {
         id: item.id,
+        orderId: item.orderId,
         deviation: item.Deviation,
         expiration: item.expiration,
         fullPairName: item.FullPairName,
@@ -144,6 +151,7 @@ export class OrdersService {
         tradeStatus: item.tradeStatus,
         orderType: item.orderType,
         timeStamp: item.timeStamp,
+        ts: ts
       };
     });
 
@@ -181,8 +189,11 @@ export class OrdersService {
         .getMany();
       // Convert property names to camelCase
       const orders = unSortedData.map((item) => {
+        const tpString = item.timeStamp;
+        const ts = new Date(tpString).getTime();
         return {
           id: item.id,
+          orderId: item.orderId,
           deviation: item.Deviation,
           expiration: item.expiration,
           fullPairName: item.FullPairName,
@@ -202,6 +213,7 @@ export class OrdersService {
           tradeStatus: item.tradeStatus,
           orderType: item.orderType,
           timeStamp: item.timeStamp,
+          ts: ts
         };
       });
 
@@ -267,7 +279,6 @@ export class OrdersService {
       const client = new WebSocket.client();
       client.on('connect', (connection) => {
         console.log('Connected to WebSocket server');
-
         // Define an async function to perform the database query
         const handleWebSocketMessage = async (message) => {
           if (message.type === 'utf8') {
@@ -290,9 +301,7 @@ export class OrdersService {
             }
           }
         };
-
         connection.on('message', handleWebSocketMessage);
-
         connection.on('close', (reasonCode, description) => {
           console.log(`WebSocket connection closed: ${reasonCode} - ${description}`);
         });
@@ -313,8 +322,11 @@ export class OrdersService {
         .getMany();
       if (unSortedData) {
         const orders = unSortedData.map((item) => {
+          const tpString = item.timeStamp;
+          const ts = new Date(tpString).getTime();
           return {
             id: item.id,
+            orderId: item.orderId,
             deviation: item.Deviation,
             expiration: item.expiration,
             fullPairName: item.FullPairName,
@@ -334,6 +346,7 @@ export class OrdersService {
             tradeStatus: item.tradeStatus,
             orderType: item.orderType,
             timeStamp: item.timeStamp,
+            ts: ts
           };
         });
         return orders;
@@ -348,6 +361,23 @@ export class OrdersService {
 
   }
 
+  async portfolioMetrics(userid) {
+    const totalBalance = await this.paymentService.totalDeposits(userid);
+    const groupUser = await this.groupUserRepository.findOne({ where: { userId: userid } });
+    const group = groupUser ? await this.groupRepository.findOne({ select: ['margin'], where: { id: groupUser.id } }) : null;
+
+    const defaultMarginForExternalUser = 5; // Default margin for external user
+    const margin = totalBalance * (group?.margin ?? defaultMarginForExternalUser)
+
+    const data = {
+      balance: totalBalance !== null ? totalBalance : null,
+      margin: margin,
+      equity: 0,
+      freeMargin: 0,
+      marginLevel: 0,
+    };
+    return data;
+  }
 
 
 }
