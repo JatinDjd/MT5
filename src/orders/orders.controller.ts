@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, UnprocessableEntityException } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, UseGuards, Request } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -31,7 +31,36 @@ export class OrderController {
             }
             if (order) return order;
         } catch (error) {
-            return { error: error.message };
+            switch (error.status) {
+                case 404:
+                  throw new HttpException(
+                    {
+                      statusCode: 404,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.BAD_REQUEST,
+                  );
+                case 401:
+                  throw new HttpException(
+                    {
+                      statusCode: 401,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.BAD_REQUEST,
+                  );
+        
+                default:
+                  throw new HttpException(
+                    {
+                      statusCode: 500,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                  );
+              }
         }
     }
 
