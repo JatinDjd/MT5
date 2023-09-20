@@ -44,7 +44,7 @@ export class FeedsGateway implements OnModuleInit {
   // }
 
   @SubscribeMessage('findAllFeeds')
-  async findAll(@ConnectedSocket() socket: Socket) {
+  async findAll(@MessageBody() data) {
     const feeds = await this.feedsService.findAll();
     this.server.emit('findAllFeeds', feeds);
   }
@@ -54,5 +54,4 @@ export class FeedsGateway implements OnModuleInit {
     const feeds = await this.feedsService.findAll();
     this.server.emit('findAllFeeds', feeds);
   }
-
 }
