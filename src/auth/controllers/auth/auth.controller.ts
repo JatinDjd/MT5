@@ -14,8 +14,10 @@ import { GuestLoginDto } from '../../../auth/dto/guestLogin.dto';
 import { PhoneNumberDto } from '../../../auth/dto/phoneNumber.dto';
 import { UpdateProfileDto } from '../../../auth/dto/updateProfile.dto';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express'
 import { DocType } from '../../../auth/dto/userDoc.dto';
 import path, { join } from 'path';
+import { OrdersService } from '../../../orders/orders.service';
 import * as fs from 'fs';
 import 'path';
 
@@ -279,7 +281,7 @@ export class AuthController {
 
   //   let userId = { userId: req.user.id };
   //   console.log(userInfo);
-  //   return await this.authService.updateProfile(userId, userInfo)
+  //   return await this.authService.updateProfile(userId, userInfo);
 
   // }
 
@@ -287,7 +289,7 @@ export class AuthController {
   @Post('verify-sms')
   async verifySms(phoneNumber: PhoneNumberDto) {
     console.log(phoneNumber);
-    return await this.authService.smsVerification(phoneNumber.phoneNumber)
+    return await this.authService.smsVerification(phoneNumber.phoneNumber);
   }
 
 
@@ -307,7 +309,7 @@ export class AuthController {
   //   const newFilePath = path.join(permanentStoragePath, savedFileInfo.original_name 
   //     // + path.extname(file.originalname)
   //     );
-
+      
   //   try {
   //     const finalPath = fs.renameSync(file.path, newFilePath); // Move the file
   //     // console.log(finalPath)
@@ -317,8 +319,8 @@ export class AuthController {
   //     // Handle the error appropriately
   //   }
   //   return `${process.env.RES_PATH}/${file.originalname}`;
-
-
+    
+    
   // }
 
   @UseGuards(AuthGuard('jwt'))
@@ -361,13 +363,13 @@ export class AuthController {
 
   @Get('certificates/:picture_path')
   getProfileImage(@Param('picture_path') picture_path, @Response() res: any) {
-    const filePath = join(__dirname, '../../../../docs');
-    res.sendFile(picture_path, { root: filePath });
+     const filePath = join(__dirname, '../../../../docs');
+     res.sendFile(picture_path, { root: filePath });
+    }
+
+
+  
   }
-
-
-
-}
 
 
 

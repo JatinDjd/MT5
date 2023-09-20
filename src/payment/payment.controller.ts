@@ -111,7 +111,7 @@ export class PaymentController {
   @Get('transactions-customer')
   transactionsCustomer(@Request() req, @Query() filters: TransactionFilterDto) {
     const userId = req.user.id;
-    return this.paymentService.transactionsCustomer(userId,filters);
+    return this.paymentService.transactionsCustomer(userId);
   }
 
 }
