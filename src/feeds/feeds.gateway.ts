@@ -23,23 +23,36 @@ export class FeedsGateway implements OnModuleInit {
   }
 
 
+  private interval: NodeJS.Timeout;
+
+
+  afterInit() {
+    this.interval = setInterval(() => this.refreshFeeds(), 1000); // Refresh every 5 seconds (adjust the interval as needed)
+  }
+
+
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): void {
     this.server.emit('message', payload);
   }
 
-  @SubscribeMessage('createFeed')
-  async create(@MessageBody() createFeedDto: CreateFeedDto) {
-    const feed = await this.feedsService.create(createFeedDto);
-    this.server.emit('createFeed', feed);
-    // return feed;
-  }
+  // @SubscribeMessage('createFeed')
+  // async create(@MessageBody() createFeedDto: CreateFeedDto) {
+  //   const feed = await this.feedsService.create(createFeedDto);
+  //   this.server.emit('createFeed', feed);
+  //   // return feed;
+  // }
 
   @SubscribeMessage('findAllFeeds')
   async findAll(@ConnectedSocket() socket: Socket) {
     const feeds = await this.feedsService.findAll();
     this.server.emit('findAllFeeds', feeds);
-    // return feeds
+  }
+
+  private async refreshFeeds() {
+    // Fetch updated data and send it to all connected clients
+    const feeds = await this.feedsService.findAll();
+    this.server.emit('findAllFeeds', feeds);
   }
 
 }

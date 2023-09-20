@@ -434,9 +434,12 @@ export class AuthService {
         fileInfo.document_type = doctype.document_type;
         fileInfo.original_name = file.originalname;
         fileInfo.path = `${process.env.STATIC_PATH}/${file.path}`
-        // Delete existing records for the same userId
-        await this.userDocs.delete({ userId: user.userId });
         return await this.userDocs.save(fileInfo);
+    }
+
+    async deleteFiles(user) {
+        // Delete existing records for the same userId
+        return await this.userDocs.delete({ userId: user.userId });
     }
 
     async getDocuments(userId) {

@@ -14,7 +14,7 @@ enum OrderCategory {
 @Entity('orders')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'int', generated: 'increment' })
   orderId: number;

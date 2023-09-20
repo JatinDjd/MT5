@@ -7,6 +7,7 @@ import { GroupUser } from '../manager/entities/groups_users.entity';
 import { PaymentService } from '../payment/payment.service';
 import WebSocket from 'websocket';
 import { BackgroundProcessingService } from '../common/background-processing/background-processing.service';
+import { WrapPositionDto } from './dto/wrap-position.dto';
 
 @Injectable()
 export class OrdersService {
@@ -111,6 +112,29 @@ export class OrdersService {
           tradeStatus: 'Closed'
         });
       return order;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async wrapPositionMultiple(positions: WrapPositionDto[], userId: any) {
+    try {
+      const closedPositionIds: string[] = [];
+
+      for (const position of positions) {
+        const order = await this.orderRepository.update(
+          { id: position.orderId, UserId: userId },
+          {
+            closingPrice: position.currentClosingPrice,
+            closingType: 'Manual',
+            tradeStatus: 'Closed'
+          });
+        closedPositionIds.push(position.orderId);
+      }
+
+      return closedPositionIds;
+
+     
     } catch (error) {
       throw new Error(error.message);
     }

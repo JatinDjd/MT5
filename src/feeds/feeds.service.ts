@@ -4,36 +4,17 @@ import { UpdateFeedDto } from './dto/update-feed.dto';
 import { Feed } from './entities/feed.entity';
 
 @Injectable()
-export class FeedsService {  
+export class FeedsService {
   feeds: Feed[] = [{
-    "ticker": "USD/CHF",
-    "bid": 0.87776,
-    "ask": 0.87776,
-    "open": 0.87510,
-    "low": 0.87174,
-    "high": 0.87855,
-    "changes": 0.0026599999999999957,
-    "date": "2023-08-02 07:19:07"
-  },
-  {
-    "ticker": "EUR/JPY",
-    "bid": 0.37776,
-    "ask": 0.47776,
-    "open": 0.67510,
-    "low": 0.87174,
-    "high": 0.17855,
-    "changes": 0.0026577999999999957,
-    "date": "2023-08-02 07:19:07"
+    "symbol": "GBPUSD",
+    "ts": "1694076447697",
+    "bid": 1.24695,
+    "ask": 1.24699,
+    "mid": 1.2469699
   }];
 
   clientToUser = {};
 
-
-  create(createFeedDto: CreateFeedDto) {
-    const feed = { ...createFeedDto }
-    this.feeds.push(feed);
-    return feed;
-  }
 
   findAll() {
     return this.feeds;

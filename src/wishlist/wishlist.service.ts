@@ -41,7 +41,7 @@ export class WishlistService {
     const wishlistItems = await this.wishlistRepository.find({
       where: { user: { id: userId } }
     });
- 
+
     for (const wishlistItem of wishlistItems) {
       const matchingOrderSymbol = userOrderSymbols.find(orderSymbol => orderSymbol.Symbol === wishlistItem.symbol);
       if (matchingOrderSymbol) {
@@ -54,7 +54,25 @@ export class WishlistService {
     return wishlistItems;
   }
 
-  async remove(id: string) {
+  async removeMultiple(ids: string[]) {
+    // Check if any of the IDs don't exist in the wishlist
+    const nonExistentIds: string[] = [];
+
+    for (const id of ids) {
+      const item = await this.wishlistRepository.findOne({ where: { id } });
+      if (!item) {
+        nonExistentIds.push(id);
+      }
+    }
+    if (nonExistentIds.length > 0) {
+      throw new NotFoundException(`Wishlist items with IDs [${nonExistentIds.join(', ')}] not found.`);
+    }
+
+    // Delete items with the provided IDs
+    await this.wishlistRepository.delete(ids);
+  }
+
+  async remove(id) {
     await this.wishlistRepository.delete(id);
   }
 

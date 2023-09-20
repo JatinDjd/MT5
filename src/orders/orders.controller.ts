@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, UnprocessableEntityException } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, UseGuards, Request } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { WrapPositionDto } from './dto/wrap-position.dto';
 import { Roles } from '../auth/roles/roles.decorator';
 import { RoleGuard } from '../auth/role/role.guard';
+import { BulkWrapPositionsDto } from './dto/bulk-wrap-position.dto';
 
 @ApiTags('Order')
 @Controller('order')
@@ -30,7 +31,36 @@ export class OrderController {
             }
             if (order) return order;
         } catch (error) {
-            return { error: error.message };
+            switch (error.status) {
+                case 404:
+                  throw new HttpException(
+                    {
+                      statusCode: 404,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.BAD_REQUEST,
+                  );
+                case 401:
+                  throw new HttpException(
+                    {
+                      statusCode: 401,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.BAD_REQUEST,
+                  );
+        
+                default:
+                  throw new HttpException(
+                    {
+                      statusCode: 500,
+                      message: [error.message],
+                      data: []
+                    },
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                  );
+              }
         }
     }
 
@@ -43,6 +73,21 @@ export class OrderController {
         try {
             const order = await this.orderService.wrapPosition(wrapPositionDto, userId);
             if (order) return { message: 'Order closed successfully', order };
+        } catch (error) {
+            return { error: error.message };
+        }
+    }
+
+
+    @Roles('customer')
+    @UseGuards(AuthGuard('jwt'), RoleGuard)
+    @ApiBearerAuth('access-token')
+    @Post('wrap-position-multiple')
+    async wrapPositionMultiple(@Body() bulkWrapPositionsDto: BulkWrapPositionsDto, @Request() req) {
+        const userId = req.user.id;
+        try {
+            const order = this.orderService.wrapPositionMultiple(bulkWrapPositionsDto.positions, userId);
+            if (order) return { message: 'Orders closed successfully', order };
         } catch (error) {
             return { error: error.message };
         }
@@ -96,16 +141,16 @@ export class OrderController {
     // async activeOrderHistory(@Request() req) {
     //   let userId = { userId: req.user.id };
     //   return await this.orderService.activeOrderHistory(userId);
-  
+
     // }
-  
+
     @Roles('customer')
     @UseGuards(AuthGuard('jwt'), RoleGuard)
     @ApiBearerAuth('access-token')
     @Get('completed-order')
     async pastOrderHistory(@Request() req) {
-      let userId = { userId: req.user.id };
-      return await this.orderService.pastOrderHistory(userId);
+        let userId = { userId: req.user.id };
+        return await this.orderService.pastOrderHistory(userId);
     }
 
     @Roles('customer')
@@ -113,10 +158,10 @@ export class OrderController {
     @ApiBearerAuth('access-token')
     @Get('portfolio')
     async portfolioMetrics(@Request() req) {
-      let userId = req.user.id;
-      return await this.orderService.portfolioMetrics(userId);
+        let userId = req.user.id;
+        return await this.orderService.portfolioMetrics(userId);
     }
-  
+
 
 
 

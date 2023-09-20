@@ -9,4 +9,9 @@ export class WrapPositionDto {
     @IsDecimal()
     currentClosingPrice: number;
 
+    @IsDecimal()
+    lotSize: number;
+
+    @IsDecimal()
+    deviation: number;
 }
