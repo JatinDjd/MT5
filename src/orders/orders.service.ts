@@ -8,6 +8,7 @@ import { PaymentService } from '../payment/payment.service';
 import WebSocket from 'websocket';
 import { BackgroundProcessingService } from '../common/background-processing/background-processing.service';
 import { WrapPositionDto } from './dto/wrap-position.dto';
+import { Deposit } from '../payment/entities/deposits.entity';
 
 @Injectable()
 export class OrdersService {
@@ -20,6 +21,8 @@ export class OrdersService {
     private readonly groupRepository: Repository<Group>,
     @InjectRepository(GroupUser)
     private readonly groupUserRepository: Repository<GroupUser>,
+    @InjectRepository(Deposit)
+    private readonly depositRepository: Repository<Deposit>,
     private readonly paymentService: PaymentService
   ) { }
 
@@ -35,6 +38,7 @@ export class OrdersService {
       if (!isValidSL) throw new Error("Stop-loss must be less than price");
       if (!isValidTP) throw new Error("Take-profit must be greater than current price");
       if (isValidOrderValue && isValidSL && isValidTP) {
+        this.deductAmountFromDeposit(userId, data.Price);  //deduct amount from total balance
         const order = await this.orderRepository.save({
           FullPairName: data.FullPairName,
           PairId: data.PairId,
@@ -97,8 +101,16 @@ export class OrdersService {
     }
   }
 
-  async deductAmountFromDeposit() {
-
+  async deductAmountFromDeposit(userId, amount) {
+    const deposit = await this.depositRepository.save({
+      user: userId,
+      amount: amount,
+      provider: 'Order',
+      transaction_id: 'AQULKKJ12132M2K3D',
+      status: 'completed',
+      transaction_type: 'Order'
+    });
+    return deposit;
 
   }
 
@@ -134,7 +146,7 @@ export class OrdersService {
 
       return closedPositionIds;
 
-     
+
     } catch (error) {
       throw new Error(error.message);
     }
