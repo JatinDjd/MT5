@@ -27,7 +27,7 @@ export class FeedsGateway implements OnModuleInit {
 
 
   afterInit() {
-    this.interval = setInterval(() => this.refreshFeeds(), 1000); // Refresh every 5 seconds (adjust the interval as needed)
+    this.interval = setInterval(() => this.refreshFeeds(), 500); // Refresh every 5 seconds (adjust the interval as needed)
   }
 
 
