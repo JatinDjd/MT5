@@ -20,7 +20,7 @@ export class Deposit {
     @Column({ name: 'status', enum: ['pending', 'completed', 'failed'] })
     status: string;
 
-    @Column({ name: 'transaction_type', enum: ["Deposit", "Withdrawl", "Transfer", "Refund", "Reward", "Rebate", "Order"] })
+    @Column({ name: 'transaction_type', enum: ["Deposit", "Withdrawl", "Transfer", "Refund", "Reward", "Rebate", "Order"]})
     transactionType: string;
 
     @Column('json', { nullable: true })

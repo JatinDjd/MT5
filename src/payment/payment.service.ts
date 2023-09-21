@@ -54,8 +54,9 @@ export class PaymentService {
     return await this.depositRepository.find({ where: { 'status': "completed" } });
   }
 
+   
   async transactionsCustomer(user) {
-    return await this.depositRepository.find({ where: { 'user': user.userId, 'status': 'completed' }, select: ['amount', "provider", "transactionId", "updated_at"] });
+    return await this.depositRepository.find({ where: { 'user': user.userId, 'status': 'completed' }, select: ['amount', "provider","transactionType","status", "transactionId", "updated_at"] });
   }
 
   async createPaymentOrder(upiData, user) {
@@ -154,6 +155,7 @@ export class PaymentService {
   //   }
 
   // }
+
 
 
 
