@@ -11,16 +11,19 @@ export class Deposit {
     @Column({ name: 'provider' })
     provider: string;
 
-    @Column({ name: 'transaction_id',  unique: true, type: 'varchar' })
+    @Column({ name: 'transaction_id', unique: true, type: 'varchar' })
     transactionId: string;
 
     @Column({ name: 'amount' })
     amount: number;
 
-    @Column({name:'status', enum:['pending','completed','failed']})
-    status:string;
+    @Column({ name: 'status', enum: ['pending', 'completed', 'failed'] })
+    status: string;
 
-    @Column('json',{nullable:true})
+    @Column({ name: 'transaction_type', enum: ["Deposit", "Withdrawl", "Transfer", "Refund", "Reward", "Rebate", "Order"] })
+    transactionType: string;
+
+    @Column('json', { nullable: true })
     payload: string;
 
     @ManyToOne(() => User, (user) => user.groups)   //customer reference using userId
