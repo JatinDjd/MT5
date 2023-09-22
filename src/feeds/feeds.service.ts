@@ -87,7 +87,7 @@ export class FeedsService {
 
 
   generateUniqueForexData(originalData) {
-    const replicas = 2; // Number of replicas for each object
+    const replicas = 6; // Number of replicas for each object
     const generatedData = [];
 
     for (const originalObject of originalData) {
