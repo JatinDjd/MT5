@@ -1,6 +1,5 @@
 import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
 import { FeedsService } from './feeds.service';
-import { CreateFeedDto } from './dto/create-feed.dto';
 import { Server, Socket } from 'socket.io';
 import { OnModuleInit } from '@nestjs/common';
 

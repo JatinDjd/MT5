@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFeedDto } from './dto/create-feed.dto';
-import { UpdateFeedDto } from './dto/update-feed.dto';
 import { Feed } from './entities/feed.entity';
 
 @Injectable()
@@ -82,9 +80,37 @@ export class FeedsService {
 
 
   findAll() {
-    const randomIndex = Math.floor(Math.random() * this.feeds.length);
-    return this.feeds[randomIndex];
+    let generatedFeeds = this.generateUniqueForexData(this.feeds);
+    const randomIndex = Math.floor(Math.random() * generatedFeeds.length);
+    return generatedFeeds[randomIndex];
   }
+
+
+  generateUniqueForexData(originalData) {
+    const replicas = 2; // Number of replicas for each object
+    const generatedData = [];
+
+    for (const originalObject of originalData) {
+      // Generate two replicas for each original object
+      for (let i = 0; i < replicas; i++) {
+        const ts = Date.now() + i; // Generate a unique timestamp
+        const bid = originalObject.bid + (i * 0.001); // Generate a unique bid value
+        const ask = originalObject.ask + (i * 0.001); // Generate a unique ask value
+        const mid = (bid + ask) / 2; // Calculate mid value
+
+        generatedData.push({
+          symbol: originalObject.symbol,
+          ts: ts.toString(),
+          bid,
+          ask,
+          mid,
+        });
+      }
+    }
+
+    return generatedData;
+  }
+
 
 
 
